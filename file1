@@ -1,1 +1,12 @@
-Salam bratandar kandaisynar
+#!/bin/bash
+
+echo -n "Enter your name or last name: "
+read name
+
+case $name in 
+1) echo "bir" ;;
+2) echo "eki" ;;
+mirlan) echo "oh finally bro" ;;
+*) echo "sorry" ;;
+esac
+
