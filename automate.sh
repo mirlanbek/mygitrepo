@@ -4,12 +4,12 @@
     # desktop. May work under other Unix like operating systems too. 
     # Tested on RHEL 6.x, Debian 6.x, and Ubuntu Linux
     # ----------------------------------------------------------------------------
-    # Written by Vivek Gite <http://www.cyberciti.biz/>
-    # (c) 2012 nixCraft under GNU GPL v2.0+
     # ----------------------------------------------------------------------------
-    # Last updated: 19/Aug/2012
     # ----------------------------------------------------------------------------
-     
+    # written by me on 2015
+# Mirlan Tokonbekov 
+
+
     _xw=/usr/bin/xwininfo
     _recd=/usr/bin/recordmydesktop
     _awk=/usr/bin/awk
