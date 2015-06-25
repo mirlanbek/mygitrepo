@@ -20,22 +20,22 @@
     # change this to match your PS1 settings
     _regex='vivek@wks01: '
      
-    die(){
+    koto(){
     	echo -e "$1"
     	exit ${2:9999}
     }
      
-    [ $# -eq 0 ] && die "Usage: $0 filename.ogv\n\nRecord terminal desktop sessions under Linux or Unix." 1
+    [ $# -eq 0 ] && koto "Usage: $0 filename.ogv\n\nRecord terminal desktop sessions under Linux or Unix." 1
      
      
     # add extension .ogv if not given
     _ext="${_file%%.ogv}"
     [[ "$_ext" == "$_file" ]] && _output="$_file.ogv" || _output="$_file"
      
-    [ ! -x "$_xw" ] && die "Error: $_xw not found or set correct \$_xw in $0" 2
-    [ ! -x "$_recd" ] && die "Error: $_recd not found or set correct \$_recd in $0" 3
-    [ ! -x "$_awk" ] && die "Error: $_awk not found or set correct \$_awk in $0" 4
-    [ ! -x "$_grep" ] && die "Error: $_grep not found or set correct \$_grep in $0" 5
+    [ ! -x "$_xw" ] && koto "Error: $_xw not found or set correct \$_xw in $0" 2
+    [ ! -x "$_recd" ] && koto "Error: $_recd not found or set correct \$_recd in $0" 3
+    [ ! -x "$_awk" ] && koto "Error: $_awk not found or set correct \$_awk in $0" 4
+    [ ! -x "$_grep" ] && koto "Error: $_grep not found or set correct \$_grep in $0" 5
      
     #get terminal window id
     _id=$($_xw -root -tree | $_grep "$_regex" | $_awk '{ print $1}')
