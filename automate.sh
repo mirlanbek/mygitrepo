@@ -52,4 +52,5 @@
     height=$(( $_h -62 ))
      
     $_recd --no-sound -x $x  -y $y --width $width --height $height -o $_output
+    #the end
      
