@@ -53,4 +53,5 @@
      
     $_recd --no-sound -x $x  -y $y --width $width --height $height -o $_output
     #the end
+    #bye
      
