@@ -1,5 +1,5 @@
 #!/bin/bash
-
+## venera salam
 echo "10.11.12.7:/backup /mnt/nfs				nfs	defaults	0 0" >> /etc/fstab 
 if [ -e /tf  ]
 then
