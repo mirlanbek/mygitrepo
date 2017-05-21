@@ -2,3 +2,7 @@
 
 
 echo "Salam Venera welcome to github"
+
+
+sleep 2
+
