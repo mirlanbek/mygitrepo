@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#salam bul test for fetch
 network=5
 #net=(br-ens786f1 br-ens786f2 br-ens786f3 br-ens786f4 br-ens786f5 br-ens786f6)
 net1=ens786f1
