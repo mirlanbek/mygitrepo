@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo "hi ainash"
+echo "hi Ainash kandaisyn ishterin jakshyby?"
