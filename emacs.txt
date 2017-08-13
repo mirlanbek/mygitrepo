@@ -1,0 +1,38 @@
+(setq inhibit-startup-message t)
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file 'noerror)
+(require 'font-lock)  ; Decorate source files with fonts/color based on syntax
+(define-key isearch-mode-map "\C-h" 'isearch-delete-char)
+(global-set-key "\C-h" 'backward-delete-char)
+(global-set-key "\M-\C-h" 'backward-kill-word)
+(global-set-key "\M-p" 'dabbrev-expand)
+(global-set-key "\C-cC" 'uncomment-region)
+(global-set-key "\C-c\C-i" 'magit-status)
+(global-set-key "\C-ci" 'magit-status)
+(global-set-key "\C-cf" 'auto-fill-mode)
+(global-set-key [(control o)]  'other-window)
+(global-set-key [(control meta o)]  "\C-u-\C-xo")
+;; for some reason there is a big delay here
+(require 'ido)
+(ido-mode t)
+(define-key ido-file-dir-completion-map "\C-h" 'ido-delete-backward-updir)
+
+
+(put 'downcase-region 'disabled nil)
+(set-face-attribute 'default nil :height 150)
+(add-to-list 'load-path "/home/tokonbekov/src/ZNC.el")
+(require 'erc)
+(require 'znc)
+(require 'notifications)
+(add-to-list 'erc-modules 'notifications)
+(defun erc-global-notify (match-type nick message)
+  "Notify when a message is recieved.  MATCH-TYPE NICK MESSAGE."
+  (notifications-notify
+   :title "IRC"
+   :body message
+   :urgency 'high))
+(add-hook 'erc-text-matched-hook 'erc-global-notify)
+
+(require 'erc-notify)
+(add-to-list 'erc-modules 'notify)
+
