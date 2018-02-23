@@ -1,0 +1,37 @@
+
+{
+
+    "tokon":
+        {
+         "phone": 7733669911,
+         "name": "tokon", 
+         "address": "990 Perrie dr, Elk Grove Vilage"
+        }, 
+     
+    
+     "tom": 
+        {
+         "phone": 503212112, 
+         "name": "tom", 
+         "address": "990 Gina Way, Aloha"
+        }
+         
+}
+
+// copy paste in *.py file json
+
+// #book = {}
+// book['tom'] = {
+
+//     'name': 'tom',
+//     'address': '990 Gina Way, Aloha',
+//     'phone': 503212112
+
+// }
+// book['tokon'] = {
+
+//     'name': 'tokon',
+//     'address': '990 Perrie dr, Elk Grove Vilage',
+//     'phone': 7733669911
+
+// }

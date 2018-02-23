@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<LAND>
+	
+	<FOREST>
+		<TREE>Oak</TREE>
+		<TREE>Pine</TREE>
+		<TREE>Maple</TREE>
+	</FOREST>
+	
+	<MEADOW>
+		<GRASS>Bluegrass</GRASS>
+		<GRASS>Fescue</GRASS>
+		<GRASS>Rye</GRASS>
+	</MEADOW>
+
+	<testsuites>
+ 	  	  <testcase classname="internat-alai 11-litsey" name="Alai-Orto-Mektep-internaty" status="pass" time="0.022753">
+   			 
+				pid: 753
+			 
+  		  </testcase>
+   	
+	
+	</testsuites>
+</LAND>
+
+
