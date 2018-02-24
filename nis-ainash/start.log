@@ -1,0 +1,78 @@
+flash iptables done
+script copy done
+hostname configuration is done
+done DNS configurfation
+network restart done
+DONE ip address set
+Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/12)
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.spro.net
+ * extras: mirror.web-ster.com
+ * updates: mirror.web-ster.com
+Package rpcbind-0.2.0-33.el7_2.1.x86_64 already installed and latest version
+Package ypserv-2.31-8.el7.x86_64 already installed and latest version
+Package yp-tools-2.14-3.el7.x86_64 already installed and latest version
+Package 3:ypbind-1.37.1-7.el7.x86_64 already installed and latest version
+Package 2:vim-enhanced-7.4.160-1.el7.x86_64 already installed and latest version
+Package net-tools-2.0-0.17.20131004git.el7.x86_64 already installed and latest version
+Nothing to do
+rpcbind start done
+ypserv start done
+
+At this point, we have to construct a list of the hosts which will run NIS
+servers.  nismaster is in the list of NIS server hosts.  Please continue to add
+the names for the other hosts, one per line.  When you are done with the
+list, type a <control D>.
+	next host to add:  nismaster
+	next host to add:  
+The current list of NIS servers looks like this:
+
+nismaster
+
+Is this correct?  [y/n: y]  We need a few minutes to build the databases...
+Building /var/yp/osh.kg/ypservers...
+Running /var/yp/Makefile...
+gmake[1]: Entering directory `/var/yp/osh.kg'
+Updating passwd.byname...
+Updating passwd.byuid...
+Updating group.byname...
+Updating group.bygid...
+Updating hosts.byname...
+Updating hosts.byaddr...
+Updating rpc.byname...
+Updating rpc.bynumber...
+Updating services.byname...
+Updating services.byservicename...
+Updating netid.byname...
+Updating protocols.bynumber...
+Updating protocols.byname...
+Updating mail.aliases...
+gmake[1]: Leaving directory `/var/yp/osh.kg'
+
+nismaster has been set up as a NIS master server.
+
+Now you can run ypinit -s nismaster on all slave server.
+NISMASTER config is done
+hostname configuration is done
+done DNS configurfation
+network restart done
+DONE ip address set
+Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/12)
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.spro.net
+ * extras: mirror.web-ster.com
+ * updates: mirror.web-ster.com
+Package rpcbind-0.2.0-33.el7_2.1.x86_64 already installed and latest version
+Package yp-tools-2.14-3.el7.x86_64 already installed and latest version
+Package 3:ypbind-1.37.1-7.el7.x86_64 already installed and latest version
+Package 2:vim-enhanced-7.4.160-1.el7.x86_64 already installed and latest version
+Package net-tools-2.0-0.17.20131004git.el7.x86_64 already installed and latest version
+Nothing to do
+rpcbind start done
+ypbind start done
+user1:$6$u0Usi0tX$1SUbUXI.ja4cVvHCgdl9MK2LiQOtw1lCNAGVLlPTdNJY3sm7f.XgppLWGs00RIOvjwrPR/nWFEAVupqqw4PhR.:1000:1000::/home/user1:/bin/bash
+user2:$6$gN9dJOxd$uJzXIM7y5XWpRxSOBUrOh4QkrL/LDpYI/P7nftTf9GwrK4tQTT4irxxFCk1LhzH/GlBEnptuEM5NAQhy7aBeE.:1001:1001::/home/user2:/bin/bash
+NIS client is set, uraa!
+installation is done

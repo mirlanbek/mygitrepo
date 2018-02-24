@@ -1,35 +1,18 @@
 #!/bin/bash
 
-# Bul comment
+source conf.txt
 
-#potato=50
+for i in $m_curr_ip $c_curr_ip ; do
 
-read -p "enter potato price: " potato
+scp prep.sh conf.txt $i:$script_dest
 
-bread=100
-name="Mirlan"
-
-#######################
-
-if [[ $potato > 5 ]]
-then
-	echo " OOO kymbat eken  "
-else
-	echo " Satyp alam"
-
-fi
-
-#  {1..20} =  seq 20  ######################################
-
-nums = 20
-
-for i in seq $nums
-do
-echo $i
 done
-	
+echo "All files are copied to target hosts"
 
 
 
+for k in $m_curr_ip $c_curr_ip ; do
 
+ssh $k "bash -x $script_dest/prep.sh"
 
+done  
