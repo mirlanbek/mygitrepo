@@ -70,4 +70,34 @@ type echo
 
 # chygat  :)
 
-# **************************************
+# ************* $? *************************
+
+echo "Mirlan"
+echo $?  # 0 chygat means no error
+
+# cp source  no dest  
+# 1 chygat      cp source wrong command 
+
+
+# *********** exit 0,1,2  ***********************     
+
+# exit 0     exit saying everything was corret
+# exit 1     exit saying everything was error
+# exit 2     exit saying command misuse  error
+
+# ********************fast copy with tar ****************************
+tar -cf - emacs.txt |(cd /opt/ ; tar -xvf -) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
