@@ -2,17 +2,12 @@
 
 source conf.txt
 
-for i in $m_curr_ip $c_curr_ip ; do
+#echo "$1 $2 $3"
+echo "$@"
 
-scp prep.sh conf.txt $i:$script_dest
+for i in $m_currip $c_currip
+ do
+scp conf.txt prep.sh $i:$dest
+ssh $i "bash -x prep.sh"
 
 done
-echo "All files are copied to target hosts"
-
-
-
-for k in $m_curr_ip $c_curr_ip ; do
-
-ssh $k "bash -x $script_dest/prep.sh"
-
-done  

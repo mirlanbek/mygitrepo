@@ -1,27 +1,17 @@
 #!/bin/bash
 
-#set nismaster
+
+#nismaster
+m_currip=192.168.56.100
+m_newip=192.168.56.10
+m_hostname=nismaster
+domain=osh.kg
+dest="/root"
 
 
-ifname="enp0s8"
-m_curr_ip=192.168.56.10
-m_new_ip=192.168.56.200
-m_hostname="nismaster" 
-domain="osh.kg"
+#nisclient
+c_currip=192.168.56.200
+c_newip=192.168.56.11
+c_hostname=nisclient
+domain=osh.kg
 
-scripts_loc="$PWD"
-script_dest="/root"
-
-
-
-
-
-#set nisclient
-
-scripts_loc="$PWD"
-script_dest="/root"
-ifname="enp0s8"
-c_curr_ip=192.168.56.11
-c_new_ip=192.168.56.201
-c_hostname="nisclient" 
-domain="osh.kg"
