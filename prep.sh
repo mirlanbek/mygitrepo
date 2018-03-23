@@ -1,5 +1,7 @@
 #!/bin/bash
 
+###
+
 source conf.txt
 
 iptables -F
