@@ -20,19 +20,18 @@
 
 (put 'downcase-region 'disabled nil)
 (set-face-attribute 'default nil :height 150)
-(add-to-list 'load-path "/home/tokonbekov/src/ZNC.el")
-(require 'erc)
-(require 'znc)
-(require 'notifications)
-(add-to-list 'erc-modules 'notifications)
-(defun erc-global-notify (match-type nick message)
-  "Notify when a message is recieved.  MATCH-TYPE NICK MESSAGE."
-  (notifications-notify
-   :title "IRC"
-   :body message
-   :urgency 'high))
-(add-hook 'erc-text-matched-hook 'erc-global-notify)
 
-(require 'erc-notify)
-(add-to-list 'erc-modules 'notify)
+
+;; For Linux delete all under this line:
+
+
+(add-to-list 'default-frame-alist '(foreground-color . "white"))
+(add-to-list 'default-frame-alist '(background-color . "#303030"))
+(add-to-list 'default-frame-alist '(cursor-color . "coral"))
+
+;; for Windows .emacs is init.el: 
+;; c:/Users/mtokonbx/AppData/Roaming/.emacs.d/init.el
+
+(setq explicit-shell-file-name "c:/Program Files/Git/usr/bin/bash.exe")
+(setq explicit-bash.exe-args '("--login" "-i" )) ; interactive, but no command prompt
 
