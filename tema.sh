@@ -1,6 +1,7 @@
 #!/bin/bash
-iptables -F
 
+iptables -F
+Hello!
 #   $0   filename je ./filename
 #   $1   2- position
 #   $2   3-position
