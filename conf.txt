@@ -1,0 +1,17 @@
+#!/bin/bash
+
+
+#nismaster
+m_currip=192.168.56.100
+m_newip=192.168.56.10
+m_hostname=nismaster
+domain=osh.kg
+dest="/root"
+
+
+#nisclient
+c_currip=192.168.56.200
+c_newip=192.168.56.11
+c_hostname=nisclient
+domain=osh.kg
+
