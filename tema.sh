@@ -1,7 +1,10 @@
 #!/bin/bash
 
+
 iptables -F
 Hello!
+How are you doing?
+
 #   $0   filename je ./filename
 #   $1   2- position
 #   $2   3-position
