@@ -3,8 +3,12 @@
 
 iptables -F
 Hello!
-How are you doing?
+Hello!
+Hello!
 
+How are you doing?
+How are you doing?
+How are you doing?
 #   $0   filename je ./filename
 #   $1   2- position
 #   $2   3-position
