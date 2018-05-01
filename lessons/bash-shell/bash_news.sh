@@ -1,5 +1,11 @@
 #!/bin/bash
 
+ifconfig | grep "\: " | awk -F ":" '{if ($1 !~ "lo") print $1} ' ------ awk if 
+awk '{if($3 != 0) a = ($3/$4) print $0, a; else if($3==0) print $0, "-" }' file > out
+
+realpath file1               ------- /home/mirlan/file1  ----dep full path beret
+dirname  /home/mirlan/file1  ------  /home/mirlan  ---- chygat 
+
 
 # ******************* new syntax arrays *************************
 
