@@ -46,6 +46,18 @@ sed  "s/^\(GRUB_DEFAULT=\).*/\1Mirlan/g" grub
 
 sed 's,^\(GRUB_DEFAULT=\).*$,\1mirlan,g' grub   # use ","  instead of  "/"
 
+########################### more sed ################
+
+ls | sed -e '/log$/d'
+ls | sed -n '/log$/p'
+ls | sed -n '/log$/p' | sed -e '/Summary/d'| xargs cat | grep fail
+
+sed -n '1,4p' #-- 1-4 cheinki line print
+sed '1,4d'    #-1-- 1 den 4 ko chein delete
+sed '1,4!d'    #-1-- 1 den 4 ko chein don't delete
+sed 1,35 's///g' file
+sed '5i I am on 5th line' file # isert to 5th line
+sed '/Mirlan/a \Tokonbekov'
 
 
 # **************** local  *** is use variable only locally, ignore outside of scope  ***********************
