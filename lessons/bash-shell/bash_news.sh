@@ -1,5 +1,14 @@
 #!/bin/bash
 
+
+## ********************* ${var::-1}  ****************************** 
+var=mirlan5
+
+echo ${var::-3} #  "mirl" chygat, t.e "::-3" b-so on jagynan 3 char jeit  "mirl" chygat.  
+echo ${var:3}    #  "lan5" chygat, t.e ":3" b-so sol jagynan 3 char jeit  "lan5" chygat.  
+echo ${var::3} # ---> birinchi 3 char chygat "mir" 
+
+## *********************  awk  ****************************** 
 ifconfig | grep "\: " | awk -F ":" '{if ($1 !~ "lo") print $1} ' ------ awk if 
 awk '{if($3 != 0) a = ($3/$4) print $0, a; else if($3==0) print $0, "-" }' file > out
 
