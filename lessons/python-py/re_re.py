@@ -1,5 +1,14 @@
 #REGEX
 import re
+
+
+def strip_int(string):
+    return re.sub("\D", "", string)
+
+str1 = "Mirlan1980"
+print(strip_int(str1)) # -----> 1980
+
+
 # my_str = "The ape was at the apex"
 
 # if re.search("ape", my_str):
