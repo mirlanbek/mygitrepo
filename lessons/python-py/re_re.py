@@ -2,6 +2,30 @@
 import re
 
 
+#(starts ends)
+
+# ^wp.*php$
+#if re.search("^[A-Z].*py$", x):
+
+strings="men 1980-jyly Kyrgyzstanda tuuldum. 16 jashymda kyrgyzstanda men Universitette okup bashtagam entry_value_key"
+
+
+re_text = []
+
+for i in strings.split(" "):
+    if i.endswith("."):
+        i=i[:-1]
+
+    re_text.append(i)
+# print(re_text)
+
+    a2=re.compile("^[A-Z].*a$")
+    k=re.search(a2,i)
+    if k:
+        print(i)
+#  "Kyrgyzstanda" ----- chygat
+
+# ******************************
 def strip_int(string):
     return re.sub("\D", "", string)
 
