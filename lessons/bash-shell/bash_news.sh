@@ -1,12 +1,25 @@
 #!/bin/bash
 
 
+
+## ********************* SELECT **** like read input  ****************************** 
+
+select s in `ls` ;do 
+new_var=$s
+break
+done
+echo $new_var
+
+
 ## ********************* ${var::-1}  ****************************** 
 var=mirlan5
 
 echo ${var::-3} #  "mirl" chygat, t.e "::-3" b-so on jagynan 3 char jeit  "mirl" chygat.  
 echo ${var:3}    #  "lan5" chygat, t.e ":3" b-so sol jagynan 3 char jeit  "lan5" chygat.  
 echo ${var::3} # ---> birinchi 3 char chygat "mir" 
+
+echo ${var#mi}  ---- "#" ----- bash jagynan "mi" degen dal kelse remove mi 
+echo ${var%n5}  ---- "%" ----- ayak jagynan "n5" degen dal kelse remove n5
 
 ## *********************  awk  ****************************** 
 ifconfig | grep "\: " | awk -F ":" '{if ($1 !~ "lo") print $1} ' ------ awk if 
@@ -17,6 +30,8 @@ dirname  /home/mirlan/file1  ------  /home/mirlan  ---- chygat
 
 
 # ******************* new syntax arrays *************************
+
+array=(`ls`)
 
 array=("bir" "eki" "uch" 7)
 
@@ -29,7 +44,7 @@ array+=(8)   # append into array
 echo ${array[@]:3}   # prints array starting from 3rd component 
 
 
-aa=` expr ${#array[@]} - 1`   # count array length and -1 
+aa=` expr ${#array[@]} - 1`   # count array length and -1  important. ${#a}
 echo ${array[$aa]} 
    # whatever you want to do when arr contains value
 fi
