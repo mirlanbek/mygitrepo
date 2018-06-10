@@ -2,6 +2,10 @@
 
 
 
+
+cat /proc/cmdline
+var=${a^^} = = make value uppercase
+
 ## ********************* SELECT **** like read input  ****************************** 
 
 select s in `ls` ;do 
