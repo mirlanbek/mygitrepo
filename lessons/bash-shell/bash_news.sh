@@ -1,8 +1,23 @@
 #!/bin/bash
 
 
+## *********************  cat ****************************** 
+cat << EOF
+
+Run following command to activate virtualenv and run Ansible:
+
+                  source ~/.venv/bin/activate
+
+EOF
 
 
+cat > /etc/environment  << EOF
+
+http_proxy=http://ip:912
+
+EOF
+
+## *********************  upercase value of var ****************************** 
 cat /proc/cmdline
 var=${a^^} = = make value uppercase
 
