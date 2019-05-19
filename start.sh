@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Bul comment
+# Bul comment2
 
 #potato=50
 
