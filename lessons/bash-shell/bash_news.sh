@@ -1,6 +1,42 @@
 #!/bin/bash
 
 
+timeout 5s top  ; timeout 5m ./script.sh #   ------- imp
+
+md5sum file1 file2          # --------- compare 2 files if content exactly the same
+
+
+
+################### parted ########################
+
+sudo parted /dev/sda mklabel gpt
+
+parted sda
+print
+mkpart
+primary
+start: 1
+end: 5000    ---  for 5G
+quit
+
+rm 1   --  delet partition 1
+
+---------------------------------
+
+blockdev --setrw /dev/sda
+mount /dev/sda -o remount,rw
+hdparm -r 0 /dev/sda
+
+### ****************
+
+rsync -rlpzD source-1 dest
+lshw -c disk                                          # HD info  
+udevadm info -q all -n /dev/sda | grep DEVPATH        # disk DEVPATH
+sudo ntpdate -s corp.intel.com                        # NTP sync 
+
+sed -e 's/^"//' -e 's/"$//'   # --- strip output 
+
+
 ## *********************  cat ****************************** 
 cat << EOF
 
@@ -81,7 +117,7 @@ sed  "s/^\(GRUB_DEFAULT=\).*/\1Mirlan/g" grub
 sed 's,^\(GRUB_DEFAULT=\).*$,\1mirlan,g' grub   # use ","  instead of  "/"
 
 ########################### more sed ################
-
+cat install.log | sed -n '$p'  # -------------- print last line
 ls | sed -e '/log$/d'
 ls | sed -n '/log$/p'
 ls | sed -n '/log$/p' | sed -e '/Summary/d'| xargs cat | grep fail
