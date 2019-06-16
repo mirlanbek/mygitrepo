@@ -30,11 +30,11 @@ hdparm -r 0 /dev/sda
 ### ****************
 
 rsync -rlpzD source-1 dest
-lshw -c disk                                          # HD info  
+lshw -c disk                                          # HD info
 udevadm info -q all -n /dev/sda | grep DEVPATH        # disk DEVPATH
-sudo ntpdate -s corp.intel.com                        # NTP sync 
+sudo ntpdate -s corp.intel.com                        # NTP sync
 
-sed -e 's/^"//' -e 's/"$//'   # --- strip output 
+sed -e 's/^"//' -e 's/"$//'   # --- strip output
 
 
 ## *********************  cat ****************************** 
@@ -128,7 +128,8 @@ sed '1,4!d'    #-1-- 1 den 4 ko chein don't delete
 sed 1,35 's///g' file
 sed '5i I am on 5th line' file # isert to 5th line
 sed '/Mirlan/a \Tokonbekov'
-
+cat maas_ci.tf | sed '1,5d'
+cat maas_ci.tf | sed '/variable/d'
 
 # **************** local  *** is use variable only locally, ignore outside of scope  ***********************
 

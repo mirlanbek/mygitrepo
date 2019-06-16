@@ -51,7 +51,70 @@ def family (miki,nurken):
 
 family(args.miki, args.nurken)
 ################ on comand line############   python start.py -m "Mirlanbek" -n "Nurkenbek"   ###############
+-------------------------------------------------------------------------------------------------------
 
+import argparse
+import os
+import sys
+
+
+class family:
+    global lastname
+    lastname = "Tokonbekov"
+
+    def __init__(self, a_jurt, t_jurt, k_jurt):
+        self.a_jurt = a_jurt
+        self.t_jurt = t_jurt
+        self.k_jurt = k_jurt
+
+    def is_beka(self):
+        if self.t_jurt == "monok":
+            return True
+        else:
+            return False
+        return True
+
+    def is_emil(self):
+        if self.t_jurt == "latysh":
+            return True
+        else:
+            return False
+        return True
+
+
+    def member(self):
+        if self.is_beka():
+            return "menin atym Beka menin atamyn aty Mirlan fiom {} tagalarym {}, kainy jurtum {}".format(lastname, self.t_jurt, self.k_jurt)
+
+        if self.is_emil():
+            return "menin atym Emil menin atamyn aty Nurik fiom {} tagalarym {}, kainy jurtum {}".format(lastname, self.t_jurt, self.k_jurt)
+
+parser = argparse.ArgumentParser(description="Family status script")
+parser.add_argument("-a", "--atajurt", default=False, help = "Option about atajurt" )
+parser.add_argument("-t", "--tagajurt", default=False, help = "Option about tagajurt" )
+parser.add_argument("-k", "--k_jurt", default=False, help = "Option about k_jurt" )
+args = parser.parse_args()
+
+if args.tagajurt:
+    t_jurt = args.tagajurt
+
+if args.atajurt:
+    a_jurt = args.atajurt
+
+if args.k_jurt:
+    k_jurt = args.k_jurt
+
+a_jurt = lastname
+t_jurt = "monok"
+k_jurt = None
+
+
+
+p1 = family(a_jurt, t_jurt, k_jurt)
+
+print(p1.member())
+
+---------------------------------------------------------------------------------------------------
 #!/usr/bin/python
 import os, sys
 import argparse
