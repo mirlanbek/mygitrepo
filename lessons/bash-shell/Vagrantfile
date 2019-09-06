@@ -1,0 +1,28 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+$vm_number = 3
+
+Vagrant.configure("2") do |config|
+    config.vm.box = "generic/ubuntu1804"
+    config.vm.network :public_network,
+      :dev => "virbr0",
+      :mode => "bridge",
+      :type => "bridge"
+
+    config.vm.provider :virtualbox do |virtualbox|
+    end
+
+    (0..$vm_number-1).each do |i|
+        config.vm.define vm_name = "server%d" % i do |vsmc|
+
+            vsmc.vm.hostname = vm_name
+
+            vsmc.vm.provider :virtualbox do |domain|
+              domain.memory = 2048
+              domain.cpus = 2
+            end
+        end
+    end
+end
+
