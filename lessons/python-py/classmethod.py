@@ -1,8 +1,10 @@
 
-# @staticmethod - bul classtyn ichindegi methodgo (self) debei ele jaza beresin ishteit
-# @classmethod  - 1. bul classtyn ichindegi method-n 1 je andan kop variable bar bolso (self dbei ele,name, lastname)
-                  # 2. misaly: def func(cls) b-so  any chakyrganda func("X") berish kk bolotta, @classmetod
-                  # bolso jon ele  func()  
+
+# @classmethod  - 1. bul classtyn ichindegi cls method. Bunun objecti method (self) emes, (cls) bolot. bul method 
+                  # objectin argumnet valuelaryn override kylysh uchun koldonulat. see below:
+                  # func(self tin oorduna cls) koldonulat
+                    
+# @staticmethod - bul classtyn ichindegi methodgo (self,cls) debei ele jaza beresin ishteit, see below
 
 class Hero:
 
@@ -40,6 +42,48 @@ testson.onp()
 # testdaugter.say_class_hello()
 
 
+ # Python program to demonstrate 
+# use of class method and static method. 
 
+#####################################################################################
+#####################################################################################
+
+from datetime import date 
+
+class Person: 
+	def __init__(self, name, age): 
+		self.name = name 
+		self.age = age
+        
+        def member (self):
+            print ("Menin atym {}, men {} jashtamyn".format(self.name, self.age))
+	
+
+	@classmethod
+	def fromBirthYear(cls, name, year): 
+		return cls(name, year) 
+	
+	
+	@staticmethod
+	def isAdult(age): 
+		return age > 18
+
+## -----------------------------------------------
+p1 = Person("Daulet", "12")
+p1.member()
+
+## ---------------- call  classmethod: -------------------------------
+
+p2 = Person.fromBirthYear('Sayan', "9")   # Note:  pass new values as you passing to class, alternative constructor
+print(p2.member())                        # then check all args got changed to new value (Sayan,9)
+print (p1.age )
+print (p2.name )
+
+## ----------------- call staticmethod: ------------------------------
+
+p3 = Person.isAdult(22)
+print(p3)   # ===========>  True chygat
+
+## -----------------------------------------------
 
  
