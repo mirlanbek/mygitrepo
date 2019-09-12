@@ -1,3 +1,23 @@
+### New decor: pass args
+
+import os, sys
+
+
+def dir_maker(get_file):
+    def wrapper (f):
+        name = get_file(f).split(".")[0]
+        print(name)
+        # os.mkdir(os.path.join(os.getcwd(), name))
+    return wrapper
+
+@dir_maker
+def get_file(f):
+    return f
+
+get_file("photo.img")
+
+
+#####################################
 def greet (name):
     def message():
         return "Salam "+ name
