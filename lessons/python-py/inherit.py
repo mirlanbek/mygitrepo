@@ -1,3 +1,66 @@
+#  Description:
+#  
+#      When we inherit parent class, we have to know all functions and attributs get inherited: (self, arg1,arg2,arg3)
+#  -------------------------------------------------------------------------------------
+#      if child class have same amount of attrs then:
+#  class onp (Base):
+#      def __init__(self):                    # pay attention here: just "self"
+#          Base.__init__(self)                # and here "self" itself
+#  -------------------------------------------------------------------------------------
+#  if child has more args than parent:
+#  
+#      def __init__(self, first, last):
+#          self.firstname = first
+#          self.lastname = last
+#  
+#      def Name(self):
+#          return self.firstname + " " + self.lastname
+#  
+#  class Employee(Person):
+#  
+#      def __init__(self, first, last, staffnum):
+#          Person.__init__(self,first, last)
+#          self.staffnumber = staffnum
+#  
+#  -------------------------------------------------------------------------------------
+#    using  SUPER  vs   parent class name
+#  
+#    super(onp,self).__init__()  ---------------------   Base.__init__(self) 
+#  
+#      def __init__(self,at,fio,mid):
+#          super(Onp,self).__init__(at,fio)   #super
+#          self.mid = mid
+#  
+#  
+
+#   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 
+class Base(object):
+    
+    def __init__(self, username=None, password=None, url=None):    
+        self.username  = username
+        self.password  = password
+        self.url = url
+
+
+
+class onp (Base):
+    def __init__(self):                    # pay attention here: just "self"
+        Base.__init__(self)                # and here "self" itself
+
+
+    def one(self):
+        
+        print(  str(self.username) + " " + str(self.password) +" "+ str(self.url)   )
+
+
+
+p1 = onp()
+p1.one()
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+##################################################################
 import os,sys
 import pack_support as ps
 import class_start as cs
@@ -96,32 +159,6 @@ ChildA()
 ChildB()
 
 
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 
-class Base(object):
-    
-    def __init__(self, username=None, password=None, url=None):    
-        self.username  = username
-        self.password  = password
-        self.url = url
-
-
-
-class onp (Base):
-    def __init__(self):                    # pay attention here: just "self"
-        Base.__init__(self)                # and here "self" itself
-
-
-    def one(self):
-        
-        print(  str(self.username) + " " + str(self.password) +" "+ str(self.url)   )
-
-
-
-p1 = onp()
-p1.one()
-
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 class family(object):
     middle = "Adykovich"
