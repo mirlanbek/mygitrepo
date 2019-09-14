@@ -57,3 +57,53 @@ def onp():
     print("Erten Ainash New-Yorkko ketet")
 
 onp()
+
+###################### last version   ###############################
+
+import os, sys
+
+class Hero:
+    lastname = "Sarykbays"
+
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def __repr__(self):
+        return "salam " + self.lastname
+    
+    @property
+    def member (self):
+        return "Menin atym %s, jashym %d, al emi fiom %s"%(self.name, self.age, self.lastname)
+    
+    
+    @classmethod
+    def member2 (cls, name, age):
+        cls.lastname = "Tokonov"
+        if cls.__name__ == "Hero":
+            print(cls.__name__)
+            return cls(name, age)
+
+    @staticmethod
+    def is_girl(name):
+        a=name
+        if a == "Alina":
+            return True
+        else:
+            return False
+        return True
+
+
+p1 = Hero("Daulet", 15)
+print(p1.member)
+
+
+p2=Hero.member2("Sayan",9)
+q=p2.member
+print(q)
+
+
+p3 = Hero.is_girl("Alinaa")
+print(p3)
+
+
