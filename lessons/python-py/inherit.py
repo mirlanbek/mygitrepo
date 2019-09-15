@@ -46,8 +46,9 @@ class Base(object):
 
 class onp (Base):
     def __init__(self):                    # pay attention here: just "self"
-        Base.__init__(self)                # and here "self" itself
-
+        Base.__init__(self)                # and here "self" itself               NOTE: we are not passing any value coz, Default values are given on 'Base' class
+                                           # otherwise we should bring down all arguments from 'Base':  Base.__init__(self,name,age)
+                                           # or add more arguments in child class: Base.__init__(self,name,age, tel) ;;;; self.tel = tel
 
     def one(self):
         
