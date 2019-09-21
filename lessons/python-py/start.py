@@ -8,8 +8,7 @@ class family(object):
         self.full = self.at + " " + self.middle + " " + self.fio  
     
     def __repr__(self):
-        return f" Menin atym" + self.at + "al emi familyam" + self.fio + " jana men " + str(self.age) + "jashtamyn"+ \
-        " menin toluk atym: " + self.full
+        return " Menin atym %s al emi familyam %s jana men %d jashtamyn menin toluk atym: %s"%(self.at, self.fio, self.age, self.full)
 
 # mem1 = family("Mirlan", "Tokonbekov",37)
 # print(mem1) 
