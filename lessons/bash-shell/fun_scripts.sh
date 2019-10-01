@@ -1,5 +1,27 @@
 #!/bin/bash
 
+## ********************* add space with sed   ******************************
+
+# sed '21i \       \ ma-01.ma.osh.com\:' ma2-23.yml
+
+for host in `cat hosts.txt`; do
+
+        if  grep -q $host ra2-2300.yml; then
+                echo " "
+                echo $host exists,  skipping...
+                echo " "
+        else
+                GROUP=`echo $host | awk -F '-' {'print $3'}`
+                GROUP_NUM=`grep -nr ${GROUP}: ra2-2300.yml | awk -F ':' {'print $1'}`
+                INSERT_NUM=`expr ${GROUP_NUM} + 2`
+
+                echo " "
+                echo "$host doesn't exist, adding it to recipe..."
+                echo " "
+               sed -i "${INSERT_NUM}i \       \ $host\:" ra2-2300.yml
+        fi
+done
+
 
 
 
