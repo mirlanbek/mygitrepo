@@ -1,3 +1,13 @@
+-------------  set default value to dictionary -----------------------------------
+
+#dictionary = {"message": "Hello, World!"}              
+
+dictionary={}
+
+data = dictionary.get("message", "i'm default value")   # Note here:  "message" has default value "i'm default value",you'll get default value until you set new
+
+print(data)
+
 
 
 
