@@ -1,3 +1,31 @@
+
+param={"men": "sen"}  
+
+class Hero(object):
+
+    def __getitem___(self,key):
+        return param[key]
+
+p1 = Hero()
+print(p1['men'])
+
+# ----------------------
+
+ascii_letters="Mirlan"
+
+class MyContainer(object):
+    def __getitem__(self, key):
+        return ascii_letters[key]           #  __getitem__ we need it when we pass indexing itself like here 
+
+
+my_container = MyContainer()  
+print(my_container[1:])
+ 
+ 
+# --------------------------------------------------------
+
+
+
 from string import ascii_letters
 
 class MyContainer(object):
