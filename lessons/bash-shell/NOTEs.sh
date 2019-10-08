@@ -1,4 +1,32 @@
 
+# -------------- New scripting ------------------------------------------------
+
+if [[ $1 == *","* ]]; then
+    IFS=',' read -r -a srcs <<< "$1"
+    if [[ ${#srcs[@]} -lt 2 ]]; then
+        echo "Number of sources read in as list: ${#srcs[@]}
+              Need at least two values to take a csv list as
+              argument. Error fatal: exiting."
+        exit 1
+    fi
+else
+    srcs="$1"
+fi
+
+for src in ${srcs[@]}; do
+    if [ $("$getent_path" group "$src") ] ; then
+        src_str=$("$getent_path" group "$src" | cut -d ':' -f 4)
+        IFS=',' read -r -a src_usrs <<< $src_str
+        for usr in ${src_usrs[@]}; do
+            "$usermod_path" -a -G  "$dest" "$usr"
+        done
+    else
+        echo "Source group $src does not exist.
+              Trying next group."
+    fi
+done
+
+
 # -----------------------------------------------------------------------------------------
 
 docker save openvino | gzip > openvino.tar.gz

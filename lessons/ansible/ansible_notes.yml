@@ -1,0 +1,554 @@
+
+
+
+ansible compute -m command -a "uptime" –u root
+ansible kompute -i test.yaml -m script -a myscript.sh -u root
+ansible all -i suts.ini -m debug -a msg="{{ inventory_hostname }}"
+
+ansible all -m ping
+
+ansible all -a "/usr/sbin/ifconfig" | less
+
+ansible-playbook playbook.yml
+
+ansible all -i inventory.ini -m debug -a msg="Salam"
+
+ansible all -i ./release/ansible/inventory/inventory.baremetal -m shell -a 'sudo ip link set eno2 up ; sudo dhclient -v eno2' -v --become -u ubuntu
+
+
+-------------------------------------
+
+
+ansible-playbook example.yml --tags "configuration,packages"
+ansible-playbook example.yml --skip-tags "packages"
+
+------------------------
+
+  tasks:
+    - name: Start service docker-ce, if not started
+      copy:
+        # src: "{{ ansible_env.HOME }}/installl"
+        src: /home/jenkins/install
+        dest: /home/centos
+        remote_src: yes             --- from remote/ from local delet this line
+      become: yes
+
+
+----------------
+
+                                                                        IMP !!!!!!!!!!!!!!!!!!!!
+- import_role:
+    name: myrole
+  tags: [web,foo]
+
+- import_tasks: foo.yml
+  tags: [web,foo]
+
+---------------------------------------------------
+- name: Add bionic main universe and multiverse repos
+  apt_repository:
+    repo: deb http://archive.ubuntu.com/ubuntu bionic main universe multiverse
+    state: present
+  environment: "{{ proxy_env }}"
+
+------------------- ansible.cfg-------
+
+[defaults]
+host_key_checking = False
+
+---------------------------------------var ----
+---
+# vars file for storage-sled
+proxy_env:
+  http_proxy: http://proxy-chain.osh.com:911
+  https_proxy: http://proxy-chain.osh.com:912
+
+ssh_keys_zip: laskew_ssh_keys.zip
+
+-------------------------------------------
+- hosts: webservers
+tasks:
+- name: Copy file between directories on a remote server
+copy:
+src: /tmp/test.txt
+dest: ~/test.txt
+remote_src: yes
+
+------------------------------------ template  -----------------------------
+[vms]
+{{ ip.stdout }}
+
+
+
+
+[all:vars]
+ansible_user=vagrant
+ansible_ssh_pass=vagrant
+
+----------- wget ----------------------------
+
+- name: Unarchive a file that needs to be downloaded (added in 2.0)
+  unarchive:
+    src: https://example.com/example.zip
+    dest: /usr/local/bin
+    remote_src: yes
+
+
+###################################################################################
+
+- hosts: remote-storage-servers
+  connection: local
+
+
+"{{ inventory_dir }}"
+"{{ inventory_hostname }}"
+"{{ ansible_env.HOME }}"
+
+"{{ ansible_default_ipv4.interface }}"
+"{{ ansible_default_ipv4.address }}"
+"{{ my_variable | default('default_value') }}"
+
+ansible_base_path: "{{ role_path }}/../../"
+
+
+--------------------------------------------------
+
+---
+
+- hosts: webservers
+  tasks:
+  - include_role:
+      name: some_role
+    when: "ansible_facts['os_family'] == 'RedHat'"
+-----------------------------------------------------
+
+installer_path: "{{ lookup('env','INSTALLER_PATH') or '/home/jenkins/install' }}"
+%w{{ '{'+role+'}' }}
+%w{'{{ role }}'}
+  ---------------------------------------------------------------------------
+----------------------------------------------------------------
+
+
+Usage: ansible-playbook [options] playbook.yml [playbook2 ...]
+
+Runs Ansible playbooks, executing the defined tasks on the targeted hosts.
+
+Options:
+  --ask-vault-pass      ask for vault password
+  -C, --check           don't make any changes; instead, try to predict some
+                        of the changes that may occur
+  -D, --diff            when changing (small) files and templates, show the
+                        differences in those files; works great with --check
+  -e EXTRA_VARS, --extra-vars=EXTRA_VARS
+                        set additional variables as key=value or YAML/JSON, if
+                        filename prepend with @
+  --flush-cache         clear the fact cache for every host in inventory
+  --force-handlers      run handlers even if a task fails
+  -f FORKS, --forks=FORKS
+                        specify number of parallel processes to use
+                        (default=5)
+  -h, --help            show this help message and exit
+  -i INVENTORY, --inventory=INVENTORY, --inventory-file=INVENTORY
+                        specify inventory host path or comma separated host
+                        list. --inventory-file is deprecated
+  -l SUBSET, --limit=SUBSET
+                        further limit selected hosts to an additional pattern
+  --list-hosts          outputs a list of matching hosts; does not execute
+                        anything else
+  --list-tags           list all available tags
+  --list-tasks          list all tasks that would be executed
+  -M MODULE_PATH, --module-path=MODULE_PATH
+                        prepend colon-separated path(s) to module library
+                        (default=[u'/home/mirlan/.ansible/plugins/modules',
+                        u'/usr/share/ansible/plugins/modules'])
+  --skip-tags=SKIP_TAGS
+                        only run plays and tasks whose tags do not match these
+                        values
+  --start-at-task=START_AT_TASK
+                        start the playbook at the task matching this name
+  --step                one-step-at-a-time: confirm each task before running
+  --syntax-check        perform a syntax check on the playbook, but do not
+                        execute it
+  -t TAGS, --tags=TAGS  only run plays and tasks tagged with these values
+  --vault-id=VAULT_IDS  the vault identity to use
+  --vault-password-file=VAULT_PASSWORD_FILES
+                        vault password file
+  -v, --verbose         verbose mode (-vvv for more, -vvvv to enable
+                        connection debugging)
+  --version             show program's version number and exit
+
+  Connection Options:
+    control as whom and how to connect to hosts
+
+    -k, --ask-pass      ask for connection password
+    --private-key=PRIVATE_KEY_FILE, --key-file=PRIVATE_KEY_FILE
+                        use this file to authenticate the connection
+    -u REMOTE_USER, --user=REMOTE_USER
+                        connect as this user (default=None)
+    -c CONNECTION, --connection=CONNECTION
+                        connection type to use (default=smart)
+    -T TIMEOUT, --timeout=TIMEOUT
+                        override the connection timeout in seconds
+                        (default=10)
+    --ssh-common-args=SSH_COMMON_ARGS
+                        specify common arguments to pass to sftp/scp/ssh (e.g.
+                        ProxyCommand)
+    --sftp-extra-args=SFTP_EXTRA_ARGS
+                        specify extra arguments to pass to sftp only (e.g. -f,
+                        -l)
+    --scp-extra-args=SCP_EXTRA_ARGS
+                        specify extra arguments to pass to scp only (e.g. -l)
+    --ssh-extra-args=SSH_EXTRA_ARGS
+                        specify extra arguments to pass to ssh only (e.g. -R)
+
+  Privilege Escalation Options:
+    control how and which user you become as on target hosts
+
+    -s, --sudo          run operations with sudo (nopasswd) (deprecated, use
+                        become)
+    -U SUDO_USER, --sudo-user=SUDO_USER
+                        desired sudo user (default=root) (deprecated, use
+                        become)
+    -S, --su            run operations with su (deprecated, use become)
+    -R SU_USER, --su-user=SU_USER
+                        run operations with su as this user (default=None)
+                        (deprecated, use become)
+    -b, --become        run operations with become (does not imply password
+                        prompting)
+    --become-method=BECOME_METHOD
+                        privilege escalation method to use (default=sudo),
+                        valid choices: [ sudo | su | pbrun | pfexec | doas |
+                        dzdo | ksu | runas | pmrun | enable | machinectl ]
+    --become-user=BECOME_USER
+                        run operations as this user (default=root)
+    --ask-sudo-pass     ask for sudo password (deprecated, use become)
+    --ask-su-pass       ask for su password (deprecated, use become)
+    -K, --ask-become-pass
+
+    ----------------------------------------------------------------------------------------
+
+    *** ansible samples
+
+----------------------------copy from remote to local -----------------------------------------
+- name: copy rsm-environment.yml file for ansible
+  fetch:
+    src: "{{ rsm_sddval_dir }}/release/bin/rsm-environment.yml"
+    dest: "{{ inventory_dir }}/"
+    flat: yes
+
+- name: copy rsm-environment.yml file for ansible
+  synchronize:
+    mode: pull
+    src: "{{ rsm_sddval_dir }}/results/"
+    dest: "/home/jenkins/rsm_validation/results/"
+
+------------------------------------------------------------------
+
+
+- name: Install project requirements
+  pip:
+    state: latest
+    requirements: "{{ project_path }}/requirements/base.txt"
+    virtualenv: "{{ venv_path }}"
+    virtualenv_python: python3.6
+    virtualenv_command: /usr/local/bin/virtualenv
+  pip:
+      environment:
+        PYTHONIOENCODING: utf8
+
+
+- name: Install project requirements
+  pip:
+    state: latest
+    requirements: "{{ rsm_sddval_dir }}/requirements.txt"
+    virtualenv: "{{ ansible_env.HOME }}/venv"
+    virtualenv_command: /usr/local/bin/virtualenv
+
+
+########################## yum update (upgrade) and reboot #####################################
+https://ansible-tips-and-tricks.readthedocs.io/en/latest/ansible/commands/
+
+
+
+- name: insert/update "Match User" configuration block in /etc/ssh/sshd_config
+  blockinfile:
+    path: /etc/ssh/sshd_config
+    block: |
+      Match User ansible-agent
+      PasswordAuthentication no
+
+--------------------------------
+---
+- name: check packages for updates
+  shell: yum list updates | awk 'f;/Updated Packages/{f=1;}' | awk '{ print $1 }'
+  changed_when: updates.stdout_lines | length > 0
+  args:
+    warn: false
+  register: updates
+- name: display count
+  debug:
+    msg: "Found {{ updates.stdout_lines | length }} packages to be updated:\n\n{{ updates.stdout }}"
+- when: updates.stdout_lines | length > 0
+  block:
+    - name: install updates using yum
+      yum:
+        name: "*"
+        state: latest
+      become_user: root
+      become: yes
+
+    - name: install yum-utils
+      package:
+        name: yum-utils
+      become_user: root
+      become: yes
+
+    - name: check if reboot is required
+      shell: needs-restarting -r
+      failed_when: false
+      register: reboot_required
+      changed_when: false
+      become_user: root
+      become: yes
+- when: updates.stdout_lines | length > 0 and reboot_required.rc != 0
+  block:
+    - name: reboot the server if required
+      shell: sleep 3; reboot
+      ignore_errors: true
+      changed_when: false
+      async: 1
+      poll: 0
+      become_user: root
+      become: yes
+
+    - name: wait for server to come back after reboot
+      wait_for_connection:
+        timeout: 600
+        delay: 20
+      register: reboot_result
+    - name: reboot time
+      debug:
+        msg: "The system rebooted in {{ reboot_result.elapsed }} seconds."
+
+
+
+
+#############################
+
+- name: Build PSME-ESMA
+  shell: http_proxy="" https_proxy="" ./bin/psme-esma ../agent/esma/configuration.json >/dev/null 2>&1 &
+  async: 10
+  poll: 0
+  args:
+    chdir: /root/cnbs/SW/build.debug.gcc.64bit
+    executable: /bin/bash
+  become_user: root
+  become: yes
+
+
+- name: Copy 'files' Directory Contents to Remote Home Directory
+  copy:
+    src: "{{ role_path }}/files/nvmf_tgt_config_file"
+    dest: "/etc/nvmf_tgt/nvmf_tgt_config_file"
+
+----------------------------------------
+
+- name: Install pexpect
+  command: easy_install pexpect
+  environment: "{{ proxy_env }}"
+  become: yes
+
+- name: Run tarball script
+  expect:
+    command: "{{ tardir }}/tarball"
+    responses:
+      "Please provide path to config file":
+        "{{ tardir }}/images.toml"
+    chdir: "{{ tardir }}"
+    timeout: 15000
+  environment: "{{ proxy_env }}"
+  become: yes
+
+- name: Install RSM
+  expect:
+    command: "{{ tardir }}/rsm-installer"
+    responses:
+      "Please provide path to config file":
+        "{{ tardir }}/install.toml"
+    chdir: "{{ tardir }}"
+    timeout: 15000
+  environment: "{{ proxy_env }}"
+  become: yes
+
+
+
+-----------  run in background ------------------:
+
+- name: Build PSME-REST server
+  shell: http_proxy="" https_proxy="" ./bin/psme-rest-server ../application/configuration.json >/dev/null 2>&1 &
+  async: 10
+  poll: 0
+  args:
+    chdir: /root/cnbs/SW/build.debug.gcc.64bit
+
+------------------------------------------
+
+- lineinfile:
+    path: /etc/selinux/config
+    regexp: '^SELINUX='
+    line: 'SELINUX=enforcing'
+
+
+----------------------------------------------------
+
+- name: modify configuration.json
+  replace:
+    path: /root/cnbs/SW/application/configuration.json
+    regexp: '\[\"lo\"\]'
+    replace: '["lo", "eth1"]'
+
+----------------------------------------
+
+- name: Build PSMS
+  command: ./build_main.sh --targets psme-rest-server,psme-esma --build-type debug --compiler gcc --arch 64 --jobs 4
+  args:
+    chdir: /root/cnbs/SW
+
+--------------------------------------
+- name: Create PSME SSL Cert Directory
+  file:
+    path: /etc/psme/certs/
+    state: directory
+----------------------------------------
+- name: install libcrypto
+  shell: "dpkg -i libcrypto++6_5.6.4-8_amd64.deb && ln -s /usr/lib/x86_64-linux-gnu/libcrypto.so.1.0.0 /lib/x86_64-linux-gnu/libcrypto.so.10"
+  args:
+    executable: /bin/bash
+    chdir: "{{ ansible_env.HOME }}"
+  become_user: root
+  become: yes
+  ignore_errors: yes
+----------------------------------------------------------
+
+    - name: Create symbolic link to http server
+      file:
+        dest: /var/www/html/allure-report
+        src: "{{ rsm_sddval_dir }}/allure-report"
+        state: link
+      become: yes
+
+
+------------------------------------------------
+
+- name: Download libcrypto from source
+  get_url:
+    url: "http://archive.ubuntu.com/ubuntu/pool/universe/libc/libcrypto++/libcrypto++6_5.6.4-8_amd64.deb"
+    dest: "{{ ansible_env.HOME }}/libcrypto++6_5.6.4-8_amd64.deb"
+
+---------------------------------------
+- name: modify /etc/security/limits.conf
+  lineinfile:
+    path: /etc/security/limits.conf
+    line: "{{ item }}"
+    create: yes
+  with_items:
+    - "*    hard    memlock    unlimited"
+    - "*    soft    memlock    unlimited"
+--------------------------------------------------
+
+- name: Copy nvmf_tgt files
+  copy:
+    src: "{{ role_path }}/files/nvmf_tgt"
+    dest: /etc/nvmf_tgt/nvmf_tgt
+    mode: 755
+  become: yes
+  become_user: root
+----------------------------------------------
+
+- name: Download NVMe Target CLI Source Tarball
+  get_url:
+    url: "{{ nvmetcli_url }}"
+    dest: "{{ ansible_env.HOME }}"
+    mode: 0666
+  environment: "{{ proxy_env }}"
+
+- name: Change nvmetcli Hashed Filename to Regular Filename
+  command: mv "{{ ansible_env.HOME }}/{{ nvmetcli_hashed_filename }}" "{{ ansible_env.HOME }}/{{ nvmetcli_filename }}"
+
+- name: "Extract {{ nvmetcli_filename }} into {{ ansible_env.HOME }}"
+  unarchive:
+    src: "{{ ansible_env.HOME }}/{{ nvmetcli_filename }}"
+    dest: "{{ ansible_env.HOME }}/"
+    remote_src: yes
+
+
+-------------------------------------
+- name: Clone PSME Git Repo for RSD PSME Storage SLED
+  git:
+    repo: "{{ psme_storage_sled['git_repo'] }}"
+    dest: "{{ psme_storage_sled['software_dir'] }}"
+    key_file: "{{ ansible_env.HOME }}/.ssh/id_rsa"
+    accept_hostkey: yes
+    force: yes
+  when: psme_storage_sled['version'] == "latest"
+
+------------------------------------------------------
+
+- name: "Extract {{ nvmetcli_filename }} into {{ ansible_env.HOME }}"
+  unarchive:
+    src: "{{ ansible_env.HOME }}/{{ nvmetcli_filename }}"
+    dest: "{{ ansible_env.HOME }}/"
+    remote_src: yes
+
+-----------------------------------------------------------
+
+- name: Execute Python Script to nvmetcli
+  shell: |
+    cd "{{ ansible_env.HOME }}/{{ nvmetcli_directory_name }}"
+    ./setup.py install
+
+--------------------------------------------------------
+
+- name: Download NVMe Target CLI Source Tarball
+  get_url:
+    url: "{{ nvmetcli_url }}"
+    dest: "{{ ansible_env.HOME }}"
+    mode: 0666
+  environment: "{{ proxy_env }}"
+
+------------------------------------------------------
+- name: Create SSH Directory If It Does Not Exist
+  file:
+    path: "{{ ansible_env.HOME }}/.ssh"
+    state: directory
+    mode: 0700
+    owner: root
+    group: root
+  when:
+    - ansible_virtualization_role == "guest"
+----------------------------------------------------
+
+- name: Ansible check file exists example.
+  stat:
+    path: "{{ ansible_env.HOME }}/spdk"
+  register: file_details
+
+- name: make sure spdk folder doesn't exist
+  file:
+    path: "{{ ansible_env.HOME }}/spdk"
+    state: absent
+  when: file_details.stat.exists
+  become_user: root
+
+-------------------
+- name: be sure ntpd is running and enabled
+  service:
+    name: ntpd
+    state: started
+    enabled: yes
+  tags: ntp
+
+
+
+
+
