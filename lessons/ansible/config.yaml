@@ -1,0 +1,32 @@
+---
+
+# Proxy environment
+proxy_env:
+  http_proxy: http://proxy-chain.osh.com:911
+  https_proxy: http://proxy-chain.osh.com:912
+
+# Client user  
+user_label: "username"
+
+
+# Add NVME drive with size. Currently supports up to 3 drives
+storage_disk_size:
+  - 20G
+  - 25G
+  - 30G
+
+# OS 
+storage_os: "ubuntu18"
+
+# Vagrant provider, Note: this var hard coded in create_vbox.sh
+spdk_vagrant_provider: "libvirt"
+
+# User's vagrant directory
+vagrant_dir: "{{ user_label }}-{{ storage_os }}-{{ spdk_vagrant_provider }}"
+
+# Set type of SPDK repo:
+spdk_public_repo_enabled: False
+
+# SPDK tarball name
+PB_EphemeralStorage_tar_name: "PB_EphemeralStorage-0.4.2.tar.gz"
+

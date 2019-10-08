@@ -1,0 +1,18 @@
+- hosts: vms
+  connection: local
+
+  vars_files:
+    - config.yaml
+
+  environment: "{{ proxy_env }}"
+
+  tasks:
+    - name: Test
+      debug: msg="{{ ansible_system }}"
+ 
+    - debug: msg="{{ ansible_distribution }}"
+
+
+#  roles:
+#    - create_inventory
+#
