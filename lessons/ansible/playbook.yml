@@ -12,6 +12,8 @@
  
     - debug: msg="{{ ansible_distribution }}"
 
+    - debug: msg="{{ ansible_apparmor.status }}"
+
 
 #  roles:
 #    - create_inventory
