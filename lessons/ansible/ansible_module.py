@@ -1,6 +1,7 @@
 Ansible module is creating ansible facts with python in library/module.py
 and also fact/module  can be used by modulename, "module: value"
 
+# module's location roles/library/module_name.py       call it as "module_name:" in playbook
 # ----------------------------------------------------------------------
 vi hello_world.yml:
 _________________________
@@ -97,7 +98,101 @@ def main():
 if __name__ == '__main__':
     main()
 
-# -------------------------------------------------------------------------
+# --------------------------- Practice -----------------------------------------------------------------------------------------------------------
+vi test.yml    # this can be any name and any playbook to call "test" fact
+
+- hosts: localhost
+
+  tasks:
+  - name: Test that my change_version module works
+    test:   # new   ansible_fact
+    register: result
+
+  - debug: var=baldarym
+  - debug: var=venera
+
+  - name: Test Venera
+    debug: msg="{{ venera }} 40 and Beka {{ baldarym.beka }} jashta"
 
 
+
+#---------------------------------------------------------------------
+vi test.py
+
+#!/usr/bin/python
+
+from ansible.module_utils.basic import *
+
+def main():
+
+    fields = {
+        "baldarym": {
+
+            "beka": 13,
+            "Azat": 9,
+            "Sezim": 4
+        }
+        
+    }
+   
+    module = AnsibleModule(argument_spec={})
+    
+    fields.update({
+    "venera": "ayalym"
+    })    
+
+   
+    module.exit_json(changed=True, ansible_facts=fields)
+
+
+if __name__ == '__main__':
+    main()
+
+# ___________________________________________________________________________________
+# _________________________________ansible_facts and meta togethter__________________
+
+vi version_change.yml
+# ----------------
+
+- hosts: localhost
+
+  tasks:
+  - name: Test that my change_version module works
+    version_change:                                   # Note: 'version_change' is module, 'version_name', 'version_no' are params and argument_spec (look at py library)
+      version_name: "Before"
+      version_no:  1.1.1.2 
+      unchanged_value: "This will pass through"
+    register: result
+
+  - debug: var=result
+  - debug: var=men 
+
+# ___________________________________________________________________________________
+vi version_change.py
+#----------------
+
+
+#!/usr/bin/python
+
+from ansible.module_utils.basic import *
+
+def main():
+
+    fields = {
+        "version_no": {"default": True, "type": "str"},
+        "version_name": {"default": True, "type": "str"},
+        "unchanged_value": {"default": True, "type": "str"}
+
+    }
+    # params = module.params
+    module = AnsibleModule(argument_spec=fields)   # look at here ^  --- add arguments as meta. Argument type: gets value from ansible playbook 
+
+    ansible_facts = {"men": "Mirlan"}    # add ansible_facts as ansible_facts: look at next line.  these facts' values permanent and, gets calculated and set by module.py
+
+    module.exit_json(changed=True, ansible_facts=ansible_facts, meta=module.params)
+
+
+if __name__ == '__main__':
+    main()
+#---------------------------------------------------------------------------------------------------
 
