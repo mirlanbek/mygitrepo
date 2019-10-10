@@ -15,6 +15,25 @@ ansible all -i inventory.ini -m debug -a msg="Salam"
 
 ansible all -i ./release/ansible/inventory/inventory.baremetal -m shell -a 'sudo ip link set eno2 up ; sudo dhclient -v eno2' -v --become -u ubuntu
 
+-------------------------------------------------------------------------
+when: ansible_distribution in ['RedHat', 'CentOS', 'ScientificLinux']
+
+when: "{{ docker_registry.startswith(':') }}"
+
+"{{ lookup('pipe', 'date +%Y%m%d%H%M%S') }}" get output of date command
+
+a: "{{ item | default('20G') }}"
+
+
+# note: regex and lower filters  below: 
+baseurl={{ docker_project_url }}/repo/main/{{ ansible_distribution|lower|regex_replace('redhat', 'centos') }}/{{ ansible_distribution_major_version }}/
+
+    - set_fact:
+        local_log_dir: "{{ lookup('env', 'ANSIBLE_LOG_BASE')|default('.') }}/logs/{{ run_datestamp }}"
+
+    - set_fact:
+        proxy_env: "{{ proxy_env|calculate_no_proxy }}"
+
 
 -------------------------------------
 
@@ -549,6 +568,213 @@ https://ansible-tips-and-tricks.readthedocs.io/en/latest/ansible/commands/
   tags: ntp
 
 
+-----------------------
+
+ - name: Make sure the include line is there in interfaces file
+   lineinfile:
+      regexp: "^source\\ /etc/network/interfaces.d/\\*"
+      line: "source /etc/network/interfaces.d/*"
+      dest: /etc/network/interfaces
+      state: present
+      insertafter: EOF
+
+      or insertbefore: '^#\);'
 
 
+  - name: insert yum/dnf proxy(http)
+    # insert after [main] section
+    lineinfile:
+      dest: "{{ item.stat.path }}"
+      state: present
+      regexp: "^proxy\\s*=\\s*{{ proxy_env.http_proxy }}"
+      insertafter: "^\\[main\\]"
+      line: "proxy={{ proxy_env.http_proxy }}"
+    when: '"http_proxy" in proxy_env and item.stat.isreg is defined and item.stat.isreg'
+    with_items: "{{ packager_conf_stat.results }}"
+
+
+  - name: set grub to boot to specific kernel
+    lineinfile:
+      dest: /etc/default/grub
+      regexp: '^GRUB_DEFAULT=.*'
+      line: 'GRUB_DEFAULT="Advanced options for Ubuntu>Ubuntu, with Linux {{ kernel_data.kernel_version }}"'
+      state: present
+    when: (kernel_type == "specific" and kernel_data.kernel_version != ansible_kernel)
+    notify:
+     - update grub
+
+  ----------------------------------- loops -------------------------------------
+
+
+
+      - name: Copy each file over that matches the given pattern
+      copy:
+        src: "{{ item }}"
+        dest: "/etc/fooapp/"
+        owner: "root"
+        mode: 0600
+      with_fileglob:
+        - "/playbooks/files/fooapp/*"
+
+
+- name: add several users
+  user:
+    name: "{{ item.name }}"
+    state: present
+    groups: "{{ item.groups }}"
+  with_items:
+    - { name: 'testuser1', groups: 'wheel' }
+    - { name: 'testuser2', groups: 'root' }
+
+
+
+ -----------dict loop-------------------------------------------------
+ vi vars/main.yml
+
+---
+users:
+  alice:
+    name: Alice Appleworth
+    telephone: 123-456-7890
+  bob:
+    name: Bob Bananarama
+    telephone: 987-654-3210
+          
+********
+
+vi tasks/main.yml
+
+tasks:
+  - name: Print phone records
+    debug:
+      msg: "User {{ item.key }} is {{ item.value.name }} ({{ item.value.telephone }})"
+    with_dict: "{{ users }}"
+
+-------------------------------------------------------------------------------------
+
+  - name: wait for br-int patch
+    command: "docker exec openvswitch_db ovs-vsctl list-ports br-{{ item.value.interface }}"
+    register: log_output
+    until: log_output.stdout.find("phy-br-") > -1
+    delay: 10
+    retries: 20
+    with_dict : "{{ node_info[inventory_hostname].tenant_networks }}"
+    when: tenant_network_type == "vlan"
+  ---------------------------------------------------------------------------------
+
+    - name: Hostname
+      shell: cat /etc/fstab | grep mirlan
+      register: hn
+      ignore_errors: yes
+      
+    - debug: msg="{{ hn.rc }}"  # rc  ---- return code, if no errors == 0
+
+    --------------------------------------------------------------      
+
+  - fail: msg="docker_registry_host variable not set. Edit kolla_version.yml"
+    when: "{{ docker_registry.startswith(':') }}"
+
+  -----------------------------------------------------------------------
+
+kolla_internal_vip_address: "{{ kolla_internal_vip_address }}"
+kolla_external_vip_address: "{{ kolla_external_vip_address }}"
+{% for group in ['control', 'network'] if group in groups %}
+{% if kolla_internal_vip_address|string() != kolla_external_vip_address|string() %}
+kolla_external_vip_interface: {{ node_info[groups[group][0]].networks['inter'].interface }}
+{% endif %}
+{% endfor %}
+
+  -----------------------------------------------------------------------
+
+
+    - action: "{{ ansible_pkg_mgr }} name=* state=latest update_cache=yes"
+    register: pkg_mgr_results
+    retries: "{{ package_mgr_retries }}"
+    until: pkg_mgr_results|success
+
+
+    -------------------------------------------------------------------------------
+                             NOTE2
+
+------------------------ template.j2--------------
+
+[DEFAULT]
+tag = {{ openstack_release }}
+
+
+{% for name, tag in components.iteritems() %}
+[{{ tag }}]
+type=local
+location={{ components_dir }}/{{ name }}
+
+{% endfor %}
+
+
+----------------------------------------------------------------------
+
+# NOTE: hostvars = -m setup output
+# hostvars.hostname.ansible_facts   "{{ hostvars['localhost'].ansible_ssh_pass }}"
+ansible all -i inventory.ini -m debug -a msg="{{ hostvars['localhost'].ansible_ssh_pass }}"
+
+- debug: msg="{{ hostvars['localhost']['ansible_default_ipv4']['address'] }}"
+
+{{ hostvars[groups['docker_registry'][0]]['ansible_host'] }},{{ kolla_internal_vip_address }}" 
+
+
+
+--------------------
+
+
+- role: prepare_disks_for_swift
+  when: "'storage' in group_names and groups['control'] | length > 1 and use_intel_driver|default(True)"
+- role: get_nfs_storage
+  when: "inventory_hostname == groups['network'][0] and cinder_backend == 'nfs'"
+
+
+--------------------------------------------------------------------------
+'storage' in group_names and groups['control'] | length > 1 : 
+
+1. 'group_names' --- [storage] 
+2.  groups['storage'][0]  ----------- [storage] din ichindegi hosttardun birinchisi 
+
+
+--------------------------------------------------------------
+vi inventory.ini
+
+[control]
+control-1.example.com  ansible_host=1.2.3.a
+
+[compute]
+
+[network]
+
+[storage]
+
+[control:vars]
+ansible_user=root
+ansible_ssh_pass=mypass
+
+[compute:vars]
+ansible_user=root
+ansible_ssh_pass=mypass
+
+[all:vars]
+ansible_user=root
+ansible_ssh_pass=mypass
+
+
+------------ansible.cfg--------------------------------------
+
+[defaults]
+host_key_checking = False
+
+--------------------------------------------------------
+vim handlers/main.yml
+
+---
+ - name: systemd daemon reload
+   command: systemctl daemon-reload
+
+ - name: restart docker
+   service: name=docker state=restarted
 

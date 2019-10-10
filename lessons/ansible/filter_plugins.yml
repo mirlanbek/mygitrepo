@@ -1,0 +1,38 @@
+
+----vi  filter_plugins/networks.py -------------------------------------------------------------------
+
+from urlparse import urlsplit
+
+
+def do_prefix_to_netmask(arg):
+    return '.'.join(str((0xffffffff << (32 - int(arg)) >> i) & 0xff) for i in xrange(24, -8, -8))
+
+
+def do_netmask_to_prefix(arg):
+    return sum([bin(int(x)).count('1') for x in arg.split('.')])
+
+
+def do_urlsplit(arg):
+    return urlsplit(arg)
+
+
+
+class FilterModule(object):                               # Note: FilterModule class and filters method create fileters
+
+    def filters(self):
+        return {
+            'prefix_to_netmask': do_prefix_to_netmask,      # and value equils to function from above       
+            'netmask_to_prefix': do_netmask_to_prefix,
+            'urlsplit': do_urlsplit,                        # note: do not forget coma ',' at the and 
+        }
+
+
+--------------------- usage --------------------------------------------------
+
+network: netmask {{ item.value.prefix|prefix_to_netmask }}   # so,  item.value.prefix ---> gets piped | to prefix_to_netmask  it passes value to filter function above
+                                                             # def prefix_to_netmask as an arg returns output. so, network: output
+
+    - set_fact:
+        proxy_env: "{{ proxy_env|calculate_no_proxy }}"
+
+----------------------------------------------------------------------------------------------------------------------------------
