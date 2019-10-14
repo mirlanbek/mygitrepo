@@ -84,6 +84,29 @@ print (p2.name )
 p3 = Person.isAdult(22)
 print(p3)   # ===========>  True chygat
 
-## -----------------------------------------------
+## ------------------ classmethod in practice -----------------------------
 
- 
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    @classmethod
+    def fromBirthYear(cls, name, birthYear):
+        return cls(name, date.today().year - birthYear)
+
+    def display(self):
+        print(self.name + "'s age is: " + str(self.age))
+
+person = Person('Adam', 19)
+person.display()
+
+person1 = Person.fromBirthYear('John',  1985)
+person1.display()
+
+#*** joobu *********
+# Adam's age is: 19
+# John's age is: 34
+
+# ------------------------------------------------------------------------
+
