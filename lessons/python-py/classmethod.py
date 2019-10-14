@@ -1,5 +1,3 @@
-
-
 # @classmethod  - 1. bul classtyn ichindegi cls method. Bunun objecti method (self) emes, (cls) bolot. bul method 
                   # objectin argumnet valuelaryn override kylysh uchun koldonulat. see below:
                   # func(self tin oorduna cls) koldonulat
@@ -47,6 +45,34 @@ testson.onp()
 
 #####################################################################################
 #####################################################################################
+
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    @classmethod
+    def fromBirthYear(cls, name, birthYear):
+        return cls(name, date.today().year - birthYear)  # NOTE: proccess value '1985' and get '34' then return it as cls arg
+
+    def display(self):
+        print(self.name + "'s age is: " + str(self.age))
+
+# call display() by object regular way
+person = Person('Adam', 19)          
+person.display()                     
+
+
+# call display() by object classmethod  way
+person1 = Person.fromBirthYear('John',  1985)
+person1.display()                     
+
+#*** output: *********
+# Adam's age is: 19
+# John's age is: 34
+
+
+# ------------------------------------------------------------------------
 
 from datetime import date 
 
@@ -109,4 +135,3 @@ person1.display()
 # John's age is: 34
 
 # ------------------------------------------------------------------------
-
