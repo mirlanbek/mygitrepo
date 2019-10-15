@@ -54,6 +54,86 @@ ansible-playbook example.yml --skip-tags "packages"
 
 
 ----------------
+######################################################################################################################
+################################################################################################################################## 
+# 
+
+---------------------------- Handlers notify: ----------------------------------------------
+vi roles/name/handlers/main.yml:
+  
+ - name: systemd daemon reload
+   command: systemctl daemon-reload
+
+ - name: restart docker
+   service: name=docker state=restarted
+
+************
+vi roles/name/task/main.yml:
+
+  - name: create docker proxy config
+    template: src=http-proxy-conf.j2 dest=/etc/systemd/system/docker.service.d/http-proxy.conf owner=root mode=0644
+    when: '"http_proxy" in proxy_env or "https_proxy" in proxy_env'
+    notify:
+     - systemd daemon reload
+     - restart docker
+
+------------------------------- Notify with register: ----------------------------------------------------------------------------
+
+- name: Create folder for apt keys
+  file: 
+    path: /var/keys 
+    state: directory 
+    owner: root
+
+- name: Download nginx apt key
+  get_url: 
+    url: http://nginx.org/keys/nginx_signing.key 
+    dest: /var/keys/nginx_signing.key
+  register: aptkey
+
+- name: Add nginx apt key
+  command: "apt-key add /var/keys/nginx_signing.key"
+  when: aptkey.changed
+
+- name: Update apt cache
+  apt: 
+    update_cache: yes
+  when: aptkey.changed
+
+
+---------------- new synax for calling role ------------------------------------
+
+  roles:
+    # Environment
+    - { role: env, when: ( rec.env is not defined and rec_default.env ) or ( rec.env is defined and rec.env ) }
+
+
+----------------------------------------------------------------------
+vi roles/name/task/main.yml:
+
+
+- name: Include project
+  include_vars:                                     # include vars
+    dir: '{{playbook_dir}}/project/'
+    name: project
+  check_mode: no
+
+- name: Ensure this host is in project
+  fail:
+    msg: 'This host ({{ansible_hostname}}) was not found in the project, aborting ansible!'
+  when: ansible_hostname not in project
+  check_mode: no
+
+- name: Store this hosts recipe
+  set_fact:
+    recipe: '{{project[ansible_hostname]}}'                  Note: set multiple set_facts
+    recipe_default: '{{project.default}}'
+  check_mode: no
+
+
+----------------------------------------------------------------------------
+
+
 
                                                                         IMP !!!!!!!!!!!!!!!!!!!!
 - import_role:
@@ -70,13 +150,14 @@ ansible-playbook example.yml --skip-tags "packages"
     state: present
   environment: "{{ proxy_env }}"
 
+
 ------------------- ansible.cfg-------
 
 [defaults]
 host_key_checking = False
 
 ---------------------------------------var ----
----
+
 # vars file for storage-sled
 proxy_env:
   http_proxy: http://proxy-chain.osh.com:911
