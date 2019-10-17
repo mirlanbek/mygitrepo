@@ -131,6 +131,7 @@ Ansible will run 5 parallel connections by default, so if you have multiple remo
 You can increase the parallel amount with the '-f' or '--forks' option.
  
 If you want to copy a file and set special permissions beyond what rsync can do.
+
 ansible -i 10.0.0.1, -m copy -a "src=foo.html dest=/var/www mode=644 owner=nobody group=nogroup"
  
 You can update your system with yum with the special 'name=*' syntax

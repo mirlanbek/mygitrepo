@@ -5,6 +5,8 @@ ansible compute -m command -a "uptime" –u root
 ansible kompute -i test.yaml -m script -a myscript.sh -u root
 ansible all -i suts.ini -m debug -a msg="{{ inventory_hostname }}"
 
+ansible -i 10.0.0.1, all -m yum -a 'name=git state=latest'
+
 ansible all -m ping
 
 ansible all -a "/usr/sbin/ifconfig" | less
@@ -227,6 +229,11 @@ ansible_base_path: "{{ role_path }}/../../"
   - include_role:
       name: some_role
     when: "ansible_facts['os_family'] == 'RedHat'"
+
+------------------------------
+- name: Install git package
+  action: "{{ ansible_pkg_mgr }} name=git state=latest"
+
 -----------------------------------------------------
 
 installer_path: "{{ lookup('env','INSTALLER_PATH') or '/home/jenkins/install' }}"
