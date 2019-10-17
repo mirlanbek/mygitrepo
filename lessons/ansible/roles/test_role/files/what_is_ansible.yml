@@ -1,0 +1,544 @@
+What is Ansible?
+ 
+Ansible is configuration management.  Ansible configures thousands of systems in the cloud.
+ 
+But we can also use it to configure our own systems and make life easier.
+ 
+This page relates to Ansible 1.9.4.  Ansible 2.0 with many useful changes.
+ 
+The problem: configuring a system
+ 
+Used to be
+ 
+    1. install OS
+    2. manual config
+    3. repeat
+ 
+Then we discover ssh
+    1. install OS
+    2. SSH
+    3. run bash scripts on each system individually
+    4. find bugs
+    5. manually fix bugs because you can't re-run the scripts
+    6. repeat
+ 
+Now we have lots of systems
+ 
+    1. install OS
+    2. run ansible in parallel over ssh
+    3. fix bugs ansible
+    4. re-run ansible, skip successful steps
+Ansible vs. Bash scripts
+Bash scripts
+Ansible playbooks
+requires distro specific code
+Ansible modules abstract
+usually not re-runable
+designed to be re-run
+run locally
+run remotely or locally
+ 
+run in parallel over multiple hosts
+can't handle complex data structures.
+nested bash associative arrays? Who can figure that out?
+supports arbitrary nested list/dictionaries structures
+(with real data structures lots of problems become simple)
+ 
+ 
+Modules for defining state;  Module for re-use
+Ansible uses modules, these modules are designed to be re-run without breaking things.  Everyone likes to use the fancy work 'idempotent'.
+Ansible modules define a state.  This file must exist, this package must be installed.  You don't have to define the steps to implement that state, the modules take care of that.
+This is magic, but the magic works, for thousands of systems, at scale.  Trust the magic!
+ 
+Using Ansible is like being Picard.  You just have to say...
+ 
+
+ 
+Make sure a directory exists and is owned by the right user/group
+This is YAML markup, which we will explain below.
+- name: ensure /opt/stack exists
+  file:
+    path: "/opt/stack"
+    state: directory
+    owner: root
+    group: root
+  
+No, mkdir, no chown, the module does all the magic and makes sure the directory exists as specified
+ 
+Make sure a package is installed
+- name: Install git package
+  action: "{{ ansible_pkg_mgr }} name=git state=latest"
+You don't have to figure out yum, or dnf, or apt-get,  Ansible figures it out for you with the magic variable  ansible_pkg_mgr.
+ 
+Ansible is Evolution
+Ansible is a 3rd or 4th generation CM system.  It was first released in 2012, well after other projects like puppet or chef.  The modules have been designed to be simple and flexible.  They are the basic building blocks and have actually achieved re-usability.  
+They are crude but re-usable.
+Evolution from Bash scripts
+Compared to bash, where it is low-level enough that it is hard to abstract out re-usable functions that actually cover all edges cases.  Ansible modules are designed for configuration management.
+modules ensure state by:
+    • combining multiple related operations into one task
+        ◦ copy, chown, chmod, SELinux role
+    • containing logic to check, skip and verify the state
+    • using checksums and validation commands to verify state
+
+But you can always drop back to the shell, .... OR write a new module.  
+ 
+Quickstart
+Run manual Ansible commands from the command line
+ 
+Example: Install git with yum
+ 
+$ ansible -i 10.0.0.1, all -m yum -a 'name=git state=latest'
+control-vm | success >> {
+    "changed": false,
+    "msg": "",
+    "rc": 0,
+    "results": [
+        "git-1.8.3.1-6.el7.x86_64 providing git is already installed"
+    ]
+}
+ 
+All Ansible commands have two parts.  
+    1. Inventory
+    2. Tasks (module with args)
+ 
+ansible -i <inventory-file> <host-pattern> [-f forks] [-m module_name] [-a args]
+'all' is a special host pattern that means all hosts.  You usually list all the hosts in the inventory then use the 'all' host-pattern
+ 
+ 
+Normally the inventory is a file, but you can specify a list of hosts on the command line using commas.  Specify user with '-u' and prompt for ssh password with '-k'
+ 
+$ ansible -i ons-bld1.jf.osh.com,ons-bld2.jf.osh.com all  -m command -a "uname"  -u root -k
+SSH password:
+ons-bld1.jf.osh.com | success | rc=0 >>
+Linux
+ons-bld2.jf.osh.com | success | rc=0 >>
+Linux
+hack! The comma syntax may disappear. Start making inventory files for all your systems.
+ 
+When connecting to localhost ansible will automatically bypass ssh.
+ansible  -m command -a "echo {{ ansible_connection }}" localhost
+ 
+Step 1: Replace your regular ssh commands with ansible CLI one-liners
+Practice with the command line and try out various modules.  
+ 
+Example: Run any shell command, with pipes and such.
+ 
+ansible -i 10.0.0.1, all -m shell -a 'ps aux | grep ssh'
+This doesn't look much fancier than regular ssh, but it is parallel by default.
+ansible -i 10.0.0.1,10.0.0.2,10.0.0.3 all -m shell -a 'ps aux | grep ssh'
+Ansible will run 5 parallel connections by default, so if you have multiple remote systems the commands will all run in parallel.
+You can increase the parallel amount with the '-f' or '--forks' option.
+ 
+If you want to copy a file and set special permissions beyond what rsync can do.
+
+ansible -i 10.0.0.1, -m copy -a "src=foo.html dest=/var/www mode=644 owner=nobody group=nogroup"
+ 
+You can update your system with yum with the special 'name=*' syntax
+ 
+ansible -i 10.0.0.1,10.0.0.2 all -m yum -a 'name=* state=latest'
+ 
+More examples
+http://docs.ansible.com/ansible/intro_adhoc.html
+You can do quite a lot from the command line, but the real power of Ansible is in playbooks.
+Moving from commands to playbooks
+ 
+Everybody is busy, ain't nobody got time to automate their systems, right?    Well Ansible makes is about as easy as it gets.  Eventually you will get tired of running the same commands over and over.
+ 
+Start with a simple inventory.
+Assuming you have a fresh system, not registered in DNS, and without ssh keys...
+ 
+my_inventory.ini
+[my_systems]
+my_host_1 ansible_ssh_host=10.0.0.1  ansible_ssh_user=root ansible_ssh_pass=password
+# set user and password for password login
+# use ansible_ssh_host to set IP for systems no in DNS
+  
+ 
+Inventories are in standard Windows-style ini format.   (Hint, it uses ConfigParser from the Python standard library  https://docs.python.org/2/library/configparser.html)
+ 
+Create a basic playbook
+ 
+my_playbook.yml
+---
+- hosts: all
+  
+  tasks:
+    - name: install ntp
+      action: "{{ ansible_pkg_mgr }} name=ntp state=present"
+ 
+    - name: add ssh key
+      authorized_key:
+        user: root
+        key: "{{ lookup('env', 'HOME' }}/.ssh/id_rsa.pub"
+        state: present
+        manage_dir: yes
+ 
+  
+ 
+Run the playbook
+ansible-playbook -i my_inventory.ini my_playbook.yml
+ 
+YAML
+https://en.wikipedia.org/wiki/YAML
+http://docs.ansible.com/ansible/YAMLSyntax.html
+Markup Language
+Super-quick-and-dirty intro
+---
+# always start with ---
+# whitespace matters, indents required, no tabs
+example_dict:
+  subdict_1:
+    a: 1
+    b: 2
+    ints_are_ints: 3
+    floats_are_floats: 4.0
+  example_list:
+    - one
+    - two
+    - three
+    - strings don't require quotes
+    - "but use them anyway"
+    - 'use single quotes when using backslash \'
+  nested_dict_1:
+     nested_dict_2:
+       nested_dict_3:
+         key: val
+list_of_dicts:
+  - a: 1
+    b: 2
+  - a: 1
+    b: 2
+  - a: 1
+    b: 2
+# converted to python dict
+{'example_dict': {'example_list': ['one',
+                                   'two',
+                                   'three',
+                                   "strings don't require quotes",
+                                   'but use them anyway',
+                                   'use single quotes when using backslash \\'],
+                  'nested_dict_1': {'nested_dict_2': {'nested_dict_3': {'key': 'val'}}},
+                  'subdict_1': {'a': 1,
+                                'b': 2,
+                                'floats_are_floats': 4.0,
+                                'ints_are_ints': 3}},
+ 'list_of_dicts': [{'a': 1, 'b': 2}, {'a': 1, 'b': 2}, {'a': 1, 'b': 2}]}
+  
+ 
+ 
+Strings (scalars) are ordinarily unquoted, but may be enclosed in double-quotes ( " ), or single-quotes ( ' ).
+    • Within double-quotes, special characters may be represented with C-style escape sequences starting with a backslash ( \ ). According to the documentation the only octal escape supported is \0.
+ 
+\' is not how you escape single quotes in yaml
+use '' , double-single-quote
+ 
+ 
+Ansible doesn’t really use these too much, but you can also specify a boolean value (true/false) in several forms:
+create_key: yes
+needs_agent: no
+knows_oop: True
+likes_emacs: TRUE
+uses_cvs: false
+ 
+ 
+data is code; code is data. Since the YAML controls excution flow and YAML is data, you can generate new execution flow dynamically. You can write playbooks dynamically based on new state.
+ 
+Jinja2
+Ansible uses the Jinja2 templating engine to do string evaluation.  Everything inside {{ }} is a Jinja2 expression and is evaluated.
+ 
+Jinja2 expression are the backdoor we use to do most calculation and processing of stdout and stderr.   Grep, sed, awk, etc. are done with Jinja2 filters.
+You can be clever and access Python private methods to do complicated stuff, or you can write custom Jinja2 filters that use the full Python stdlib.
+ 
+combine two lists and join with comma
+# combine two lists and join with comma
+  vars:
+    ovs_cores: [1, 2, 3, 4]
+    ovs_pmd_cores: [6, 7, 8]
+ 
+  post_tasks:
+    - debug: msg="combined {{ [].__class__(ovs_cores + ovs_pmd_cores)|join(',') }}"
+  
+The trick: We can't access list() or dict() from Jinja2, so we access the class constructor from the literal objects. [] is a list, [].__class__ is the list() function.
+ 
+mutate a dictionary
+  vars:
+    asdf:
+      a: 1
+      b: 2
+      c: 3
+  tasks:
+    - set_fact:
+        asdf: "{{ {}.__class__(asdf, d='{}/{}/{}'.format(4, 5, 6)) }}"
+  
+# output
+        "asdf": {
+            "a": 1,
+            "b": 2,
+            "c": 3,
+            "d": "4/5/6"
+        }
+The dict() function is broken in older version of Jinja2, but we can use {}.__class__ to access the real dict() function. {} is a dict literal, {}.__class__ == dict()
+ 
+This is advanced stuff, hopefully you don't need it.
+ 
+Built in filters:
+http://jinja.pocoo.org/docs/dev/templates/
+http://docs.ansible.com/ansible/playbooks_filters.html
+ 
+Jinja2 / YAML parsing issues
+There is a parsing issue with Jinja2 filters and YAML.
+YAML support inline forms for list and dicts
+# inline forms.  Don't use these
+# Example just to explain parser issues
+inline_forms:
+  - [1, 2, 3]
+  - {a: 1, b: 2, c: 3}
+ 
+This conflicts with Jinja2 forms   
+vars:
+  foo: {{ ansible_os_family }}
+       ^
+       This is a parse error.  YAML expects an inline dict, not a Jinja2 form
+  bar: "{{ ansible_os_family }}"
+      Always quote Jinja2 forms
+ 
+Facts
+ 
+Ansible will probe the remote system and gather all sorts of information.  These are called facts.  They all start with ansible_  since ansible doesn't have namespaces.
+ansible hostname -m setup
+"ansible_facts": {
+    "ansible_all_ipv4_addresses": [
+        "192.168.122.1",
+        "172.16.1.223",
+        "10.254.80.249"
+    ],
+    "ansible_all_ipv6_addresses": [
+        "fe80::d6c9:efff:fe52:7c4d"
+    ],
+    "ansible_architecture": "x86_64",
+    "ansible_bios_date": "01/17/2014",
+    "ansible_bios_version": "68ICF Ver. F.46",
+    "ansible_default_ipv4": {
+        "address": "10.254.80.249",
+        "alias": "vpn0",
+        "interface": "vpn0",
+        "macaddress": "",
+        "mtu": 1266,
+        "netmask": "255.255.224.0",
+        "network": "10.254.64.0",
+        "type": "unknown"
+    },
+    "ansible_os_family": "RedHat",
+    "ansible_pkg_mgr": "dnf",
+    "ansible_distribution": "Fedora",
+    "ansible_distribution_major_version": "22",
+    "ansible_distribution_release": "Twenty Two",
+    "ansible_distribution_version": "22",
+    "ansible_processor_cores": 2,
+    "ansible_processor_count": 1,
+    "ansible_processor_threads_per_core": 2,
+    "ansible_processor_vcpus": 4,
+ 
+Dicts and lists make certain classes of problems easier
+Cross-distro support
+Use dicts to abstract away different service names, package names, config file paths, etc.
+---
+ssh_service:
+  Debian: ssh
+  RedHat: sshd
+network_service:
+  Debian: networking
+  RedHat: network
+  
+- name: Enable distro specific sshd service
+  service: name="{{ ssh_service[ansible_os_family] }}"  state=started enabled=yes
+  
+- name: restart network
+  service: "name={{ network_service[ansible_os_family] }} state=restarted"
+Full playbook example, compile a kernel
+---
+  - name: set kernel dest
+    set_fact:
+      kernel_build_dir: /usr/src/kernels/linux-stable-rt/
+  
+  - name: Install kernel-build dependencies
+    action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
+    with_items:
+      - git
+      - "{{ ncurses_package[ansible_os_family] }}"
+  
+  - name: Clone kernel
+    git:
+      repo: "{{ kernel_info[ansible_distribution].kernel_base_url }}"
+      dest: "{{ kernel_build_dir }}"
+#      version: "{{ kernel_info[ansible_distribution].kernel_version }}"  THERE IS NO NEED TO CHECKOUT TO VERSION BRANCH
+      accept_hostkey: yes
+      recursive: no
+  
+  - name: copy kernel config
+    command: cp "/boot/config-{{ ansible_kernel }}" "{{ kernel_build_dir }}/kernel/.config"
+  
+  - name: make oldconfig
+    shell: 'yes "" | make oldconfig'
+    args:
+      chdir: "{{ kernel_build_dir }}/kernel"
+  
+  - name: set CONFIG_PREEMPT_RT_FULL
+    lineinfile:
+      dest: "{{ kernel_build_dir }}/kernel/.config"
+      regexp: 'CONFIG_PREEMPT_RT_FULL'
+      line: "CONFIG_PREEMPT_RT_FULL=yes"
+      state: present
+  
+  - name: set CONFIG_MAXSMP
+    lineinfile:
+      dest: "{{ kernel_build_dir }}/kernel/.config"
+      regexp: '# CONFIG_MAXSMP is not set'
+      line: "CONFIG_MAXSMP=y"
+      state: present
+  
+  - name: make oldconfig
+    shell: 'yes "" | make oldconfig && make -j {{ ansible_processor_vcpus }} &>> /usr/src/kernels/linux-stable-rt/compile-kernel-log && make -j {{ ansible_processor_vcpus }} modules_install &>> /usr/src/kernels/linux-stable-rt/compile-kernel-log && make -j {{ ansible_processor_vcpus }} install &>> /usr/src/kernels/linux-stable-rt/compile-kernel-log ; grub2-set-default 0'
+    args:
+      chdir: "{{ kernel_build_dir }}/kernel"
+      # force bash because of &>>
+      executable: /bin/bash
+  
+
+ 
+Internals
+SSH
+Ansible was designed to be agent-less.  Zero client setup.  The only way to do this is with SSH.
+But, SSH has problems...
+ 
+Pop quiz:  How many concurrent lowest-latency lossless TCP SSH connections can your system handle?
+ 
+ 
+ 
+Answer: not enough
+ 
+ 
+ 
+Two Factors:
+    • openssh ControlPersist
+        ◦ enables fast reconnect by keeping a ControlMaster connection open in the background
+        ◦ can run into hostname socket filename limit of 108 chars, workaround in the docs
+    • sudo requiretty
+        ◦ Prevents SSH pipelining
+ 
+SSH Pipelining
+When ssh pipelineing is enabled we do not scp module to the remote system.  Instead we send the python module over the stdin to a remote python processing run by ssh.  
+cat foo.py | ssh python -
+Thats the magic.
+ 
+SSH Pipelining is disabled by default because:
+if you use sudo and requiretty is set in /etc/sudoers then SSH Pipelining won't work (sudo will fail)
+But this should be fixed in Ansible 2.0
+ 
+How to set, check constants.py
+ANSIBLE_SSH_PIPELINING         = get_config(p, 'ssh_connection', 'pipelining', 'ANSIBLE_SSH_PIPELINING', False, boolean=True)
+ 
+In ansible.cfg
+[defaults]
+host_key_checking = False
+[ssh_connection]
+pipelineing = True
+Environment
+export ANSIBLE_SSH_PIPELINING=True
+ 
+Ansible 2.0 requiretty fix
+Dirty details
+https://github.com/amenonsen/ansible/commit/d77115cd1efe4d632343ec98525544f853f90ca8
+echo -e "print('hello world')\n"|ssh -tt someho.st "sed -ne '/__EOF__/q' -e p|python"
+  
+# but actually without sed
+python -uc 'import sys, itertools; [sys.stdout.write(s) for s in itertools.takewhile(lambda s: s != \"__EOF__\\n\", iter(sys.stdin.readline, \"\"))]'|
+ 
+Other connection plugins
+Ansible has support for other connection types, 
+    • libvirt_lxc
+    • local
+    • paramiko
+    • winrm
+    • docker
+Playbook execution
+Strategies
+Playbook execution is more clear in Ansible 2.0
+Ansible 2.0 has playbook strategies as plugins.  You can write your own
+    • Linear
+        ◦ all hosts execute tasks in sequence
+        ◦ if a host skips a task is gets a noop
+    • Free
+        ◦ all hosts execute their tasks as fast as possible
+ 
+Ansible 1.9.4 only has the hardcoded Linear strategy.
+for host in hosts:
+    host_tasks[host.name] = iterator.get_next_task_for_host(host, peek=True)
+Serial
+http://docs.ansible.com/ansible/playbooks_delegation.html#rolling-update-batch-size
+By default, Ansible will try to manage all of the machines referenced in a play in parallel. For a rolling updates use case, you can define how many hosts Ansible should manage at a single time by using the ‘’serial’’ keyword:
+- name: test play
+ hosts: webservers
+ serial: 3
+In the above example, if we had 100 hosts, 3 hosts in the group ‘webservers’ would complete the play completely before moving on to the next 3 hosts.
+Forks
+http://docs.ansible.com/ansible/intro_configuration.html#forks
+This is the default number of parallel processes to spawn when communicating with remote hosts. Since Ansible 1.3, the fork number is automatically limited to the number of possible hosts, so this is really a limit of how much network and CPU load you think you can handle. Many users may set this to 50, some set it to 500 or more. If you have a large number of hosts, higher values will make actions across all of those hosts complete faster. The default is very very conservative: 
+forks=5
+ 
+Modules
+Python has a substantial list of builtin modules.
+http://docs.ansible.com/ansible/modules_by_category.html
+ 
+You can also easily write a new module in any scripting language.  However Python modules have a tighter integration with ansible.
+Focusing on quality re-usable modules can help you move away from bash scripts.
+Modules:
+    • Can be written in any (scripting?) language
+    • Return JSON
+    • Can produce new facts (return variables)
+    • Ansible python module are special and use part of the Ansible framework, so write your modules in Python
+    • Link with BSD licensed Ansible code, so modules can be BSD license or other compatible license.
+ 
+ 
+Shell and Command modules internals
+Shell defaults to using /bin/sh, so you can use | and >>, but to use bash &> and |& you have to specify /bin/bash
+- name: run devstack
+  # don't use pipeline without setting pipefail
+  shell: "bash -x stack.sh &> {{ stack_logs }}/stack-trace.log"
+  args:
+    chdir: "{{ devstack_dir }}"
+    executable: /bin/bash
+  become: yes
+  become_user: "{{ devstack_user }}"
+  become_method: su
+  ignore_errors: true
+  register: devstack_results
+  environment: "{{ git_repos }}"
+ 
+Both modules use python subprocess.Popen on the remote system.  The command module with split its args using Python shlex.
+if not shell:
+    args = shlex.split(args)
+https://github.com/ansible/ansible-modules-core/blob/44f55986d81a4cb84fb0e8d71dc5033a4d5a7eb6/commands/command.py#L205
+ 
+Real features
+    • Dynamic inventory
+        ◦ When using clouds or other on-demand instance providers you need to query the Cloud API to get a list of all your systems
+        ◦ Ansible allow for the inventory to be dynamically created from a exectuable returning JSON.
+    • Control cloud to create new instances
+        ◦ Ansible has modules to create Openstack and EC2 node, so you can orchestrate node creation as well as node configuration
+    • Rolling updates
+        ◦ Ansible supports limiting inventory scope to do rolling updates
+    • Configure switches with templating
+        ◦ Network admins are using Ansible to generate switch config text using templates.  Ansible provides a nice workflow automate networking configurations
+        ◦ Juniper wrote modules to configure their switches using Ansible.
+    • Custom facts
+        ◦ You can use custom facts to improve orchestraion and node selection
+    • Encrypted passwords
+        ◦ Ansible has the capability to encrypt sensitive credentials.
+ 
+Roles are subroutines
+Eventually you will notice common steps and commands.  Start to refactor and extract these tasks into roles.   
+ 
+Roles are not roles, it is not "be a web-server".  Roles are just gloried subroutines.  Roles have local assets like template files.  Roles are "configure ntp", or "install dependencies".  To actually configure a webserver you will need mutiple roles.  Don't combine multiple unrelated tasks into a role.  Roles should only really do one thing.
+

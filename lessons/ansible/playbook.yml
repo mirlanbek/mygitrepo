@@ -1,5 +1,5 @@
 - hosts: vms
-  connection: local
+  # connection: local
 
   vars_files:
     - config.yaml
@@ -12,9 +12,9 @@
  
     - debug: msg="{{ ansible_distribution }}"
 
-    - debug: msg="{{ ansible_pkg_mgr  }}"
+    # - debug: msg="{{ role_path  }}"
 
 
-#  roles:
-#    - create_inventory
-#
+  roles:
+    - test_role
+

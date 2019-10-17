@@ -1,0 +1,15 @@
+---
+- name: Testing my new role
+  debug: msg="salam from role test"
+
+- shell: hostname
+
+
+- name: Copy what is ansible file
+  synchronize:
+    mode: pull
+    # src: "{{ ansible_env.HOME  }}/files/what_is_ansible.yml"
+    src: "{{ ansible_env.HOME  }}/what_is_ansible.yml"
+    dest: "/opt/ansible.txt"
+    # remote_src: yes
+  become: yes
