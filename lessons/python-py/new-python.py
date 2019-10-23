@@ -1,3 +1,15 @@
+-------------------- README to html --------------------------------------------------------
+
+import markdown
+with open('README.md', 'r') as markdown_file:
+
+    # Read the content of the file
+    content = markdown_file.read()
+
+    # Convert to HTML
+    print(markdown.markdown(content))
+
+
 
 --------------os.flush()-------os.fsync()--------------------------------
 import os 
