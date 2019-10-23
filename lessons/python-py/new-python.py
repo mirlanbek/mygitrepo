@@ -1,3 +1,52 @@
+
+# ---------------------- seattr -------------
+
+class Person():
+    pass
+
+p = Person()
+
+key = 'name'
+val = 'Miki'
+
+setattr(p, key, val)
+
+print(p.name)
+
+****
+output: Miki
+
+# ---------------------- Unpacking -------------
+
+a,b,*c = (1,3,4,5,6)
+
+print(a)
+print(b)
+print(c)
+||
+\/
+1
+3
+[4,5,6]   means c=rest of list
+
+a,b,*_ = (1,3,4,5,6)
+
+now we can use only a and b  ignore rest
+
+# -------------- zip(list1,list2)--------------------
+list1 = [1,2,3,4,5]
+list2 = ["bir", "eki", "uch", "tort", "besh"] 
+
+for num,name in zip(list1, list2):
+    print('anyn nomeri {}, jana aty {}'.format(num, name)  )
+
+# ----------------------------------
+
+sum = 100_000 + 20_001    # undescore doesnt change result
+print(sum)      #--- is works as expected
+
+also:  print ( f'{num:,}' )   # divde output with ',':  120,000
+
 -------------------- README to html --------------------------------------------------------
 
 import markdown
