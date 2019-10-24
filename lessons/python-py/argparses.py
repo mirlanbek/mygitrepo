@@ -189,5 +189,75 @@ p1=family(a_jurt,t_jurt,k_jurt)
 
 print(p1.member)
 
+# -----------------------------------------  LAST VERSION --------------------------------------------------
+
+import argparse
+import os, sys
+
+class Family(object):
+    lastname = "Tokonbekov"
+
+    def __init__(self, a_jurt, t_jurt, k_jurt=None):
+        self.a_jurt = a_jurt
+        self.t_jurt = t_jurt
+        self.k_jurt = k_jurt
+
+    def is_beka(self):
+        if self.t_jurt == "monok":
+            return True
+        else:
+            return False
+        return False
+
+    def is_emil(self):
+        if self.t_jurt == "latysh":
+            return True
+        else:
+            return False
+        return True
+
+    def member(self):
+        if self.is_beka():
+            print("menin atym Beka menin ata jurtum %s jana \
+                taga jurtum %s, menin kayny jurtum %s"%(self.a_jurt,self.t_jurt,self.k_jurt))
+
+        if self.is_emil():
+            print("menin atym Emil menin ata jurtum %s jana \
+                taga jurtum %s, menin kayny jurtum %s"%(self.a_jurt,self.t_jurt,self.k_jurt))
+
+parser = argparse.ArgumentParser(description="Fammily info")
+
+parser.add_argument("-a", "--a_jurt", default=False, help="Ata jurtunu Aitkin")
+parser.add_argument("-t", "--t_jurt", default=False, help="Taga jurtunu ait")
+parser.add_argument("-k", "--k_jurt", default=False, help="Kainy jurtunu ait")
+
+args = parser.parse_args()
+
+
+a_jurt = "Savai"
+k_jurt = None
+t_jurt = 'monok'
+
+# NOTE: compare here with other versions above , this looks shorter, using '--a_jurt' as args.a_jurt
+
+if args.a_jurt:
+    a_jurt = args.a_jurt
+    print(a_jurt)
+else:
+    a_jurt = a_jurt
+
+if args.t_jurt:
+    t_jurt = args.t_jurt
+    print(t_jurt)
+else:
+    t_jurt = t_jurt
+
+
+
+
+p1 = Family(a_jurt,t_jurt)
+p1.member()
+
+
 
 ################ on comand line############   python start.py -a "savai" -t "monok" -k kayny   ###############
