@@ -15,6 +15,19 @@ print(p.name)
 
 ****
 output: Miki
+-----------------
+name = getattr(p, key)
+print(name)
+-----------------------------------------------
+person = Person()
+person_info = { 'first': 'Miki', 'last': 'Tokon' }
+for key,value in person_info.items():
+    setattr(person, key, value)
+
+for key in person_info.keys():
+    print(getattr(person, key))
+
+
 
 # ---------------------- Unpacking -------------
 
