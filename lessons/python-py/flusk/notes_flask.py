@@ -62,14 +62,44 @@ def home():
 
 </body>
 
+---------- Template inherit---------------------------------
+vim layouts.html
 
+<html>
+<head>
+</head>
+<title> HOME PAGE </title>
 
+<body>
 
+{% block A %} {% endblock %}  # here
 
-
-
+</body>
+</html>
 
 ############################################################################
+
+vi about.html
+--
+
+# import layout common file:
+{% extends "layout.html" %}
+
+{% block A %} #start
+
+{% if posts %}
+    {% for post in posts %}
+        Salam {{ post.name }}
+        Sen {{ post.age }} jashtasynby?
+
+    {% endfor %}
+
+{% endif %}
+{% endblock A %} # end
+
+######################################################
+
+
 
 ------------- first flask  file --- Coorey 1 ------------------------
 
