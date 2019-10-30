@@ -46,3 +46,34 @@ p1.one()
 
 # s=ChildB
 # s()
+
+
+# --------------------- super for method ---------------------------------------------------------------------------------
+
+class Hero (object):
+    lastname = "Tokonbekov"
+
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def member(self):
+        return "My name is {} and I'm {}".format(self.name, self.age)
+
+class Family(Hero):
+
+    def __init__(self, name,age,tel):
+        super(Family, self).__init__(name,age)
+        self.tel = tel
+
+    def member(self):                    # Note same method() name as in parent class
+        super(Family,self).member()
+        return "Men form super 2 %s"%(self.name)
+        # return "Maga {} chaldy. Al {} jashta eken, anyn tel {}".format(self.name, self.age, self.tel)
+
+
+p1 = Family("Miki", 40, "7733669911")
+
+print(p1.member())
+
+# --------------------------------------------------------------------
