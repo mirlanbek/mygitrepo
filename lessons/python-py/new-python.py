@@ -1,4 +1,23 @@
 
+# ---------- fibbonochi ----------
+a, b = 0,1
+
+for i in range(10):
+    print(b)
+    a,b = b, a+b
+
+# ---------- FizzBuzz----------------------
+
+
+for i in range(100):
+    if (i % 3) == 0 and (i % 5) == 0:     # Note % is gives reminder (kaldyk) M: 10 % 3 = 1,  11 % 3 = 2, 12%3=0, 13%3=1
+        print(i)
+        print("fizzBuzz")
+    elif i % 3 == 0:
+        print(str(i) + " fizz")
+    elif i % 5 == 0:
+        print(str(i)+" buzz")
+
 # ---------------------- seattr -------------
 
 class Person():
