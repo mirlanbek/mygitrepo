@@ -26,7 +26,7 @@ for key,value in person_info.items():
 for key in person_info.keys():
     print(getattr(person, key))
 
-
+#  print(hasattr(p1, "age")) ===> True or False
 
 -------------------------------------------------------------
 

@@ -1,3 +1,13 @@
+# -------------------- list existng methods in class-----
+
+
+p1 = Class()
+
+dir(p1)
+
+help(p1)
+
+print(hasattr(p1, "age"))
 
 # ---------- fibbonochi ----------
 a, b = 0,1
