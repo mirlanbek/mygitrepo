@@ -18,36 +18,6 @@ for i in range(100):
     elif i % 5 == 0:
         print(str(i)+" buzz")
 
-# ---------------------- seattr -------------
-
-class Person():
-    pass
-
-p = Person()
-
-key = 'name'
-val = 'Miki'
-
-setattr(p, key, val)
-
-print(p.name)
-
-****
-output: Miki
------------------
-name = getattr(p, key)
-print(name)
------------------------------------------------
-person = Person()
-person_info = { 'first': 'Miki', 'last': 'Tokon' }
-for key,value in person_info.items():
-    setattr(person, key, value)
-
-for key in person_info.keys():
-    print(getattr(person, key))
-
-
-
 # ---------------------- Unpacking -------------
 
 a,b,*c = (1,3,4,5,6)
