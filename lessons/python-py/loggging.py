@@ -4,6 +4,30 @@
 # ERROR: More serious problem, the software is not able to perform some function. Value=40
 # CRITICAL: A serious error, the program itself may be unable to continue running. Value=50
 
+# --------------------------  My test --------------------------
+import logging
+
+# logging.basicConfig(filename="test.log", level=logging.INFO, format='%(asctime)s :: %(levelname)s :: %(message)s')
+
+loger = logging.getLogger(__name__)
+loger.setLevel(logging.INFO)
+
+file_handler = logging.FileHandler("test.log")
+formatter=logging.Formatter('%(asctime)s  :: %(name)s :: %(levelname)s :: %(message)s')
+file_handler.setFormatter(formatter)
+
+loger.addHandler(file_handler)
+
+def test(**kargs):
+    for key,val in kargs.items():
+        msg = "key: {}, val: {}".format(key,val)
+        print(msg)
+        loger.info(msg)
+
+test(name="Doku", lastname="Bakirov")
+
+# -----------------------------------------------------------
+
 
 import logging
 logging.basicConfig(level=logging.WARNING)
