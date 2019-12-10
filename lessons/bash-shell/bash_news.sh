@@ -6,9 +6,17 @@ timeout 5s top  ; timeout 5m ./script.sh #   ------- imp
 md5sum file1 file2          # --------- compare 2 files if content exactly the same
 
 
+###########################################
 
-################### parted ########################
 
+-----------------------------------------------
+i=0
+while [ $i -lt 5 ]; do
+      echo salam
+      (( i++ ))
+done
+
+-------- parted --------------------------------
 sudo parted /dev/sda mklabel gpt
 
 parted sda
@@ -88,7 +96,9 @@ dirname  /home/mirlan/file1  ------  /home/mirlan  ---- chygat
 
 array=(`ls`)
 
-array=("bir" "eki" "uch" 7)
+array=("bir" "eki" "uch" 7)    or
+
+declare -a array=("bir" "eki" "uch" 7)
 
 #if [[ " ${array[@]} " =~ " ${value} " ]]; then
 if [[ " ${array[@]} " =~ "uch" ]]; then
