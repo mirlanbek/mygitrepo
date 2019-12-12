@@ -8,6 +8,10 @@ md5sum file1 file2          # --------- compare 2 files if content exactly the s
 
 ###########################################
 
+------------- automate ssh key gen and fingerprint no ask questions ------------------------
+
+ssh -o "StrictHostKeyChecking no" 192.168.1.11
+ssh-keygen -b 2048 -t rsa -f /tmp/sshkey -q -N ""
 
 -----------------------------------------------
 i=0
