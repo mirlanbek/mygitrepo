@@ -11,7 +11,8 @@ class Subclass(Base):
 
     def __init__(self, username="hoss_it87", password="whatsgoodSO", url="www.boss-sauce.com"): # birok bashka maani berip atabyz override kylysh kerek oz, birok SUPERset bolso kaira ele BASE -n default maanisin chygarat  
         # super(Subclass, self).__init__(username="btokon", password="65062", url="www.beka")  # most super power is if you set default values here ######## 
-        super(Subclass,self).__init__()    #  NONE NONE degenchygat power Baseke ketti
+        super(Subclass,self).__init__()    #  NONE NONE degenchygat power Baseke ketti. NOTE and NOTE: kashaanyn ichine (self, username, password) desen Subclasstyn maanisn alat, jazbasan Parenttin(self,username, password) alat
+       
         # Base.__init__(self, username, password, url)
     
     def one (self):
