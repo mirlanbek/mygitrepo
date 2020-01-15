@@ -38,6 +38,10 @@ print(a.items())
 # Dict
 
 # classmates={"ulan":"banka zapravkada", "aibo":"jogorku keneshte jurot", "shukur":"bishkekte eken"}
+# classmates2={"miki":"budalykta", "doku":"bishkekte jurot", "jamshut":"KPSSke ui salyp atat"}
+
+classmates.update(classmates2)
+print(classmates)  # eki dict koshulat
 
 # print(classmates['ulan'])
 
