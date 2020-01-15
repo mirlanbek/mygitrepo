@@ -15,7 +15,7 @@ def add_num(*args):
     print(sum)
 add_num(1,2,333)
 
-classmates={"ulan":"banka zapravkada", "aibo":"jogorku keneshte jurot", "suiun":"echkim bilbeit"}
+classmates={"ulan":"banka zapravkada", "aibo":"jogorku keneshte jurot", "shukur":"bishkekte"}
 
 del classmates["ulan"]                # del dict
 classmates["ulan"] = "sd"             # update dict

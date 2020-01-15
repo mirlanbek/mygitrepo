@@ -37,7 +37,7 @@ print(a.items())
 
 # Dict
 
-# classmates={"ulan":"banka zapravkada", "aibo":"jogorku keneshte jurot", "suiun":"echkim bilbeit"}
+# classmates={"ulan":"banka zapravkada", "aibo":"jogorku keneshte jurot", "shukur":"bishkekte eken"}
 
 # print(classmates['ulan'])
 
