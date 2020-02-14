@@ -1,3 +1,13 @@
+# -------------- get reverse of str ---------------
+
+a="mirlan" 
+print(a[::-1])  # ----------- 'nalrim' chygat
+
+# 2)
+rev=''.join(reversed(a))
+print(rev)       # ----------- 'nalrim' chygat
+
+           
 # -------------------- list existng methods in class-----
 
 
