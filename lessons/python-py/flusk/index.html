@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% if  title %}
+    <title> {{ title }} </title>
+    {% else %}
+    <title>Mirlan-Doc</title>
+    {% endif %}
+
+</head>
+
+
+
+<body>
+    <p> <a href="{{ url_for('info') }}">SVR_INFO</a> </p>
+    <h1>Hello World</h1>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio aperiam quam illum sequi,<br> consequatur corporis totam inventore excepturi quisquam fugiat nulla ullam fuga at eligendi voluptas <br> adipisci accusantium eius! Quibusdam.</p> 
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis voluptatum architecto, dolore suscipit <br> vel quia commodi harum culpa. Fugiat dolorum nesciunt sapiente doloribus nulla <br> maiores molestiae veritatis iste eius architecto.</p>
+<strong></strong> <em></em>
+<a href="http://www.google.com" target="_blank"> GO to google bro </a>
+
+<!-- Lists -->
+
+<ul>
+    <li type="circle">  list 1 </li>
+    <li>  list 2 </li>
+    <li>  list 3 </li>
+    {% if val %}
+        <li> list {{ val }} </li>
+    {% endif %}
+
+</ul>   <!--- un ordered Lists -->
+
+<ol>
+    {% if db %}
+        {% for name in db %}
+            <li>{{ name.name }}</li>
+        {% endfor %}
+
+    {% else %}
+        <li>  list 1 </li>
+        <li>  list 2 </li>
+        <li>  list 3 </li>
+    {% endif %}
+
+</ol>   <!--- un ordered Lists -->
+
+<!-- Table -->
+
+<table border="1" bgcolor="#b6e2e4" width=600 style="background-image: url('../../image/blue-bkg.jfif');">
+    <tr>
+        <th>name</th>
+        <th>DOB</th>
+        <th>Country</th>
+    </tr>
+
+
+    <tr>
+        <td>Miki</td> <td>1980</td> <td>KG</td>
+    </tr>
+
+
+    <tr>
+        <td>Miki</td> <td>1980</td> <td>KG</td>
+    </tr>
+
+
+    <tr>
+        <td> {{ val }} </td> <td>1980</td> <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQT8oYZYCjBbePoJw5YIHB4it3aCh5MziQQxga1cHfugrt_w00E&usqp=CAU"  width="50" height="50" alt="Kyrgyzstan Flag"></td>
+    </tr>
+
+</table>
+<p>========================================================================</p>
+
+<form method="post" action={{ url_for('home') }} >
+
+    <p>How many hours do you sleep?</p>
+    <p>
+        <select name="sleep" id="sleep">
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="8+" selected value='full'>8+</option>
+        </select>
+    </p>
+
+    <input  type="submit" name="sleep"  </input>
+    
+
+    <!-- <p> <label> <input type="submit" name="pass_submit" value="Submit"> </label> </p> -->
+
+<p>========================================================================</p>
+
+
+</form>
+
+<form method="post" action={{ url_for('home') }} >
+
+    <p> <label> Enter Name  <input type="text" name="name" size="30 pt" maxlength="6"></label> </p>
+    <p> <label> Enter Password  <input type="password" name="password" size="30 pt" maxlength="6"></label> </p>
+ <p> <label> <input type="submit" name="pass_submit" value="Submit"> </label> </p>
+    <p>========================================================================</p>
+
+    <p> <label> yes  <input type="radio" name="age" value="yes" checked>  </label> </p>
+    <p> <label> no  <input type="radio" name="age" value="no">  </label> </p>
+    <p> <label> I don't know <input type="radio" name="age" value="don't know">  </label> </p>
+<p>========================================================================</p>
+<p><label>which tools do you use?</label></p>
+
+<p>  
+    <label> Ansible <input type="checkbox" name="ansible" checked>  </label>   
+    <label> Puppet<input type="checkbox" name="puppet">  </label>   
+    <label>Salt <input type="checkbox" name="salt">  </label>  
+</p>
+<p>========================================================================</p>
+
+<p>How many hours do you sleep?</p>
+<p>
+    <select name="sleep" id="sleep">
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="8+" selected value='full'>8+</option>
+    </select>
+</p>
+
+<p>========================================================================</p>
+
+<p> <label for="desc_id"> Descrition </label></p>
+<textarea name="desc" id="desc_id" cols="50" rows="7">Enter text here ... </textarea>
+
+<p><input type="reset" name="reset" value="Clean"> <input type="submit" name="submit_button" value="send"></p>
+
+<input type="image" src="images/button.img" name="image_button">
+<input type="button" value="click">
+
+<p>========================================================================</p>
+
+<p></p>
+<p>========================================================================</p>
+</form>
+
+
+
+
+
+</body>
+</html>
