@@ -1,0 +1,175 @@
+<p>
+
+get free pictures from: https://unsplash.com/
+                        https://www.pexels.com/
+
+font Poppins:
+https://fonts.google.com/specimen/Poppins?sidebar.open 
+
+body{
+    font-family: 'Poppins', sans-serif;
+}
+
+.clasname + tab
+section.classname + tab
+lorem + tab --- sample text
+! + tab --- expands html template
+
+visual studio Code: install live server --> right click on index.html --> run with live server.
+install tag auto replace ---- 
+ctr + u on chrome ---- show exect html code
+----------------------
+
+
+
+
+---- html notes --------------------------------------
+
+</p>
+
+TAGS:
+
+INLINE tags:
+
+<strong> text </strong> ---- bold 
+<em> text </em>        ---- cursive
+
+<a href="http://www.google.com" title="Bul site googlega barat" target="_blank" > GO to google bro </a>
+
+-- attributs -------------
+
+<a align=center>  text  </p> ------------- left center right
+
+
+<p id="opening"> salam </p>
+<a href="#opening">Take me to the 'opening' paragraph.</a>
+
+
+
+# Lists --------------
+
+<!-- Lists -->
+
+<ul>
+    <li type="circle">  list 1 </li>
+    <li>  list 2 </li>
+    <li>  list 3 </li>
+</ul>   <!--- un ordered Lists -->
+
+-------
+<ol start="0">  --------------------------- ordered list
+    <li>  list 1 </li>
+    <li>  list 2 </li>
+    <li>  list 3 </li>
+</ol>   <!--- un ordered Lists -->
+
+# ----- TABLE ---------------------------
+
+<table border="1" bgcolor="#b6e2e4" style="background-image: url('../../image/blue-bkg.jfif');">
+    <tr>
+        <th>name</th>
+        <th>DOB</th>
+        <th>Country</th>
+    </tr>
+
+
+    <tr>
+        <td>Miki</td> <td>1980</td> <td>KG</td>
+    </tr>
+
+
+    <tr>
+        <td>Miki</td> <td>1980</td> <td>KG</td>
+    </tr>
+
+
+    <tr>
+        <td>Miki</td> <td>1980</td> <td>KG</td>
+    </tr>
+
+</table>
+---------------------------------------------------
+
+<img src="images/flag.img"  width="50" height="50" alt="Kyrgyzstan Flag">
+
+<p>========================================================================</p>
+
+# FORM
+
+<form action="form.php" method="POST" name="forma1">
+
+    <p> <label> Enter Name  <input type="text" name="name" size="30 pt" maxlength="6"></label> </p>
+    <p> <label> Enter Password  <input type="password" name="password" size="30 pt" maxlength="6"></label> </p>
+    <p>========================================================================</p>
+
+# radio
+
+    <p> <label> yes  <input type="radio" name="age" value="yes" checked>  </label> </p>
+    <p> <label> no  <input type="radio" name="age" value="no">  </label> </p>
+    <p> <label> I don't know <input type="radio" name="age" value="don't know">  </label> </p>
+
+<p>========================================================================</p>
+# checkbox
+
+<p><label>which tools do you use?</label></p>
+
+<p>  
+    <label> Ansible <input type="checkbox" name="ansible" checked>  </label>   
+    <label> Puppet<input type="checkbox" name="puppet">  </label>   
+    <label>Salt <input type="checkbox" name="salt">  </label>  
+</p>
+<p>========================================================================</p>
+
+# select  or drop down
+
+<p>How many hours do you sleep?</p>
+<p>
+    <select name="sleep" id="sleep">
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="8+" selected value='full'>8+</option>
+    </select>
+</p>
+
+<p>========================================================================</p>
+# textarea
+
+<p> <label for="desc_id"> Descrition </label></p>
+<textarea name="desc" id="desc_id" cols="50" rows="7">Enter text here ... </textarea>
+
+# buttons
+<p><input type="reset" name="reset" value="Clean"> <input type="submit" name="submit_button" value="send"></p>
+
+<input type="image" src="images/button.img" name="image_button">
+<input type="button" value="click">
+
+<p>========================================================================</p>
+
+
+</form>
+
+    {% if  title %}
+    <title> {{ title }} </title>
+    {% else %}
+    <title>Mirlan-Doc</title>
+    {% endif %}
+
+------------------------------------
+    {% if db %}
+        {% for name in db %}
+            <li>{{ name.name }}</li>
+        {% endfor %}
+
+    {% else %}
+        <li>  list 1 </li>
+        <li>  list 2 </li>
+        <li>  list 3 </li>
+    {% endif %}
+------------------------------------
+
+<a href="{{ url_for('home')}}">HOME</a>
+
+
+<p>========================================================================</p>
+

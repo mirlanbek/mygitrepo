@@ -1,0 +1,181 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+
+body{
+    font-family: 'Poppins', sans-serif;
+}
+
+header{
+    width: 90%;
+    margin: auto;
+    
+}
+
+.logo-container {
+    align-items: center;
+    height: 10vh;
+    display: flex;
+}
+
+.three-dots{
+    display: flex;
+    flex: 1;
+    
+}
+
+nav{
+    display: flex;
+    flex: 3;
+}
+
+.cart{
+    display: flex;
+    flex: 1;                                             
+    justify-content: flex-end;
+    
+}
+
+.logo {
+    margin: 10px;
+    font-size: 400;
+}
+
+.nav-links{
+    display: flex;
+    flex: 1;
+    list-style: none;
+    justify-content: space-around;
+}
+.nav-link{
+    font-size: 16px;
+    text-decoration: none;
+    color: #5f5f79;
+}
+.presentation {
+    align-items: center;
+    display: flex;
+    width: 90%;
+    margin: auto;
+    min-height: 80vh;
+}
+.cover img {
+    height: 60vh;
+    flex: 1;
+}
+.cover {
+    flex: 1;
+}
+
+.cta {
+    display: flex;
+    margin-top: 50px;
+}
+
+.cta-add {
+    width: 150px;
+    height: 50;
+    margin-right: 5pt;
+    background: #c36cbb;
+    border: 2px, solid, #c36cbb;
+    cursor: pointer;
+}
+.cta-select {
+    width: 150px;
+    height: 50px;
+    border: 2px, solid, #c36cbb;
+    color: #c36cbb;
+    cursor: pointer;
+    margin: 30px,0px,0px,30px;
+}
+.introduction {
+    flex: 1;
+}
+.intro-text h1 {
+    font-size: 44px;
+    font-weight: 500;
+    background: -webkit-linear-gradient(left, transparent 0%,#724848 50%,transparent 100%);
+}
+.intro-text p {
+    margin-top: 5px;
+    font-size: 15px;
+    color: #585772;
+}
+.cta a {
+    text-decoration: none;
+    color: #585772;
+}
+
+.cover {
+    flex: 1;
+    filter: drop-shadow(0px 5px 3px black);
+    animation: drop 15s ease;
+}
+ 
+.big-cir {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    z-index: -1;
+    opacity: 0.5;
+    height: 95%;    
+}
+
+.mid-cir {
+    position: absolute;
+    top: 40%;
+    right: 40%;
+    z-index: -1;
+    opacity: 0.4;
+    height: 60%;    
+}
+
+.small-cir {
+    position: absolute;
+    top: 80%;
+    right: 65%;
+    z-index: -1;
+    opacity: 0.6;
+    height: 20%;    
+}
+
+.laptop-select{
+    position: absolute;
+    width: 15%;
+    display: flex;
+    justify-content: space-around;
+    right: 27%;
+}
+
+
+
+
+@keyframes drop {
+	0% {
+		opacity: 0;
+		transform: translateY(-80px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0px);
+	}
+}
+
+@media screen and (max-width: 1024px) {
+    .presentation {
+        flex-direction: column;
+    }
+    .intro-text h1,p {
+        text-align: center;
+    }
+    .cta {
+        justify-content: center;
+    }
+
+    .laptop-select {
+        right: 45%;
+        justify-content: center;
+    }
