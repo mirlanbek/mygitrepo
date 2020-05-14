@@ -1,0 +1,153 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-image: url(./img/ceramic.jpg);
+    background-size: cover;
+    background-position: center;
+
+}
+
+.menue-bar {
+    background: rgb(0,100,0);
+    text-align: center;
+
+}
+.menue-bar ul {
+    display: inline-flex;
+    list-style: none;
+    color: #fff;
+}
+.menue-bar ul li {
+    width: 120px;
+    margin: 15px;
+    padding: 15px;
+}
+
+.menue-bar ul li a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.active, .menue-bar ul li:hover{
+    background: #2bab0d;
+    border-radius: 4px;
+}
+
+.menue-bar fa {
+    margin-right: 10px;
+
+}
+.sub-menu-1 {
+    display: none;
+}
+.menue-bar ul li:hover .sub-menu-1{
+    display: block;
+    position: absolute;
+    background: rgb(0,100,0);
+    margin-top: 15px;
+    margin-left: 0px;
+}
+.menue-bar ul li:hover .sub-menu-1 ul {
+    display: block;
+    /* margin: 10px; */
+}
+
+.menue-bar ul li:hover .sub-menu-1 ul li{
+    width: 150px;
+    padding: 8px;
+    border-bottom: 1px dotted #fff;
+    background: transparent;
+    border-radius: 0;
+    text-align: left;
+    font-size: 15px;
+}
+
+.menue-bar ul li:hover .sub-menu-1 ul li:last-child{
+    border-bottom: none;
+}
+.menue-bar ul li:hover .sub-menu-1 ul li a:hover{
+    color: #b2ff00;
+}
+.fa-angle-right {
+    float: right;
+}
+
+.sub-menu-2 {
+
+    display: none;
+}
+
+.hover-me:hover .sub-menu-2 {
+    display: block;
+    position: absolute;
+    background: rgb(0,100,0);
+    margin-top: -40px;
+    margin-left: 150px;
+}
+
+/* -------------------------------------------------------- */
+
+.box {
+    width: 300px;
+    padding: 40px;
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: transparent;
+    text-align: center;
+}
+.box h1 {
+    color: black;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.box input[type = "text"], .box input[type = "password"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 10px auto;
+    text-align: center;
+    border: 2px solid #3498db;
+    padding: 14px 10px;
+    width: 200px;
+    outline: none;
+    color: black;
+    border-radius: 24px;
+    transition: 0.25s;
+    
+}
+.box input[type = "text"]:focus, .box input[type = "password"]:focus {
+
+    width: 200px;
+    border-color: #2ecc71;
+ 
+
+}
+
+.box input[type = "submit"] {
+
+    border: 0;
+    background: none;
+    display: block;
+    margin: 10px auto;
+    text-align: center;
+    border: 2px solid #2ecc71;
+    padding: 14px 10px;
+    width: 100px;
+    outline: none;
+    color: black;
+    border-radius: 24px;
+    transition: 0.25s;
+}
+
+
+
+
+
