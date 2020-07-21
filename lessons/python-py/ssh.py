@@ -1,3 +1,31 @@
+import paramiko
+
+username = 'root'
+password = 'test0000'
+host = '10.54.30.76'
+cmd="ifconfig"
+
+
+def ssh_run_remote_command(cmd):
+        ssh_client = paramiko.SSHClient()
+        ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        ssh_client.connect(hostname=host,
+                           username=username,
+                           password=password)
+        stdin, stdout, stderr = ssh_client.exec_command(cmd)
+
+        out = stdout.read().decode().strip()
+        error = stderr.read().decode().strip()
+
+        ssh_client.close()
+
+        return out
+print(ssh_run_remote_command(cmd))
+
+
+# ====================================================
+
+
 import io
 import os
 import re
