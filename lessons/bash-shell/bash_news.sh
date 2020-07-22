@@ -91,6 +91,7 @@ echo ${var%n5}  ---- "%" ----- ayak jagynan "n5" degen dal kelse remove n5
 ## *********************  awk  ****************************** 
 ifconfig | grep "\: " | awk -F ":" '{if ($1 !~ "lo") print $1} ' ------ awk if 
 awk '{if($3 != 0) a = ($3/$4) print $0, a; else if($3==0) print $0, "-" }' file > out
+cat /var//log/secure | awk '{if ($2 ~ "20") print}' | awk '/Accepted/ {print $11}' --- nurik
 
 realpath file1               ------- /home/mirlan/file1  ----dep full path beret
 dirname  /home/mirlan/file1  ------  /home/mirlan  ---- chygat 
