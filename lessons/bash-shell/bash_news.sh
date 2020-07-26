@@ -140,7 +140,7 @@ ls | sed -n '/log$/p' | sed -e '/Summary/d'| xargs cat | grep fail
 sed -n '1,4p' #-- 1-4 cheinki line print
 sed '1,4d'    #-1-- 1 den 4 ko chein delete
 sed '1,4!d'    #-1-- 1 den 4 ko chein don't delete
-sed 1,35 's///g' file
+sed '1,35 s///g' file
 sed '5i I am on 5th line' file # isert to 5th line
 sed '/Mirlan/a \Tokonbekov'
 cat maas_ci.tf | sed '1,5d'
