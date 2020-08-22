@@ -1,6 +1,14 @@
 #!/bin/bash
+---------------------------------------------------------------------------------------------------------
 
 
+
+echo $password | sudo -S iptables -F  ------ provide sudo password in the script
+
+var="Mirlan"
+echo ${#var}   ------ var's length  6 bt
+
+--------------------------------------------------------------
 timeout 5s top  ; timeout 5m ./script.sh #   ------- imp
 
 md5sum file1 file2          # --------- compare 2 files if content exactly the same
@@ -10,8 +18,8 @@ md5sum file1 file2          # --------- compare 2 files if content exactly the s
 
 ------------- automate ssh key gen and fingerprint no ask questions ------------------------
 
-ssh -o "StrictHostKeyChecking no" 192.168.1.11
-ssh-keygen -b 2048 -t rsa -f /tmp/sshkey -q -N ""
+ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -q -N ""
+sshpass -p '1' ssh-copy-id -o "StrictHostKeyChecking no" root@192.168.1.11
 
 -----------------------------------------------
 i=0
