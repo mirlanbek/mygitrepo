@@ -1,4 +1,10 @@
+# ------------------------ vitualization --------------
 
+#from epel:
+yum install msr-tools -y
+rdmsr 0x3a
+
+#if output 3 or 5  means virtualization enabled
 # -------------- New scripting ------------------------------------------------
 
 if [[ $1 == *","* ]]; then
