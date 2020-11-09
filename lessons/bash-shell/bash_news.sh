@@ -168,6 +168,8 @@ sed '/Mirlan/a \Tokonbekov'
 cat maas_ci.tf | sed '1,5d'
 cat maas_ci.tf | sed '/variable/d'
 
+sed -n  '/OUTPUT/,/END/p' infile   ----------- new imp: print all lines between lines  with 'OUTPUT' and 'END'
+
 # **************** local  *** is use variable only locally, ignore outside of scope  ***********************
 
 a=7
