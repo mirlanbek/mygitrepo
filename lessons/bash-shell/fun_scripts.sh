@@ -138,38 +138,61 @@ while read p; do
 
 #!/bin/bash
 
-
 help (){
         cat << EOF
-host =  \$1
-test_file = \$2
-abi = \$3
-module = \$4
+
+-m --- module   \$module
+
+-t ---  testcases in the file  \$test_list_file
+
+-a --- ABI     \$abi
+
+-s ---  serial |  \$host
+
+-h --  help
+
+example:  ./start.sh -m CtsTestcases -t ~/tests.txt -a x86_64 -s 5-5-5
+
 
 EOF
         exit 0
 }
 
-if [[ $1 == '-h' || $1 == '--help' ]]; then
-        help
-fi
+
+while getopts "s:t:a:m:h" option ; do
+        case $option in
+
+                s) host=$OPTARG ;;
+
+                t) test_list_file=$OPTARG ;;
+
+                a) abi=$OPTARG ;;
+
+                m) module=$OPTARG ;;
+
+                h) help ;;
+
+                *) echo "Please provide currect options. see 'start.sh -h' "
+                   help
 
 
-host=$1
-test_file=$2
-abi=$3
-module=$4
+        esac
+
+done
 
 results_file=./results_file.txt
+
+
 tools_path=$PWD
 cd $tools_path
+
 
 echo "++++++++++++++++++++++++++++++++++++++++ $abi STARTED ++++++++++++++++++++++++++++++++++++++" >> $results_file
 echo "" >> $results_file
 
-for test in `cat $test_file`; do
+for test in `cat $test_list_file`; do
 
-    for i in {1..2};do
+    for i in {1..4};do
 
         while true; do
             echo '\n' | ~/bin/DUT_login_connect.sh $host
@@ -179,6 +202,7 @@ for test in `cat $test_file`; do
             else
 
                 ./cts-tradefed run commandAndExit cts -m $module -t $test -s $host:22 -a $abi -d -o --disable-reboot
+                echo "" >> $results_file
                 echo $test >> $results_file
                 ./cts-tradefed list results 2>/dev/null | tail -n3 | head -n1 >> $results_file
             fi
@@ -192,5 +216,6 @@ for test in `cat $test_file`; do
     done # for loop {1..5}
 
 
-done # for loop `cat tests.txt`
+done # for loop `cat test_list_file`
+
 
