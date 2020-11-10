@@ -59,7 +59,15 @@ while getopts "s:u:h-:" opt; do
 done
 
 
+---- bul optiondu berip jana valusun dagy CLI dan----------  options step by step ----------------
 
+while getopts "s:u:h" opt; do
+
+
+        echo $OPTARG              # $OPTARGS value for option M:  ./sh.sh  -s LOLA  desen, echo $OPTARGS --> LOLA chygat
+	echo $opt                 # 's'  chygat 
+
+done
 
 ## *********************  new function  ******************************
 
