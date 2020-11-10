@@ -69,6 +69,19 @@ while getopts "s:u:h" opt; do
 
 done
 
+-----------------------------------------------------------------------------------------
+
+while getopts 'a:u:h' opt ; do
+
+        case $opt in
+                a) echo bul option ALL=$opt ;;
+                u) echo bul username is $OPTARG, option is $opt ;;
+                h) usage ;;
+                *) echo Give correct option
+
+        esac
+done
+
 ## *********************  new function  ******************************
 
 
