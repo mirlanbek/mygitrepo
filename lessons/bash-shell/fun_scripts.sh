@@ -152,11 +152,10 @@ results_file=./results_file.txt
 
 if [[ $# -le 0 ]]; then
         echo
-        echo "No options are used. Please check ./RETEST.sh -v"
+        echo "No options are used. Please check ./RETEST.sh -h"
         echo
         exit 2
 fi
-
 
 help (){
         cat << EOF
@@ -166,7 +165,7 @@ cd ~/android-cts/tools/ directory
 
 -m --- module   \$module
 
--t ---  testcases in the file  \$test_list_file
+-t --- list of testcases in the file  \$test_list_file
 
 -a --- ABI     \$abi
 
@@ -183,8 +182,10 @@ cd ~/android-cts/tools/ directory
 -h --  help
 
 
-example:  ./start.sh -m CtsTestcases -t ~/tests.txt -a x86_64 -s 5-5-5 -n 5 -r no
+USAGE:  ./RETEST.sh -m CtsCameraTestCases -t ~/tests.txt -a x86_64 -s 4-6-4 -n 5 -r no
 
+
+check ./results_file.txt for results
 
 EOF
         exit 0
@@ -192,29 +193,30 @@ EOF
 
 
 while getopts "s:t:a:m:n:r:h" option ; do
-	case $option in
+        case $option in
 
-		s) host=$OPTARG ;;
+                s) host=$OPTARG ;;
 
-		t) test_list_file=$OPTARG ;;
+                t) test_list_file=$OPTARG ;;
 
-		a) abi=$OPTARG ;;
+                a) abi=$OPTARG ;;
 
-		m) module=$OPTARG ;;
-		
-		n) n=$OPTARG ;;
+                m) module=$OPTARG ;;
 
-		r) reboot=$OPTARG ;;
+                n) n=$OPTARG ;;
 
-		h) help ;;
+                r) reboot=$OPTARG ;;
 
-		*) echo "Please provide currect options. see 'RETEST.sh -h' "
-		   help
+                h) help ;;
+
+                *) echo "Please provide currect options. see 'RETEST.sh -h' "
+                   help
 
 
-	esac
+        esac
 
 done
+
 
 # echo "$host, $module, $test_list_file, $abi, $reboot, $n"
 
@@ -228,7 +230,7 @@ for test in `cat $test_list_file`; do
     for i in `seq $n` ;do
 
         if [[ $reboot == 'yes' ]]; then
-    
+
             while true; do
                 echo '\n' | ~/bin/DUT_login_connect.sh $host
                 adb devices | grep $host:22
@@ -250,15 +252,16 @@ for test in `cat $test_list_file`; do
             ./cts-tradefed list results 2>/dev/null | tail -n3 | head -n1 >> $results_file
         fi
 
-	passed=`cat $results_file | tail -n1 |  awk '{if ($2 ~ "1") print $2}'`
-	if [[ $passed == 1 ]]; then
-		break
-	fi
+        passed=`cat $results_file | tail -n1 |  awk '{if ($2 ~ "1") print $2}'`
+        if [[ $passed == 1 ]]; then
+                break
+        fi
 
     done # for loop {1..5}
 
 
 done # for loop `cat test_list_file`
+
 
 
 
