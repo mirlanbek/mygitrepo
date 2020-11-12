@@ -138,8 +138,22 @@ while read p; do
 
 #!/bin/bash
 
+# This script runs tests  until it passes or up to N times with reboot or without reboot
+# Author: Mirlan Tokonbekov
+# RUN  in ~/android-cts/tools directory " ./RETEST.sh -h "   to get help
+
+
+tools_path=$PWD
+cd $tools_path
+
+n=3
+reboot="no"
+
 help (){
         cat << EOF
+
+cd ~/android-cts/tools/ directory
+
 
 -m --- module   \$module
 
@@ -149,9 +163,18 @@ help (){
 
 -s ---  serial |  \$host
 
+
+=========================== below options are not mandatory, they have default values=======================
+
+
+-n ---  number of times to test. Default '3'  |  \$n
+
+-r ---  reboot='yes|no' Default 'NO' |   \$reboot
+
 -h --  help
 
-example:  ./start.sh -m CtsTestcases -t ~/tests.txt -a x86_64 -s 5-5-5
+
+example:  ./start.sh -m CtsTestcases -t ~/tests.txt -a x86_64 -s 5-5-5 -n 5 -r no
 
 
 EOF
@@ -159,63 +182,77 @@ EOF
 }
 
 
-while getopts "s:t:a:m:h" option ; do
-        case $option in
+while getopts "s:t:a:m:n:r:h" option ; do
+	case $option in
 
-                s) host=$OPTARG ;;
+		s) host=$OPTARG ;;
 
-                t) test_list_file=$OPTARG ;;
+		t) test_list_file=$OPTARG ;;
 
-                a) abi=$OPTARG ;;
+		a) abi=$OPTARG ;;
 
-                m) module=$OPTARG ;;
+		m) module=$OPTARG ;;
+		
+		n) n=$OPTARG ;;
 
-                h) help ;;
+		r) reboot=$OPTARG ;;
 
-                *) echo "Please provide currect options. see 'start.sh -h' "
-                   help
+		h) help ;;
+
+		*) echo "Please provide currect options. see 'RETEST.sh -h' "
+		   help
 
 
-        esac
+	esac
 
 done
 
 results_file=./results_file.txt
 
-
-tools_path=$PWD
-cd $tools_path
+# echo "$host, $module, $test_list_file, $abi, $reboot, $n"
 
 
-echo "++++++++++++++++++++++++++++++++++++++++ $abi STARTED ++++++++++++++++++++++++++++++++++++++" >> $results_file
+echo "" >> $results_file
+echo "++++++++++++++ $abi $module STARTED at `date +\%Y-\%m\%d-\%H:\%M` ++++++++++++++++++++" >> $results_file
 echo "" >> $results_file
 
 for test in `cat $test_list_file`; do
 
-    for i in {1..4};do
+    for i in `seq $n` ;do
 
-        while true; do
-            echo '\n' | ~/bin/DUT_login_connect.sh $host
-            adb devices | grep $host:22
-            if [ $? == '1' ]; then
-                    continue
-            else
+        if [[ $reboot == 'yes' ]]; then
+    
+            while true; do
+                echo '\n' | ~/bin/DUT_login_connect.sh $host
+                adb devices | grep $host:22
+                if [ $? == '1' ]; then
+                        continue
+                else
 
-                ./cts-tradefed run commandAndExit cts -m $module -t $test -s $host:22 -a $abi -d -o --disable-reboot
-                echo "" >> $results_file
-                echo $test >> $results_file
-                ./cts-tradefed list results 2>/dev/null | tail -n3 | head -n1 >> $results_file
-            fi
-            break
-        done #while
-
-                passed=`cat $results_file | tail -n1 |  awk '{if ($2 ~ "1") print $2}'`
-                if [[ $passed == 1 ]]; then
-                                break
+                    ./cts-tradefed run commandAndExit cts -m $module -t $test -s $host:22 -a $abi -d -o --disable-reboot
+                    echo "" >> $results_file
+                    echo $test >> $results_file
+                    ./cts-tradefed list results 2>/dev/null | tail -n3 | head -n1 >> $results_file
                 fi
+                break
+            done #while
+
+        else # if no reboot
+            ./cts-tradefed run commandAndExit cts -m $module -t $test -s $host:22 -a $abi -d -o --disable-reboot
+            echo $test >> $results_file
+            ./cts-tradefed list results 2>/dev/null | tail -n3 | head -n1 >> $results_file
+        fi
+
+	passed=`cat $results_file | tail -n1 |  awk '{if ($2 ~ "1") print $2}'`
+	if [[ $passed == 1 ]]; then
+		break
+	fi
+
     done # for loop {1..5}
 
 
 done # for loop `cat test_list_file`
+
+
 
 
