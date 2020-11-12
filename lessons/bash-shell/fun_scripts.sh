@@ -148,6 +148,15 @@ cd $tools_path
 
 n=3
 reboot="no"
+results_file=./results_file.txt
+
+if [[ $# -le 0 ]]; then
+        echo
+        echo "No options are used. Please check ./RETEST.sh -v"
+        echo
+        exit 2
+fi
+
 
 help (){
         cat << EOF
@@ -206,8 +215,6 @@ while getopts "s:t:a:m:n:r:h" option ; do
 	esac
 
 done
-
-results_file=./results_file.txt
 
 # echo "$host, $module, $test_list_file, $abi, $reboot, $n"
 
