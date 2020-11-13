@@ -1,5 +1,20 @@
 #!/bin/bash
 
+
+# ------------ eval -------------------
+
+net1=1-r-s-f-l
+net2=2-f-e-f-s
+
+
+for i in `seq 2`; do
+
+        eval a=\$net$i
+        echo $a
+
+done
+
+
 ## ********************* add space with sed   ******************************
 
 # sed '21i \       \ ma-01.ma.osh.com\:' ma2-23.yml
