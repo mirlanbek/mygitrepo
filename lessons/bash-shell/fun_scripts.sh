@@ -278,6 +278,54 @@ for test in `cat $test_list_file`; do
 done # for loop `cat test_list_file`
 
 
+############################################# SORT tests ____________________________
+
+#!/bin/bash
+
+# This script sorts output of failed testcase names copied from WRS.
+# Author: Mirlan Tokonbekov
+# RUN  in ~/android-cts/tools directory " ./SORT.sh -h "   to get help
+
+
+if [[ $1 == "-h" || $# -le 0 ]]; then
+cat << EOF
+
+USAGE:  ./sort-failed-test_names.sh failed-tests-from-WRS.txt
+
+The content of failed-tests-from-WRS.txt is copied output from WRS and should look like below:
+
+
+EXAMPLE:
+------------------
+
+"1      android.server.am.ActivityManagerAssistantStackTests#testTranslucentAssistantActivityStackVisibility
+FAIL
+java.lang.AssertionError: Activity=org.chromium.arc.home/.HomeActivity must NOT be visible. expected:&lt;false&gt; but was:&lt;true&gt;&#13;          auto "
+
+
+-------------------
+
+Check ./sorted-tests.txt  file for results
+
+EOF
+exit 0
+
+fi
+
+while read line ; do
+        if [[ -n ${line::1} && ${line::1} -gt 0 ]]; then
+                IPS=' ' read -a a_line <<< $line
+                echo ${a_line[1]}
+                sleep 1
+        fi
+
+done < $1 | tee -a sorted-tests.txt
+
+echo
+echo done
+echo "All test names stored in ./sorted-tests.txt file"
+
+
 
 
 
