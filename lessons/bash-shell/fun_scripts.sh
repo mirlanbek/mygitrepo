@@ -326,6 +326,242 @@ echo done
 echo "All test names stored in ./sorted-tests.txt file"
 
 
+# -------------------------------------  FLASH OS  -----------------------------------------------------------------------------------------------------------
 
+
+#!/bin/bash
+
+select_mtc=""
+while [ "$select_mtc" == "" ] ; do
+    echo 'Please select from the following list (default is the latest)'
+    echo "${weekly_mtc[@]}"
+    read -r select_mtc
+        if [ "$select_mtc" == "" ] ;then
+            idx=${#weekly_mtc[@]}-1
+            select_mtc=${weekly_mtc[$idx]}
+            if [ ! -d $BASEDIR/$select_mtc ] ; then
+                die 'Directory $BASEDIR/$select_mtc does not exist'
+                exit 1
+            fi
+            break
+        elif containsElement "$select_mtc" "${weekly_mtc[@]}" ;then
+            break
+        else
+            echo 'Invalid entry.  Please try again'
+            select_mtc=""
+        fi
+done
+
+case "$platform" in
+    "ncf" )
+        rm -Rf /opt/APP
+        if [ -d $BASEDIR/$select_mtc/MTCTEST ]; then
+            pushd $BASEDIR/$select_mtc/MTCTEST
+        elif [ -d $BASEDIR/$select_mtc/LinuxPackage ]; then
+            pushd $BASEDIR/$select_mtc/LinuxPackage
+        else
+           die ' Failed to detect $select_mtc file structure'
+        fi
+        tar -cf - APP|(cd /opt;tar -xvf -)
+        popd
+        iconv -f utf16 /opt/APP/MTCVersion.txt
+        echo $select_mtc now installed in /opt/APP
+        ;;
+    "bmp" )
+        rm -Rf /opt/BMP-*
+        if [ -d $BASEDIR/$select_mtc/MTCRHELDir ]; then
+            pushd $BASEDIR/$select_mtc/MTCRHELDir
+        else
+           die ' Failed to detect $select_mtc file structure'
+        fi
+        mkdir /opt/$select_mtc
+        tar -cf - MTCpkg  files |(cd /opt/$select_mtc; tar -xvf -)
+        echo $select_mtc now installed in /opt/$select_mtc
+        ;;
+esac
+
+
+########################################### Update grub ########################################
+
+#!/bin/bash
+
+
+# Make sure only root can run our script
+if [ $EUID -ne 0 ]; then
+   echo "This script must be run as root" 1>&2
+   exit 1
+fi
+export fptdir=/net/ttp-fs1/export/tools/ISO/MTC/fpt/kernels/fpt2/
+# Rebuild grub in a better way
+# Restore the original that we clobbered earlier
+cp $fptdir/40_custom.orig /etc/grub.d/40_custom
+if [[ -e /etc/grub.d/bak/10_linux ]] ;then
+    mv /etc/grub.d/bak/10_linux /etc/grub.d/
+    rm -Rf /etc/grub.d/bak/
+fi
+
+# Make sure grub will save our menu selection so we can reboot to the same kernel w/o user intervention
+if ! grep -q "GRUB_DEFAULT=saved" /etc/default/grub ;then
+    if grep -q "GRUB_DEFAULT=" /etc/default/grub ;then
+        sed -i "s,^\(GRUB_DEFAULT=\).*,\1'saved'," /etc/default/grub
+    else
+        echo GRUB_DEFAULT=saved >>/etc/default/grub
+    fi
+fi
+if ! grep -q "GRUB_SAVEDEFAULT=true" /etc/default/grub ;then
+    if grep -q "GRUB_SAVEDEFAULT=" /etc/default/grub ;then
+        sed -i "s,^\(GRUB_SAVEDEFAULT=\).*,\1'true'," /etc/default/grub
+    else
+        echo GRUB_SAVEDEFAULT=true >>/etc/default/grub
+    fi
+fi
+
+# While we're at it, make sure the kernel parameters are correct
+if ! grep "GRUB_CMDLINE_LINUX" /etc/default/grub | grep -q "console=ttyS0,115200";then
+    if grep -q "GRUB_CMDLINE_LINUX=" /etc/default/grub ;then
+        sed  -i 's/^\(GRUB_CMDLINE_LINUX=\).*/\1"crashkernel=auto earlyprintk=ttyS0,115200 console=ttyS0,115200 console=tty0 default_hugepagesz=1G hugepagesz=1G hugepages=32"/' /etc/default/grub
+    else
+        echo  'GRUB_CMDLINE_LINUX="crashkernel=auto earlyprintk=ttyS0,115200 console=ttyS0,115200 console=tty0 nomodeset modprobe.blacklist=qat_c62x default_hugepagesz=1G hugepagesz=1G hugepages=32"' >>/etc/default/grub
+    fi
+fi
+
+# New BMC firmware requires a couple of extra things unless we are on the 4.10+ kernels
+if ! grep "GRUB_CMDLINE_LINUX" /etc/default/grub | grep -q "nomodeset modprobe.blacklist=qat_c62x" ; then
+    sed  -i 's/^\(GRUB_CMDLINE_LINUX=\).*/\1"nomodeset modprobe.blacklist=qat_c62x"/' /etc/default/grub
+fi
+
+# Backup old grub config (in case we screw up)
+cp /boot/grub2/grub.cfg /boot/grub2/grub.cfg.tbd
+
+# Rebuild the grub menu to get the new kernels
+echo Building base grub menu
+grub2-mkconfig -o /boot/grub2/grub.cfg
+
+# But wait, there's more!  Need entries for IOMMU.  Now for some fun scripting.
+echo Extracting kernel entries to customize
+sed  -n '/(4.12.8/,/^}/p' /boot/grub2/grub.cfg >>/etc/grub.d/40_custom
+sed  -n '/(4.7.0/,/^}/p' /boot/grub2/grub.cfg >>/etc/grub.d/40_custom
+sed  -n '/(3.10.0/,/^}/p' /boot/grub2/grub.cfg >>/etc/grub.d/40_custom
+
+# Add a blank line at the end as required by grub2-mkconfig
+echo >>/etc/grub.d/40_custom
+
+# Make chages for IOMMU
+echo Rebuilding grub menu with added options for IOMMU.
+sed -i 's/(Maipo)/(Maipo) IOMMU/g' /etc/grub.d/40_custom
+sed -i '/linuxefi/ s/$/ intel_iommu=on,strict/g' /etc/grub.d/40_custom
+
+# Make 40_custom executable (otherwise all is for nothing)
+if [[ ! -x /etc/grub.d/40_custom ]] ;then
+    chmod +x /etc/grub.d/40_custom
+fi
+
+# Rebuild the grub menu to get the new kernels and IOMMU
+grub2-mkconfig -o /boot/grub2/grub.cfg
+grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+
+echo Finished
+
+
+################################ convert rehel 7.3 to 7.4  #########################
+
+
+#!/bin/bash
+
+die() {
+    echo $1
+    echo "Press <Enter> to continue"
+    read
+    exit 1
+}
+
+disableRepos() {
+    echo Disabling all repos
+    repoList=(`yum repolist all 2>&1|grep enabled | awk '{print $1}'`)
+    for repo in ${repoList[*]}; do
+        yum-config-manager --disable $repo
+    done
+}
+
+fixRepos() {
+    if [ -z "$1" ]; then
+       die "Failure to call fixRepos properly."
+    else
+        rm /etc/yum.repos.d/*ttp-fs1*
+        yum-config-manager --add-repo=/net/ttp-fs1/export/repos/rhel-$1/net_ttp-fs1.repo
+        if [ -e /net/ttp-fs1/export/repos/rhel-$1-optional/net_ttp-fs1-optional.repo ]; then
+            yum-config-manager --add-repo=/net/ttp-fs1/export/repos/rhel-$1-optional/net_ttp-fs1-optional.repo
+        fi
+    fi
+}
+
+restoreRepo() {
+    if [ -z "$1" ]; then
+       die "Failure to call fixRepos properly."
+    else
+       yum-config-manager --add-repo=/net/ttp-fs1/export/repos/rhel-$1/net_ttp-fs1.repo
+        if [ -e /net/ttp-fs1/export/repos/rhel-$1-optional/net_ttp-fs1-optional.repo ]; then
+            yum-config-manager --add-repo=/net/ttp-fs1/export/repos/rhel-$1-optional/net_ttp-fs1-optional.repo
+        fi
+       yum clean all
+    fi
+}
+
+echo This script will upgrade RHEL 7.x to RHEL 7.4
+
+if [[ $EUID != 0 ]]
+then
+    echo "Please run as root."
+    exit
+fi
+
+if [ -z $STY ] ;
+then
+   echo Rerunning in screen
+   if [[ ! -x `which screen` ]];
+   then
+       yum install screen
+   fi
+   screen -L $0
+   exit
+else
+   echo "Running in screen.  If your connection drops, reconnect with 'screen -r $STY'"
+fi
+
+. /etc/os-release
+
+case "$VERSION_ID" in
+    "7.2" )
+        read -p "This will update your system to RHEL 7.4  Press <CTRL-C> to stop, <enter> to continue"
+        disableRepos
+        fixRepos 7.2
+        ;;
+    "7.3" )
+        read -p "This will update your system to RHEL 7.4  Press <CTRL-C> to stop, <enter> to continue"
+        disableRepos
+        fixRepos 7.3
+        ;;
+    * )
+        echo Not running Redhat Release 7.2 or 7.3, exiting
+        exit 255
+        ;;
+esac
+
+echo Updating repo to RHEL 7.4
+yum-config-manager --add-repo=/net/ttp-fs1/export/repos/rhel-7.4/net_ttp-fs1.repo
+yum-config-manager --add-repo=/net/ttp-fs1/export/repos/rhel-7.4-optional/net_ttp-fs1-optional.repo
+yum-config-manager --add-repo=/net/ttp-fs1/export/repos/fpt/net_ttp-fs1-custom.repo
+yum-config-manager --enable net_ttp-fs1*
+yum clean all
+echo Upgrading to RHEL 7.4
+#yum distribution-synchronization || restoreRepo $VERSION_ID && die "User canceled or system failed"
+yum distribution-synchronization
+echo Yum finished with $?
+echo System update complete.  Please reboot for the updates to take effect.
+
+echo "Press <Enter> to continue"
+read
+
+exit
 
 
