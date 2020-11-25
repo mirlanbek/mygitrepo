@@ -267,7 +267,8 @@ tar -cf - emacs.txt |(cd /opt/ ; tar -xvf -)
        FILE exists and execute (or search) permission is granted
        
 
-
+-z ----------------- zero or ""
+-n --------------- not NONE    or pustoi emes 
 
 
 
