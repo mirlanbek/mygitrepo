@@ -15,32 +15,21 @@ def add_num(*args):
     print(sum)
 add_num(1,2,333)
 
-classmates={"ulan":"banka zapravkada", "aibo":"jogorku keneshte jurot", "shukur":"bishkekte"}
-
-del classmates["ulan"]                # del dict
-classmates["ulan"] = "sd"             # update dict
-
-classmates.update({"tico": "men"})    # list append using update
-for i,k in classmates.items():
-    print(i,k)
-
-print(classmates['aibo'])
-print(len(classmates))
 
 
-# with open("file2.txt",'r+') as a:
-#     print(a.read())
 
-# $$$$$$$$$$$$$$$$$$  vars([x])  $$$$$$$$$$$$$$$$$
+#  ################# IMPORTANT ##################################
+# k = "Guljigitti estedim"
+# class a1():
+#     am = "Miki"
 
-from timeit import timeit
+#     def onp (self):
+#         self.a="Mirlan"
+#         self.sum = (self.a+" Tokonbekov")
+#         return self.sum
+# p1=a1()
 
-
-e=timeit('object.__dict__;object.__dict__')
-print (e)
-
-w=timeit('vars(object);vars(object)')
-print(w)
+# print(p1.am + " Tokonbekov " + p1.onp() + " " +  p1.a + " " + p1.am + " " + p1.sum)
 
 
 
