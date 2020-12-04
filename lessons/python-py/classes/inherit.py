@@ -1,43 +1,64 @@
 #  Description:
-#  
 #      When we inherit parent class, we have to know all functions and attributs get inherited: (self, arg1,arg2,arg3)
-#  -------------------------------------------------------------------------------------
+
+# 1. Basic Inherit. note: nor __init__ on child class
+
+class Point():
+
+    def __init__(self, at, fio):
+        self.at = at
+        self.fio = fio
+        self.full = self.at + " " + self.fio
+
+class onp(Point):
+
+    def member(self):
+        return "Menin toluk atym %s "%(self.full)
+
+
+
+p1 = onp("Mirlan", "Tokonbekov")
+print(p1.member())
+
+
+
+# -------------------------------------------------------------------------------------
 #      if child class have same amount of attrs then:
 #  class onp (Base):
 #      def __init__(self):                    # pay attention here: just "self"
 #          Base.__init__(self)                # and here "self" itself
 #  -------------------------------------------------------------------------------------
 #  if child has more args than parent:
-#  
+#
 #      def __init__(self, first, last):
 #          self.firstname = first
 #          self.lastname = last
-#  
+#
 #      def Name(self):
 #          return self.firstname + " " + self.lastname
-#  
+#
 #  class Employee(Person):
-#  
+#
 #      def __init__(self, first, last, staffnum):
 #          Person.__init__(self,first, last)
 #          self.staffnumber = staffnum
-#  
+#
 #  -------------------------------------------------------------------------------------
 #    using  SUPER  vs   parent class name
-#  
-#    super(onp,self).__init__()  ---------------------   Base.__init__(self) 
-#  
+#
+#    super(onp,self).__init__()  ---------------------   Base.__init__(self)
+#
 #      def __init__(self,at,fio,mid):
 #          super(Onp,self).__init__(at,fio)   #super
 #          self.mid = mid
-#  
-#  
+#
+#
 
 #   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 
+
 class Base(object):
-    
-    def __init__(self, username=None, password=None, url=None):    
+
+    def __init__(self, username=None, password=None, url=None):
         self.username  = username
         self.password  = password
         self.url = url
@@ -51,7 +72,7 @@ class onp (Base):
                                            # or add more arguments in child class: Base.__init__(self,name,age, tel) ;;;; self.tel = tel
 
     def one(self):
-        
+
         print(  str(self.username) + " " + str(self.password) +" "+ str(self.url)   )
 
 
@@ -156,7 +177,7 @@ class ChildB(Base):
 
         print(self.__class__ , ChildB )
 
-ChildA() 
+ChildA()
 ChildB()
 
 
@@ -168,18 +189,18 @@ class family(object):
         self.at = at
         self.fio = fio
         self.age = age
-        self.full = self.at + " " + self.middle + " " + self.fio  
-    
+        self.full = self.at + " " + self.middle + " " + self.fio
+
     def __repr__(self):
         return " Menin atym" + self.at + "al emi familyam" + self.fio + " jana men " + str(self.age) + "jashtamyn"+ \
         " menin toluk atym: " + self.full
 
 # mem1 = family("Mirlan", "Tokonbekov",37)
-# print(mem1) 
+# print(mem1)
 
 class kids (family):
     def __init__(self,at,fio,age):                    # pay attention here: just "self"
-        family.__init__(self,at,fio,age)   
+        family.__init__(self,at,fio,age)
 
 
     def onp(self):
