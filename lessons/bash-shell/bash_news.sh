@@ -16,6 +16,9 @@ done < failed-tests.txt
 
 ---------------------------------------------------------------------------------------------------------
 
+sed -e 's/^"//' -e 's/"$//'   # --- strip output
+sed '/^[[:space:]]*$/d'        #  -- remove empty lines 
+
 
 
 echo $password | sudo -S iptables -F  ------ provide sudo password in the script
@@ -68,8 +71,6 @@ rsync -rlpzD source-1 dest
 lshw -c disk                                          # HD info
 udevadm info -q all -n /dev/sda | grep DEVPATH        # disk DEVPATH
 sudo ntpdate -s corp.intel.com                        # NTP sync
-
-sed -e 's/^"//' -e 's/"$//'   # --- strip output
 
 
 ## *********************  cat ****************************** 
