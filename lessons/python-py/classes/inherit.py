@@ -212,3 +212,44 @@ p1=kids("Mirlan", "Tokonbekov",37)
 
 print(p1)
 
+------------------------------------------------------------- Multiple Inheritance -----------------------------------
+
+class First():
+    def __init__(self):
+        print ("First INIT")
+
+class Second():
+    def __init__(self):
+        print ("Second INIT")
+
+class Third():
+    def __init__(self):
+        print ("Third INIT")
+
+
+
+
+class Combined(First, Second, Third):
+
+    def __init__(self):
+        print ("Salam it Combined")
+        super().__init__()              # prints First
+        super(First, self).__init__()   # blocks First, prints Second  
+        super(Second, self).__init__()  # blocks Second, prints Third
+        # or
+
+        Second.__init__(self)            # Explicitly calls class 'Second'
+
+
+
+p1 = Combined()
+
+
+        
+        ChildA()
+ChildB()
+
+
+
+
+
