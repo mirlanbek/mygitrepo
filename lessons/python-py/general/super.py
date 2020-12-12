@@ -59,7 +59,7 @@ class Hero (object):
         self.age = age
 
     def member(self):
-        return "My name is {} and I'm {}".format(self.name, self.age)
+        print ("My name is HERO {} and I'm {}".format(self.name, self.age))
 
 class Family(Hero):
 
@@ -69,12 +69,11 @@ class Family(Hero):
 
     def member(self):                    # Note same method() name as in parent class
         super(Family,self).member()
-        return "Men form super 2 %s"%(self.name)
-        # return "Maga {} chaldy. Al {} jashta eken, anyn tel {}".format(self.name, self.age, self.tel)
+
 
 
 p1 = Family("Miki", 40, "7733669911")
 
-print(p1.member())
+p1.member()
 
 # --------------------------------------------------------------------
