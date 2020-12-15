@@ -31,26 +31,3 @@ class family2:
     
     def __str__(self):
         return (  "bizdin familyabyz %s, menin atym %s, men %d jashtamyn"%(self.lastname, self.name, self.age)  ) # here
-
-
-# # world/africa/__init__.py  (Empty file)
-
-# # world/africa/zimbabwe.py
-# print("Shona: Mhoroyi vhanu vese")
-# print("Ndebele: Sabona mhlaba")
-
-# # world/europe/__init__.py
-# from . import greece
-# from . import norway
-
-# # world/europe/greece.py
-# print("Greek: Γειά σας Κόσμε")
-
-# # world/europe/norway.py
-# print("Norwegian: Hei verden")
-
-# # world/europe/spain.py
-# print("Castellano: Hola mundo")
-
-# # world/__init__.py
-# from . import africa
