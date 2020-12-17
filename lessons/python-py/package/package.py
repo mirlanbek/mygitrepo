@@ -1,4 +1,4 @@
-_readme = """
+doc1 = """
  
 Package == any folder with __init__.py in it
 
@@ -22,6 +22,30 @@ to access:
           import package.subpackage.dos as dos
           dos.meth()
 """
+
+
+
+doc2 = """
+
+mkdir pachage
+
+create  package/__init__.py  ==>  from .friends import meth                          (VERY IMP)
+        package/friends.py ==>  def meth(): print ('i'm from package/friends.py')
+
+to access:
+
+vi start.py:
+
+	from package import *
+	meth() 
+
+
+"""
+
+
+
+
+
 
 import os , sys
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "pack_support"))
