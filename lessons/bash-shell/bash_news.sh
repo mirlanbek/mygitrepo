@@ -18,6 +18,7 @@ done < failed-tests.txt
 
 sed -e 's/^"//' -e 's/"$//'   # --- strip output
 sed '/^[[:space:]]*$/d'        #  -- remove empty lines 
+sed -n '/^[0-9]/p' results.txt  # print lines starts with Number
 
 
 
