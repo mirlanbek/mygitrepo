@@ -91,3 +91,14 @@ vi sub_package.py:
 
 
 """
+# conclusion for package accessing 
+
+main.py                         --------------->:   from package impot ClassName   ;  a=ClassName()   ; print(a.var)  ==> "Salam"  chygat    
+
+package/__init__.py             --------------->:   from .sub_package import *      je ClassName
+package/sub_package/__init__.py --------------->:   from .module import *           je ClassName
+package/sub_package/module.py   --------------->:   class ClassName(): var="salam"
+
+
+
+
