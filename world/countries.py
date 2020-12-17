@@ -1,3 +1,8 @@
+from .continent import Continent
+
+materic = Continent()
+
+
 class Countries(object):
 
     def __init__(self, country):
@@ -6,8 +11,7 @@ class Countries(object):
 
     def lang (self):
         if "France" in self.country:
-            l = "French"
+            l = "French " + materic.materic
         elif "Kenia" in self.country:
-            l= "Swahili"
+            l= "Swahili "+ materic.materic
         return l
-        
