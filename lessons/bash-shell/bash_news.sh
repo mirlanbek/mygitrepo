@@ -1,5 +1,10 @@
 #!/bin/bash
 
+
+----------------------- join every  2 lines into 1 -----------------------
+
+awk '{c="\n"} NR%2 {c=" "} { printf("%s%s", $0, c) } ' test.txt
+
 --------------- check Hex  address and del last character---------------------------
  xxd -p test.txt
  dfsfsfs12
