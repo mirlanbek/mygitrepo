@@ -1,5 +1,13 @@
 #!/bin/bash
 
+--------------- check Hex  address and del last character---------------------------
+ xxd -p test.txt
+ dfsfsfs12
+ stat -c '%s' test.txt
+ 19
+ truncate -s 17 test.txt
+ stat -c '%s' test.txt
+dfsfsfs
 ----- date time ---------------
 date +\%Y-\%m\%d-\%H:\%M
 ---------------------------------------------------------------------------------------------------------
