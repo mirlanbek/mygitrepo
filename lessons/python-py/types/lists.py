@@ -4,6 +4,8 @@ list3 = [True, False, False]
 
 
 foods = ["potato", "carot", "onion", "bread", "grape", "melon"]
+dir(foods)
+['append', 'clear', 'copy', 'count', 'extend', 'index', 'insert', 'pop', 'remove', 'reverse', 'sort']
 
 foods.append("kartoshko")
 foods.remove("potato")
