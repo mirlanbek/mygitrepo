@@ -5,22 +5,32 @@ list3 = [True, False, False]
 
 foods = ["potato", "carot", "onion", "bread", "grape", "melon"]
 dir(foods)
-['append', 'clear', 'copy', 'count', 'extend', 'index', 'insert', 'pop', 'remove', 'reverse', 'sort']
-
-foods.append("kartoshko")
-foods.remove("potato")
+ops = ['append', 'clear', 'copy', 'count', 'extend', 'index', 'insert', 'pop', 'remove', 'reverse', 'sort']
 
 for i in foods[:2]:
     print(i)
 
-print(foods)
-
+foods.append("kartoshko")
 foods.insert(1,"sabiz")
-foods.remove("onion")
-del foods[5]
+
 foods.sort()
 foods.reverse()
-foods.append("shakar")
+
+foods.remove("onion")
+del foods[5]
+foods.pop(-1)
+
+f=foods.copy()  # copy foods to f
+f.clear()
+del f
+
+foods.count("melon")    # counts how many 'melon' in foods
+
+fruits = ['apple', 'cherry', 'berry']
+foods.extend(fruits)           # or
+foods = foods + fruits
+
+
 print(max(foods))
 print(min(foods))
 print(len(foods))
@@ -28,6 +38,7 @@ print(foods)
 
 a=list()
 dir(a)
+
 
 
 ############################
