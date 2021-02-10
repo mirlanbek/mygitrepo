@@ -33,7 +33,7 @@ sed -e 's/^"//' -e 's/"$//'   # --- strip output
 sed '/^[[:space:]]*$/d'        #  -- remove empty lines 
 sed -n '/^[0-9]/p' results.txt  # print lines starts with Number
 
-
+ useradd -m -p $(openssl passwd 1) user5   -----  add user  in the script
 
 echo $password | sudo -S iptables -F  ------ provide sudo password in the script
 
