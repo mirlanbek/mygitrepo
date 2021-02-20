@@ -1,5 +1,27 @@
 #!/bin/bash
 
+---------------------------- History expansion --------------------
+
+!12
+
+!tar
+
+!!  ---- previous command
+!-2  ---- 2 commands older
+
+
+substitute previous command:
+       vi file   ------>   cat file:
+       ^vi^cat^
+
+ use args:
+   cp /home/miki/file   /opt
+       arg1:  /home/miki/file
+       erg2:  /opt
+   ls !cp:2    ---------> historydegi  'cp' degen commandanyn 2-argumentin  ls kyl
+
+$  --- last argument
+2-3  -- range of afguments
 
 ----------------------- join every  2 lines into 1 -----------------------
 
