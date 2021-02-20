@@ -81,7 +81,7 @@ to keeping our children’s education on track, to helping fight hunger, their i
 
 """
 print( txt.splitlines()[3].split(" ")[3].strip(",") )
-
+txt.replace(txt[427:430],"hit")
 
 
 1	capitalize()
