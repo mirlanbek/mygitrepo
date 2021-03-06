@@ -115,7 +115,7 @@ package/
         moduleZ.py
     moduleA.py
     
-    -------------------------------------- ------------------------- 
+    -------- in subpackageN/__init__.py --can be accessed like following: -------------------- ------------------------- 
     
 from .moduleY import spam
 from .moduleY import spam as ham
