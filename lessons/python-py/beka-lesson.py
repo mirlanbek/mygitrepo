@@ -1,3 +1,17 @@
+times={
+    "Japan": -16, 
+    "Kyrgyzstan": -12,
+    "Russia": -10
+}
+
+def time_zone(x):
+    USA=time.localtime().tm_hour
+    a=USA- times[x]
+    return "For {}, it is {}".format(x,a)
+
+
+print(time_zone("Russia"))
+
 
 # --------------------------------------------------------
 import os
