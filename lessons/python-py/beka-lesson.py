@@ -1,3 +1,48 @@
+
+# --------------------------------------------------------
+import os
+
+def install_packages(x):
+    os.system(r"echo 'yum install {x}' ")
+
+
+
+def get_hostname():
+    return os.system("hostname")
+
+
+
+def is_hostname_set():
+    if get_hostname() is not None:
+        return True
+    else:
+        return False
+
+
+
+
+def greeting(n):
+    print ("E {}, kandaisyn?".format(n))
+
+
+greeting("Venera")
+b=greeting("Beka")
+
+print(  get_hostname()   )
+
+if get_hostname() == "DESKTOP-3U2JPUV":
+    print("OK")
+
+# if greeting("Venera") == ?:
+#     print("OK")
+
+# if install_packages("nmap") == ?
+
+print(is_hostname_set())
+
+
+# ----------------------------------------------------------
+
 n = [12,23,34,41, 65, 50, 14]
 
 m = [76,12,34,56,41]
