@@ -8,17 +8,20 @@ class Point():
     def __init__(self, at, fio):
         self.at = at
         self.fio = fio
-        self.full = self.at + " " + self.fio
+
+    def test_Point(self):
+        return "test method from Point"
 
 class onp(Point):
-
     def member(self):
-        return "Menin toluk atym %s "%(self.full)
-
+        return "Menin atym %s familyam %s"%(self.at, self.fio)
 
 
 p1 = onp("Mirlan", "Tokonbekov")
-print(p1.member())
+
+
+print(p1.member())       # <------------  method from  child class
+print(p1.test_Point())   # <------------  method from  parent class
 
 
 
