@@ -23,41 +23,32 @@ p1 = onp("Mirlan", "Tokonbekov")
 print(p1.member())       # <------------  method from  child class
 print(p1.test_Point())   # <------------  method from  parent class
 
-
-
 # -------------------------------------------------------------------------------------
-#      if child class have same amount of attrs then:
-#  class onp (Base):
-#      def __init__(self):                    # pay attention here: just "self"
-#          Base.__init__(self)                # and here "self" itself
-#  -------------------------------------------------------------------------------------
-#  if child has more args than parent:
-#
-#      def __init__(self, first, last):
-#          self.firstname = first
-#          self.lastname = last
-#
-#      def Name(self):
-#          return self.firstname + " " + self.lastname
-#
-#  class Employee(Person):
-#
-#      def __init__(self, first, last, staffnum):
-#          Person.__init__(self,first, last)
-#          self.staffnumber = staffnum
-#
-#  -------------------------------------------------------------------------------------
-#    using  SUPER  vs   parent class name
-#
-#    super(onp,self).__init__()  ---------------------   Base.__init__(self)
-#
-#      def __init__(self,at,fio,mid):
-#          super(Onp,self).__init__(at,fio)   #super
-#          self.mid = mid
-#
-#
+# -------------------  inherit method from parent class if method names are same on parent and child classes -------------------
 
-#   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class Point():
+
+    def __init__(self, at, fio):
+        self.at = at
+        self.fio = fio
+
+    def member(self):
+        return "test method from Point"
+
+class onp(Point):
+    def member(self):
+        return super(onp, self).member()        # OR  return Point.member(self)
+
+
+# "test method from Point"   chygat
+
+
+
+#   +++++++++++++++++++++++======================++++++++++++++++++++++++++++++++++++
+#   +++++++++++++++++++++++======================++++++++++++++++++++++++++++++++++++
+
+#  NOTE:  all questions are answered HERE:
 
 class Base(object):
 
@@ -66,26 +57,45 @@ class Base(object):
         self.password  = password
         self.url = url
 
+# -------------------------------- Onp inherits all args and atriibutes from Base __init__()
+#  no need create new __init__(), it is already inherited from Base
 
-
-class onp (Base):
-    def __init__(self):                    # pay attention here: just "self"
-        Base.__init__(self)                # and here "self" itself               NOTE: we are not passing any value coz, Default values are given on 'Base' class
-                                           # otherwise we should bring down all arguments from 'Base':  Base.__init__(self,name,age)
-                                           # or add more arguments in child class: Base.__init__(self,name,age, tel) ;;;; self.tel = tel
+class Onp (Base):
 
     def one(self):
-
         print(  str(self.username) + " " + str(self.password) +" "+ str(self.url)   )
 
+p1 = Onp("mirlan", "pass", "http://google.com/python")
 
 
-p1 = onp()
-p1.one()
+# -- Parent and Child attributes are combined -----------------------
 
+# username, pasword  and url  are inherited, but we need at, fio, mid :
+#
+
+class Onp(Base):
+
+    def __init__(self,at,fio,mid,username,password, url):
+        super(Onp,self).__init__(username,password, url)   #super
+
+        self.at = at
+        self.fio = fio
+        self.mid = mid
+
+    def member(self):
+        return "Menin atym %s familyam %s %s"%(self.at, self.fio, self.username)
+
+p1 = Onp("Mirlan", "Tokonbekov", "Adykovich", "miki", "1", "http://google.com")
+print(p1.member())
+
+
+#   +++++++++++++++++++++++======================++++++++++++++++++++++++++++++++++++
+#   +++++++++++++++++++++++======================++++++++++++++++++++++++++++++++++++
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-##################################################################
+
+
+
 import os,sys
 import pack_support as ps
 import class_start as cs
@@ -183,9 +193,10 @@ class ChildB(Base):
 ChildA()
 ChildB()
 
+-------------------------------------------------------------  Inheritance -----------------------------------
 
+class Family(object):
 
-class family(object):
     middle = "Adykovich"
 
     def __init__(self,at,fio,age):
@@ -198,22 +209,19 @@ class family(object):
         return " Menin atym" + self.at + "al emi familyam" + self.fio + " jana men " + str(self.age) + "jashtamyn"+ \
         " menin toluk atym: " + self.full
 
-# mem1 = family("Mirlan", "Tokonbekov",37)
-# print(mem1)
 
-class kids (family):
-    def __init__(self,at,fio,age):                    # pay attention here: just "self"
-        family.__init__(self,at,fio,age)
-
+class Kids (Family):
 
     def onp(self):
-
         return ("Menin atym" + self.at + "al emi familyam" + self.fio + " jana men")
 
 
-p1=kids("Mirlan", "Tokonbekov",37)
 
+
+p1=Kids("Mirlan", "Tokonbekov",37)
 print(p1)
+
+
 
 ------------------------------------------------------------- Multiple Inheritance -----------------------------------
 
@@ -233,10 +241,10 @@ class Third():
 
 class Combined(First, Second, Third):
     def __init__(self):
-        super().__init__()                # calls First  
-        super(Combined,self).__init__()   # blocks Combined calls First  
-        super(First,self).__init__()      # blocks First calls Second 
-        super(Second,self).__init__()     # blocks Second calls Third 
+        super().__init__()                # calls First
+        super(Combined,self).__init__()   # blocks Combined calls First
+        super(First,self).__init__()      # blocks First calls Second
+        super(Second,self).__init__()     # blocks Second calls Third
 
         print("I's Combined")
 
