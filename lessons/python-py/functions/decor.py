@@ -1,4 +1,26 @@
-### New decor: pass args
+########  decorators #############################
+
+def decor(x):
+
+    def use_later():
+        print("++++++++++++++++++++")
+        x()
+        print("+++++++++++++++++++++")
+    return use_later
+
+@decor
+def test():
+    print("\t\tOXOOOOO") 
+
+
+# 1. Decorator degen - function syrtyndagyga  w\o ()  return  bolot 
+# M:   return use_later
+
+
+
+
+
+############################## New decor: pass args
 
 import os, sys
 
