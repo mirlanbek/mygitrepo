@@ -40,13 +40,21 @@ get_file("photo.img")
 
 
 #####################################
-def greet (name):
-    def message():
-        return "Salam "+ name
-    result = message() + " kandai bala chaka jakshybby?"
-    return result
-a=greet("Miki")
-print(a)
+
+def decor(x):
+
+    def test(c):
+        a = 80 * x(c)
+        return a
+    return test
+
+@decor
+def dollar(d):
+    a = 10 * d
+    return a
+ 
+print(dollar(5)) 
+
 
 ########################################
 
