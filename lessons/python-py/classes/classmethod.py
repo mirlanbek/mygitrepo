@@ -45,70 +45,40 @@ testson.onp()
 
 #####################################################################################
 #####################################################################################
+from datetime import date
 
-class Person:
+class Family(object):
+    lastname = "Tokonbekov"
+
     def __init__(self, name, age):
         self.name = name
         self.age = age
 
-    @classmethod
-    def fromBirthYear(cls, name, birthYear):
-        return cls(name, date.today().year - birthYear)  # NOTE: proccess value '1985' and get '34' then return it as cls arg
+    def member(self):
+        return "Menin atym %s, men %d jashtamyn"%(self.name, self.age)
 
-    def display(self):
-        print(self.name + "'s age is: " + str(self.age))
+    @classmethod                                                #  <------------ changes values of __init__(self, name. age)
+    def changer(cls,name, year):
+        return cls(name, date.today().year - year)
 
-# call display() by object regular way
-person = Person('Adam', 19)          
-person.display()                     
+    @staticmethod
+    def taga_jurt(n,l):                                        # <---------- self, degen jok ele, @staticmethod classtyn ichindegi self.tokonbekov (all self.attr)ge accesss bolo albait
+        if n in ("Mirlan", "Nurken", "Suiungul", "Ainash"):
+            return "Taga jurtum Josholuluk tookelerden"
+        else:
+            return "men {}dun neberesimin".format(l)
 
+    @property                                                    #  < ----------------- bul methoddu chkyrganda  '()'y jok chakyrylat 
+    def last_name(self):
+        return "{}".format(self.lastname)
 
-# call display() by object classmethod  way
-person1 = Person.fromBirthYear('John',  1985)
-person1.display()                     
+# p1 = Family("Mirlan", 40)
+# print(p1.member())
 
-#*** output: *********
-# Adam's age is: 19
-# John's age is: 34
-
-
-# ------------------------------------------------------------------------
-
-from datetime import date 
-
-class Person: 
-	def __init__(self, name, age): 
-		self.name = name 
-		self.age = age
-        
-        def member (self):
-            print ("Menin atym {}, men {} jashtamyn".format(self.name, self.age))
-	
-
-	@classmethod
-	def fromBirthYear(cls, name, year): 
-		return cls(name, year) 
-	
-	
-	@staticmethod
-	def isAdult(age): 
-		return age > 18
-
-## -----------------------------------------------
-p1 = Person("Daulet", "12")
-p1.member()
-
-## ---------------- call  classmethod: -------------------------------
-
-p2 = Person.fromBirthYear('Sayan', "9")   # Note:  pass new values as you passing to class, alternative constructor
-print(p2.member())                        # then check all args got changed to new value (Sayan,9)
-print (p1.age )
-print (p2.name )
-
-## ----------------- call staticmethod: ------------------------------
-
-p3 = Person.isAdult(22)
-print(p3)   # ===========>  True chygat
+    
+p1 = Family.changer("Mirlan", 1980)
+print(p1.member())
+print(p1.taga_jurt("Beka", p1.last_name))
 
 ## ------------------ classmethod in practice -----------------------------
 
