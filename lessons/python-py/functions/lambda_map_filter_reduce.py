@@ -24,8 +24,17 @@ def a (x):
 w=map(a, lis)   # Note: a is func name, lis - list
 print(w)
 
+----------- MAP is working on python 3+ ------
 
-# ****************
+l=[1,2,3,4]
+
+def test(s):
+    return s * 2
+
+for i in list(map(test, l)):   # convert to list, then for loop
+    print(i)
+
+# *************************************************************************
 
 ef myfunc(a, b):
   return a + b
