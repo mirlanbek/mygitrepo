@@ -98,3 +98,18 @@ print_values(
         )
 
 
+===============================
+
+def post(**kwargs):
+
+    extra_payload = kwargs.get('update_payload')
+    remove_payload = kwargs.get('remove_payload')
+    headers = kwargs.get('headers')
+    token = kwargs.get('custom_token', "self._token")
+    print(token)
+
+    print(kwargs['meaders'] )
+    return kwargs
+
+
+print(post(   custom_token="Bir",  headers="bash", meaders="put" ))
