@@ -1,5 +1,13 @@
 import os,sys,time,datetime
 
+---------------------
+start_time = time.time()
+time.sleep(5)
+diff = time.time() - start_time
+
+print(diff)    =====>  5 chygat sebebi 5 second es algan raznica
+----------------------
+
 d=datetime.date(2017,10,23)
 print(d)
 
