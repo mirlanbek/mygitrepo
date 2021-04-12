@@ -1,8 +1,20 @@
 # Class
 
+#  Class − A user-defined prototype for an object that defines a set of attributes that characterize any object of the class. 
+#        The attributes are data members (class variables and instance variables) and methods, accessed via dot notation.
+
+#  Class variable − A variable that is shared by all instances of a class. Class variables are defined within a class but outside any of the class's methods. 
+#                 Class variables are not used as frequently as instance variables are.
+
+#  Instance − An individual object of a certain class. 
+#             An object obj that belongs to a class Circle, for example, is an instance of the class Circle
+    
+    
 class enemy():
 
-    def __init__(self, name, age):
+    lastname = "Jorge"                  #   this is class attribute, it belongs to all ojects.  it can be changed: enemy.lastname = "Mark"
+    
+    def __init__(self, name, age):      #    'name' and 'age'  are  class arguments or instance attribute
         self.name = name
         self.age = age
 
@@ -10,7 +22,7 @@ class enemy():
         print("{} attacks which is {} let".format(self.name,self.age))
 
 
-p1=enemy("Niki",23)
+p1=enemy("Niki",23)                      # p1 --- object
 p2=enemy("Nuku",25)
 
 p1.attack()
