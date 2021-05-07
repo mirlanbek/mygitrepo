@@ -1,5 +1,10 @@
 #!/bin/bash
 
+
+
+
+lsblk -S               list all HD info
+
 ---------------------------- History expansion --------------------
 
 !12
