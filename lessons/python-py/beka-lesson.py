@@ -14,8 +14,10 @@ o=open(my_file, "r")
 
 for i in o.read().splitlines():
         if not i.startswith("#"):
-                print(i)
+                with open(my_loc + "/utils/file2","a+") as f2:
+                        f2.write(i)
 
+o.close()
 
 
 times={
