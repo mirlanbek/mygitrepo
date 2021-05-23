@@ -1,3 +1,23 @@
+import os
+import sys
+
+f='file.txt'
+sys.path.append(      os.path.join( os.path.dirname(os.path.abspath(sys.argv[0])), "utils"  )             )
+import util
+
+my_loc = os.getcwd()
+
+my_file= my_loc + "/utils/" + f
+
+o=open(my_file, "r")
+
+
+for i in o.read().splitlines():
+        if not i.startswith("#"):
+                print(i)
+
+
+
 times={
     "Japan": -16, 
     "Kyrgyzstan": -12,
