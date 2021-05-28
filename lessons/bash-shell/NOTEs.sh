@@ -1,3 +1,6 @@
+nmcli con (down, up, show) add type ethernet con-name eth0 ifname eth0 (dhcp till here) ipv4.address 192.168.1.112/24 ipv4.method static
+
+
 # ---------------------- id -u ---- id -g -----------------------
 
 chown $(id -u):$(id -g) $HOME/.kube/config
