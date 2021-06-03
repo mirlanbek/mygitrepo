@@ -5,6 +5,12 @@
 
 lsblk -S               list all HD info
 
+ls -l  /dev/disk/by-id/
+
+lshw -c disk
+
+lsmem  -- DIMM info
+
 ---------------------------- History expansion --------------------
 
 !12
