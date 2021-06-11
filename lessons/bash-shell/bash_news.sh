@@ -220,6 +220,8 @@ cat maas_ci.tf | sed '/variable/d'
 
 sed -n  '/OUTPUT/,/END/p' infile   ----------- new imp: print all lines between lines  with 'OUTPUT' and 'END'
 
+sed  '/disable/ s/no/kuku/' /etc/xinetd.d/tftp   ----- 'disable' bar linedagy 'no' degendi 'kuku' almashtyr                         ---IMP 
+
 # **************** local  *** is use variable only locally, ignore outside of scope  ***********************
 
 a=7
