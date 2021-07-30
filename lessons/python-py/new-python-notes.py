@@ -1,3 +1,12 @@
+
+#------------- break bested loops with "return"------------------
+
+def break_all_loops():
+   while True:
+      for i in range(20):
+         if i == 7:
+             return
+
 # -------------- get reverse of str ---------------
 
 a="mirlan" 
