@@ -28,18 +28,14 @@ def recursive_repw(list_1):
 
 recursive_repw(list_1)                
 
+# ===================================================
+l = ["bir", "eki", "uch", "tort"]
 
-lis = ['ES31-CTS', 'functional', 'synchronization', 'inter_call',
- 'without_memory_barrier', 'ssbo_atomic_counter_mixed_dispatch_100_calls_1k_invocations']
-lis.append(" ")
+def recur(l):
+    if len(l) == 1:
+        return("it is done")
+    recur(l[1:])
+    print(l[0])
+     
+recur(l)
 
-print(lis)
-
-def rec1(lis):
-        if lis[0] == " ":
-                return ("HI") 
-        rec1(lis[1:])
-        print( lis[0]  )
-
-
-rec1(lis)
