@@ -34,6 +34,34 @@ def time_zone(x):
 
 print(time_zone("Russia"))
 
+#!/root/.venv/bin/python
+def get_tukum():
+    return "Took tuudu"
+
+def get_took():
+    return "took, satyp aldym"
+
+
+def get_rooster(tukum, took):
+    # tooktun {tukum} tap
+    # tukumdu {took}tu aldyna koi 30 kun
+    # chojolordun ichinen korzun tap
+    # any chonoit
+    # urushkanga uirot
+    return "Koroz"
+
+
+
+
+Rooster = ( get_rooster(get_tukum(), get_took())   )
+rooster = "Koroz"
+
+
+print(Rooster)
+print(rooster)
+
+
+
 
 # --------------------------------------------------------
 import os
