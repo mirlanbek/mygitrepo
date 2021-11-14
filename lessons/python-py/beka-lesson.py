@@ -150,3 +150,28 @@ if is_same(f1,f2):
 else:
     print(f"{f1} menen  {f2}  Bul eki file  okshosh EMES eken")
 
+
+-----------------------------
+
+def money_converter(amount, currency_from, currency_to):
+
+    ratio = {"USD": 1, "KGS": 85, "TL": 10}
+
+    dol = amount / ratio[currency_from]
+
+    if currency_from == "KGS":
+        if currency_to == "USD":
+            return dol
+        elif currency_to == "TL":
+            return dol * ratio["TL"]
+
+
+    if currency_from == "TL":
+        if currency_to == "USD":
+            return dol
+        elif currency_to == "KGS":
+            return dol * ratio["KGS"]
+
+
+
+print(money_converter(10, "TL", "KGS") )
