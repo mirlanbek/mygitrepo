@@ -175,3 +175,73 @@ def money_converter(amount, currency_from, currency_to):
 
 
 print(money_converter(10, "TL", "KGS") )
+
+
+
+
+#--------------------------------------------------------------
+
+
+
+class Family:
+
+    middle_name = 'Adykovich'
+
+    def __init__(self, taga_jurt, ata_jurt, kainy_jurt):
+        self.ata_jurt = ata_jurt
+        self.taga_jurt = taga_jurt
+        self.kainy_jurt = kainy_jurt
+        
+
+
+    def is_beka (self):
+
+        if self.ata_jurt == "savai" and self.taga_jurt == "kytai":
+            return True
+     
+
+    def is_emil (self):
+
+        if self.ata_jurt == "savai" and self.taga_jurt == "latysh":
+            return True
+
+
+    def is_sayan (self):
+
+        if self.ata_jurt == "monok" and self.taga_jurt == "savai":
+            return True
+    
+
+    def member1(self):
+        if self.is_beka():
+            return "Menin atym Beka, men 16ga chyktym. Atam Mirlan"
+
+        if self.is_emil():
+            return "Menin atym Emil, men 10ga chyktym. Atam Nurik"
+
+        if self.is_sayan():
+            return "Menin atym Sayan, men 11ga chyktym. Atam Ilim"
+        else:
+            return "You are not in our family"
+
+
+
+p1  =  Family("kytaii", "savai", None)
+
+p2  =  Family("kytai", "savai", None)
+
+p3  =  Family("latysh", "savai", None)
+
+p4  =  Family("savai", "monok", None)
+
+
+print (   p1.member1()   )
+
+print (   p2.member1()   )
+
+print (   p3.member1()   )
+
+print (   p4.member1()   )
+
+
+
