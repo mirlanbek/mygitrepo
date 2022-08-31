@@ -245,3 +245,88 @@ print (   p4.member1()   )
 
 
 
+
+# ################################################ multiple Inheritances #####################################
+
+# vi start.py:
+
+balance=500
+class Clothing:
+    def __init__(self, shoes,pants,shirt,person):
+        self.shoes=shoes
+        self.pants=pants
+        self.shirt=shirt
+        self.person=person
+        
+
+    def shoe_fit(self):
+        if self.person >= 16:
+            if self.shoes<10.5:
+                return "Shoes too small"
+            elif self.shoes>=10.5:
+                return "Fits perfectly"
+        else:
+            return "Your shoe size is from a kids 10 to an adults 10"
+    def pants_fit(self):
+        if self.person >= 16:
+            if self.pants<33:
+                return "Shoes too small"
+            elif self.pants>=33:
+                return "Fits perfectly"
+        else:
+            return "Your shoe size is from a kids 10 to an adults 10"
+
+    def shirt_fit(self):
+        if self.person >= 16:
+            if self.shirt<18:
+                return "Shirt too small"
+            elif self.shirt>=18:
+                return "Fits perfectly"
+        else:
+            return "Your shoe size is from a kids 10 to an adults 10" 
+class Buy(Clothing):
+    def __init__(self,year=None, shoes=None ,pants=None,shirt=None,person=None):
+        self.year = year        
+        Clothing.__init__(self,shoes,pants,shirt,person)
+
+    def purchase(self):
+        if self.shirt_fit() or self.pants_fit or self.shoe_fit == False:
+            return "I have enough money to buy almost everything I want :D"
+        else:
+            return "I can't buy everything!"
+
+# vi test.py:
+
+
+import start
+
+class Test(start.Buy):
+
+    def __init__(self, age=None, year=None, shoes=None ,pants=None,shirt=None,person=None ):
+        self.age = age
+        start.Buy.__init__(self, year,shoes,pants,shirt,person)
+
+    def test1(self):
+        return "ishtedi"
+
+
+
+# o = Test(16, 2022, 43, 33, 18, 16)
+o = Test(person=13, shoes=43)
+
+
+print(  o.shoe_fit()   )
+
+
+# #################################################### end of multiple Inheritances ######################################
+
+
+
+
+
+
+
+
+
+
+
