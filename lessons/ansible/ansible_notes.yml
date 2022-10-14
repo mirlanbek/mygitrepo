@@ -109,6 +109,11 @@ vi roles/name/task/main.yml:
     # Environment
     - { role: env, when: ( rec.env is not defined and rec_default.env ) or ( rec.env is defined and rec.env ) }
 
+-------------------------------
+
+name: test cat
+shell: ls -l | grep test | cat          (cat - helps not to fail if output is empty)
+register: test
 
 ----------------------------------------------------------------------
 vi roles/name/task/main.yml:
