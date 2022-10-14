@@ -197,6 +197,57 @@ sudo virsh undefine --nvram buildvm
 virt-sparsify --format raw --convert vmdk -o adapter_type=lsilogic,subformat=streamOptimized,compat6 ./ovaimage.img ./BSAController.vmdk
 tar -czvf BSAController.ova BSAController.ovf BSAController.vmdk
 rm -rf build
-----------------------------------------------------------------------------------------------
+------------------------------- jq ---------------------------------------------------------------
+# Access json elements:
+[root@bsecsa10-01 ~]# /opt/MegaRAID/storcli/storcli64 show J |jq
+{
+  "Controllers": [
+    {
+      "Command Status": {
+        "CLI Version": "007.2203.0000.0000 May 11, 2022",
+        "Operating system": "Linux 4.18.0-372.9.1.el8.x86_64",
+        "Status Code": 0,
+        "Status": "Success",
+        "Description": "None"
+      },
+      "Response Data": {
+        "Number of Controllers": 1,
+        "Host Name": "bsecsa10-01.frec.bull.fr",
+        "Operating System ": "Linux 4.18.0-372.9.1.el8.x86_64",
+        "System Overview": [
+          {
+            "Ctl": 0,
+            "Model": "AVAGOMegaRAIDSAS9361-8i",
+            "Ports": 8,
+            "PDs": 2,
+            "DGs": 1,
+            "DNOpt": 0,
+            "VDs": 1,
+            "VNOpt": 0,
+            "BBU": "N/A",
+            "sPR": "On",
+            "DS": "1&2",
+            "EHS": "Y",
+            "ASOs": 3,
+            "Hlth": "Opt"
+          }
+        ]
+      }
+    }
+  ]
+}
 
+Accessing:
+
+/opt/MegaRAID/storcli/storcli64 show J |jq
+/opt/MegaRAID/storcli/storcli64 show J |jq  'json commnds are here'
+/opt/MegaRAID/storcli/storcli64 show J |jq '.Controllers'           key should start with ".". M:   .Controllers
+  Note: if output wrapped with "[]", then  remove it with '.[] '   
+/opt/MegaRAID/storcli/storcli64 show J |jq '.Controllers | .[]  '           now you can access next element in json
+/opt/MegaRAID/storcli/storcli64 show J |jq '.Controllers | .[] | ."Response Data" '
+        and next element:
+/opt/MegaRAID/storcli/storcli64 show J |jq '.Controllers | .[] | ."Response Data" | . "System Overview"'
+        now output again wrapped with [], means we need remove it to access elements in it, with: | .[] |
+/opt/MegaRAID/storcli/storcli64 show J |jq '.Controllers | .[] | ."Response Data" | . "System Overview"| .[]|  .Model '
+        Note: elements with 2 words need to be in "" mark, M:     ."System Overview", .Model
 
