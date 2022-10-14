@@ -1,3 +1,15 @@
+
+
+--------------------------------------
+/usr/bin/tail -F -n0 ./virt-install.log &
+tailpid=$!
+./start.sh
+
+kill $tailpid
+--------------
+su - root -c /opt/manage.sh
+-----
+
 nmcli con (down, up, show) add type ethernet con-name eth0 ifname eth0 (dhcp till here) ipv4.address 192.168.1.112/24 ipv4.method static
 
 
@@ -117,4 +129,74 @@ Vagrant.configure("2") do |config|
     end
 end
 
-#---------------------------------------------------------------
+#----------- Create centos iso and *.vmdk VM image  ----------------------------------------------------
+
+1. Download net Centos iso
+ wget -O install.iso http://mirror.centos.org/centos/8-stream/BaseOS/x86_64/os/images/boot.iso
+
+
+2. Make live image:  (create "build/liveimage.img")
+
+/usr/bin/tail -F -n0 ./virt-install.log &
+tailpid=$!
+
+then
+     if [ -z "${https_proxy}" ]; then
+     sudo livemedia-creator --nomacboot --project BullSequanaSA-tools \
+        --release 64.01 --make-iso --image-only --resultdir ./build \
+        --iso=./install.iso --ks=./rhel-minimal.ks \
+        --image-name liveimage.img \
+        --anaconda-arg="--product CentOS Linux" \
+        --dracut-arg="--xz" \
+        --dracut-arg="--no-hostonly" \
+        --dracut-arg="--debug" \
+        --dracut-arg="--no-early-microcode" \
+        --dracut-arg="--omit plymouth" \
+        --dracut-arg="--add livenet dmsquash-live convertfs pollcdrom qemu qemu-net" \
+        --dracut-arg="--add-drivers mptbase mptscsih mptspi hv_storvsc hid_hyperv hv_netvsc hv_vmbus" 
+/usr/bin/kill $tailpid        
+     # track progress during legacy image creation
+
+3. mv build/liveimage.img . && rm -rf build
+
+4.  MAKE LIVE CD out of liveimage.img
+        mkdir /tmp/livecd
+
+     #  mount liveimage.img to /tmp/livecd
+        sudo mount -o loop,offset=1048576 liveimage.img /tmp/livecd
+
+# Creating Toolbox image
+        ./toolbox-create-script.sh
+
+
+5. copy all tools to mounted "liveimage.img":
+
+        sudo cp -vf BullSequanaSA-tools.tar /tmp/livecd/usr/share/
+        sudo cp -vf load-image.sh /tmp/livecd/usr/bin/
+        # These scripts cause the OS to install the container on boot.
+        sudo cp -vf image-build-scripts/instcont.sh /tmp/livecd/opt/instcont.sh
+        sudo cp -vf image-build-scripts/instcont /tmp/livecd/etc/cron.d/
+
+6. umount and remove /tmp/livecd/
+sudo umount /tmp/livecd
+rm -rf /tmp/livecd
+
+
+7. Boot VM to activate container image
+sudo qemu-img create -f qcow2 -b ./liveimage.img -F raw snapshot.img
+export LIBGUESTFS_BACKEND=direct
+sudo virt-install -n buildvm --description "Boot build image" --ram=8096 --vcpus=2 --disk path=./snapshot.img --import
+
+ 8. Sparsify and convert image to raw format.
+virt-sparsify snapshot.img --format qcow2 --convert raw liveos.img
+
+9. Delete the buildvm
+sudo virsh undefine --nvram buildvm
+
+10. # Export as OVA
+virt-sparsify --format raw --convert vmdk -o adapter_type=lsilogic,subformat=streamOptimized,compat6 ./ovaimage.img ./BSAController.vmdk
+tar -czvf BSAController.ova BSAController.ovf BSAController.vmdk
+rm -rf build
+----------------------------------------------------------------------------------------------
+
+
