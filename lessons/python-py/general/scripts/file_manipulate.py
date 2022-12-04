@@ -1,4 +1,81 @@
-#!/usr/bin/python
+#!/root/.venv/bin/python
+import os,sys
+
+cwd=os.path.dirname(os.path.abspath(sys.argv[0]))
+
+file=os.path.join(cwd,"ids.txt")
+
+head=[]
+body=[]
+
+
+with open(file,"r") as r:
+    for i in r.read().splitlines():
+        if i.startswith("#"):
+            head.append(i)
+        elif i.startswith("/"):
+            body.append(i)
+
+
+d={}
+
+for i in body:
+    disk=i.split(":")[0].strip()
+    value=i.split(":")[1].strip()
+    d[disk]=value
+
+for k,v in d.items():
+    if k == "/dev/sda3":
+        disk3=v.split(",")
+    elif k == "/dev/sda4":
+        disk4=v.split(",")
+
+d3=disk3[1]
+d4=disk4[1]
+
+
+disk3[1]=d4
+disk4[1]=d3
+
+a=disk4[0]
+b=disk4[1]
+
+disk4.pop(0)
+
+disk4.insert(1,a)
+
+
+
+disk4[0]=disk4[0].replace("size","start").strip()
+disk4[1]=disk4[1].replace("start"," size")
+
+d["/dev/sda3"]=",".join(disk3)
+d["/dev/sda4"]=",".join(disk4)
+
+
+
+body=[]
+for k,v in d.items():
+    body.append(k+" : "+v)
+
+l=[""]
+t=""
+for i in head+l+body:
+    t+=i+"\n"
+ 
+
+
+with open("new.txt","w+") as w:
+    w.write(t)
+
+with open("new.txt","r") as r:
+    print(r.read())
+    
+    
+
+########################################################################################################
+
+
 import os,sys
 import re
 import collections
@@ -145,9 +222,9 @@ def main():
 if __name__ == '__main__':
     main()
 
+##########################################################  use this =================================
 
-
-# vi test.txt:
+# vi ids.txt:
 
 #label: gpt
 #label-id: F8EC2324-35FA-4FB4-81CF-67316C1A17BB
