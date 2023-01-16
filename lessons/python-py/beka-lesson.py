@@ -320,9 +320,45 @@ print(  o.shoe_fit()   )
 
 # #################################################### end of multiple Inheritances ######################################
 
+### Decorators
+
+import os,sys
 
 
 
+def choco(candy):
+    def wrapper():
+        print( "~~~~~~~~~~~~~~~~")
+        candy()
+        print("~~~~~~~~~~~~~~~~~~~~~")
+    return wrapper
+
+def caramel(candy):
+    def wrapper():
+            
+        print("^-^-^-^-^")
+        candy()
+        print( "^-^-^-^-^-^-^-^")
+    return wrapper
+
+def cookie(candy):
+    def wrapper():
+
+        print("---------------")
+        candy()
+        print( "-------------------")
+    return wrapper
+    
+@choco
+@caramel
+@cookie
+def candy():
+    print("Twix")
+
+candy()
+
+
+++++++++++++++++++++++++++ end of decorator ++++++++++++++++++++++++
 
 
 
