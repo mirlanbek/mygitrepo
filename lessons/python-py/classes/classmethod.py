@@ -105,3 +105,38 @@ person1.display()
 # John's age is: 34
 
 # ------------------------------------------------------------------------
+
+
+
+
+class School:
+    def __init__(self, gpa, subjects):
+        self.gpa=gpa
+        self.subjects=subjects
+
+
+
+
+    def acceptance(self):
+        if self.gpa in range(3,5):
+            return "You have a decent grade and most colleges will accept you"
+        if self.gpa >= 5:
+            return f"All colleges can accept you only if you have a good resume and more than {self.subjects}"
+        
+    @classmethod
+    def value_conv(cls, percent, subjects):
+        if percent in range(50,60):
+            mark = 2
+        elif percent in range(61,74):
+            mark =3
+        elif percent in range(75,100):
+            mark=4
+        return cls(mark,subjects)
+
+p1=School.value_conv(67,7)
+
+print(p1.acceptance())
+
+
+####################################################################
+
