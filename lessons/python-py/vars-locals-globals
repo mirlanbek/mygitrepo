@@ -1,0 +1,43 @@
+Python globals() – The globals() method returns a dictionary containing all global variables and their values. It always returns the module namespace dictionary.
+Python locals() – Python locals() provide the same function as globals(), but for methods. Within a method, we call locals(). locals() always returns a dictionary
+containing information about the current namespace.
+Python vars() – Internal dictionary instances/attributes (called __dict__) exist in objects such as classes, methods, instances. The vars() method can be used
+to retrieve this dictionary from a class instance. Python vars() returns either a dictionary of the current namespace (if no argument is passed) or the dictionary of the
+argument.
+
+
+# Python program to illustrate vars()
+
+
+class Student:
+    def __init__(self, name = 'Leo', age = 22, course = 'MBA', city = 'Mumbai'):
+        self.Name = name
+        self.Age = age
+        self.Course = course
+        self.City = city
+
+obj = Student()
+print('Dictionary output is:', vars(obj))
+
+
+class Test:
+
+        def __init__(self, name, age):
+                self.name = name
+                self.age = age
+                self.email = name+age+"@gmail.com"
+
+        def display(self):
+                return self.__dict__
+
+
+
+obj = Test("Miki", "42")
+
+print(obj.display())
+
+
+
+
+
+
