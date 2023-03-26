@@ -358,9 +358,37 @@ def candy():
 candy()
 
 
-++++++++++++++++++++++++++ end of decorator ++++++++++++++++++++++++
+++++++++++++++++++++++++++ Dunders ++++++++++++++++++++++++
+
+class Family(object):
+
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    
 
 
+
+    def __repr__(self):
+        return "This class prints developer's chapter"
+   
+    def __str__(self):
+        return f"This class is about our familly {__name__}, {__class__}"
+
+
+
+
+    def member(self):
+        return f"My name is {self.name}, and i'm {self.age} {__file__} {__name__}"
+
+
+
+p1 = Family("miki", 42)
+
+print(p1.member())
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 
