@@ -360,6 +360,8 @@ candy()
 
 ++++++++++++++++++++++++++ Dunders ++++++++++++++++++++++++
 
+doc:   https://www.section.io/engineering-education/dunder-methods-python/  
+
 class Family(object):
 
     def __init__(self, name, age):
