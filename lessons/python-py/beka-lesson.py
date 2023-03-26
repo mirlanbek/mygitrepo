@@ -391,7 +391,41 @@ p1 = Family("miki", 42)
 print(p1.member())
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#Setattr and getattr info
 
+# setattr is when youre passing a new attribute with a value into the class. when you do add the atrtibute, it actually becomes part of the class
+# and not like a demo. for example if you edit something in a string and when you print it, it prints it but the edit isn't actually final. this is the 
+# opposite for setattr. syntax is setattr(object w/o quotations, "new attribute in quotations", value of that attribute)
+class Random:
+    def __init__(self, w1, w2, w3, w4):
+        self.w1=w1
+        self.w2=w2
+        self.w3=w3
+        self.w4=w4
+
+
+    def test(self):
+        return self.w1, self.w2,self.w3,self.w4, self.w5
+
+p = Random(1,2,3,4)
+setattr(p, "w5", 5)
+
+#   getattr is basically calling the value of the attribute you want to call. syntax is getattr(Object w/o quotations, "attribute name in quotations")
+class Random:
+    def __init__(self, w1, w2, w3, w4):
+        self.w1=w1
+        self.w2=w2
+        self.w3=w3
+        self.w4=w4
+
+
+    def test(self):
+        return self.w1, self.w2,self.w3,self.w4
+
+p = Random(1,2,3,4)
+
+name = getattr(p, "w3")
+print(name)
 
 
 
