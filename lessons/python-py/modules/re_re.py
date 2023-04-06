@@ -91,6 +91,35 @@ print(  re.findall(bb,my_test)  )
 
 
 
+######################################################################
+
+
+abc     Letters
+123     Digits
+\d      Any Digit
+\D      Any Non-digit character
+.       Any Character
+\.      Period
+[abc]   Only a, b, or c
+[^abc]  Not a, b, nor c
+[a-z]   Characters a to z
+[0-9]   Numbers 0 to 9
+\w      Any Alphanumeric character
+\W      Any Non-alphanumeric character
+{m}     m Repetitions
+{m,n}   m to n Repetitions
+star: *       Zero or more repetitions
++       One or more repetitions
+?       Optional character
+\s      Any Whitespace
+\S      Any Non-whitespace character
+^   $   Starts and ends                --- ^Mission: successful$  ------- Mission: successful
+(   )   Capture Group  ----------  ^(file.+)\.pdf$  ----- file_record_transcript.pdf and file_07241999.pdf
+(a(bc)) Capture Sub-group  ---  (\w+ (\d{4}))  ---  Jan 1987 1987 |  ( first_aprt+(2nd_part - this is for 1st and 2nd 1987)  )
+(.*)    Capture all
+(abc|def)       Matches abc or def
+
+
 
 
 
