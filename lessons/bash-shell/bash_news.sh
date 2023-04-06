@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-
+ip a | grep -a2 eno1     -----  print lines with eno1 and + 2 more lines
 
 lsblk -S               list all HD info
 
