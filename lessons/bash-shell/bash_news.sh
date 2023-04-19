@@ -60,6 +60,19 @@ while read line ; do
 
 done < failed-tests.txt
 
+
+echo "$OUTPUT"   |    while read NAME IP1 IP2 STATUS
+           do
+                if [ "$STATUS" != "Optimal" ]
+                then
+                        echo "CRIT: $NAME - $STATUS"
+                        echo $((++XCODE))
+                else
+                        echo "OK: $NAME - $STATUS"
+                fi
+           done
+
+
 ---------------------------------------------------------------------------------------------------------
 
 sed -e 's/^"//' -e 's/"$//'   # --- strip output
