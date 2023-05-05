@@ -430,3 +430,37 @@ print(name)
 
 
 
+###########################################################
+
+
+
+import requests
+import json
+import os, sys
+
+# BMC info 
+username = 'admin'
+password ='admin'
+auth=(username, password)
+
+ip='10.10.10.10'
+
+resp = requests.get('http://%s:8080/redfish/v1/Systems/Server/Bios' % ip,  auth=auth )
+
+with open("beka.json", "w") as w:
+    w.write(str(resp.text))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
