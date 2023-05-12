@@ -439,17 +439,46 @@ import json
 import os, sys
 
 # BMC info 
-username = 'admin'
-password ='admin'
-auth=(username, password)
+username = 'Administrator'
+password ='Administrator'
 
-ip='10.10.10.10'
 
-resp = requests.get('http://%s:8080/redfish/v1/Systems/Server/Bios' % ip,  auth=auth )
+# auth=(username, password)
 
-with open("beka.json", "w") as w:
-    w.write(str(resp.text))
+ip='141.112.44.77'
+url="http://141.112.44.77:8080/redfish/v1/Managers/BMC_0/LogServices/Messages/Entries"
 
+resp=requests.get(url, auth=(username,password))
+
+e=json.loads(resp.text)
+
+print(len(e["Members"]))
+
+# before you request and print it out in text form you have to first load it into the memory
+# you can not manage it before you load it `
+with open("peem.json", "w") as w:
+    
+    w.write(json.dumps(e))
+       
+# you need to dump the output in order to write it in a json file
+
+
+# you cant write while its in the memory, therefore you need to dump it 
+
+
+yum install jq
+cat test.json | jq
+
+cat test.json | jq '."Members"'
+
+# if the output is in brackets, list
+ 
+#cat test.json | jq '."Members" | .[] '
+
+# 
+#cat test.json | jq '."Members" | .[] | ."another key"'
+
+#cat test.json  | jq '."Members" | .[-1]'
 
 
 
