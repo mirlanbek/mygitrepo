@@ -1,0 +1,22 @@
+screen -ls
+
+screen -r PID,  screen -x PID
+
+Ctrl+d Ctrl+d  - detach
+
+Ctrl+a c Create a new window (with shell).
+Ctrl+a " List all windows.
+Ctrl+a 0 Switch to window 0 (by number).
+Ctrl+a A Rename the current window.
+
+Ctrl+a S Split current region horizontally into two regions.
+Ctrl+a | Split current region vertically into two regions.
+Ctrl+a tab Switch the input focus to the next region.
+Ctrl+a Ctrl+a Toggle between the current and previous windows
+
+
+kill:
+Ctrl+a  K    Close the current region.
+Ctrl+a \     Close all regions but the current one.
+
+screen -S 915.pts-0.server1 -X quit        kill session from outsid
