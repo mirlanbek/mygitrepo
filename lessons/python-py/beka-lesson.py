@@ -483,8 +483,49 @@ cat test.json | jq '."Members"'
 
 
 
+###############################################################
+
+# Subprocess
+
+#example ata made
+
+from subprocess import Popen, PIPE
+import subprocess, os
+
+subprocess.call(["ping", "-c 4","google.com"],stdout=open("ping.log",'w'))
+os.remove("ping.log")
 
 
+process = Popen(['cat', '/home/tokonbekov/src/sixonix/xonotic/install.py'], stdout=PIPE, stderr=PIPE)
+stdout, stderr = process.communicate()
+# print(stdout)  
+
+s = subprocess.check_output(["ping", "-c 4", "google.com"])
+output = s.decode("utf-8")
+ 
+lines = output.split('\n')
+ 
+for line in lines:
+    print(line)
+
+
+# our example
+
+
+
+
+cmd="./start.sh"
+
+
+with open("log.log", "w") as log:
+    proc = subprocess.Popen(cmd, shell=True,
+                            stderr=open(os.devnull, "w"),
+                            stdout=subprocess.PIPE)
+
+
+    (out, _) = proc.communicate()
+    for line in out.decode().splitlines():
+        log.write(str(line))
 
 
 
