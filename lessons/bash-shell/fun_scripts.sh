@@ -564,4 +564,122 @@ read
 
 exit
 
+=================================================================================================================
+
+
+#!/bin/bash
+
+
+
+
+LOGFILE=/tmp/auto-flash.log
+
+if [[ $# -le 2 ]]; then
+        echo
+        echo "No options are used. Please check ./auto-flash.sh -h"
+        echo
+        exit 2
+fi
+
+
+function usage() {
+        echo "-i ip address of target machine"
+        echo "-c cygdrive letter"
+        echo "-h help usage"
+        echo "./auto-flash.sh -i 14.1.4.77 -c e"
+}
+
+while getopts "i:c:h-:" opt; do
+        case "${opt}" in
+
+                i)
+                        ip=$OPTARG
+                ;;
+                h)
+                        usage
+                        exit 0
+                ;;
+                c)
+                        l=$OPTARG
+                ;;
+                *)
+                        echo "  Invalid argument: $OPTARG"
+                        usage
+                        exit 1
+                ;;
+        esac
+done
+
+cygdr=/cygdrive/$l/Resources/
+
+function bios_reset(){
+
+                    rm -rf /tmp/REGS
+                    mkdir /tmp/REGS
+                    unzip /cygdrive/$l/EMM_REGS_DUMP/*.zip -d /tmp/REGS
+                    ./RegDump.sh -H $ip -u super -p pass -a config -f /tmp/REGS/EMM_REGS_FPGA                      | tee -a ${LOGFILE}
+                    ./RegDump.sh -H $ip -u super -p pass -a config -f /tmp/REGS/EMM_REGS_CPU_SKL_CSR               | tee -a ${LOGFILE}
+                    ./RegDump.sh -H $ip -u super -p pass -a config -f /tmp/REGS/EMM_REGS_CPU_SKL_MSR               | tee -a ${LOGFILE}
+
+                    cp -r  /cygdrive/$l/BIOS_SETTINGS/defaultbiossetup* /tmp/REGS/defaultbiossetup
+                    ./BiosSettings.sh -H $ip -u super -p pass -a copy -f /tmp/REGS/defaultbiossetup                | tee -a ${LOGFILE}
+                    echo 'y' |./BiosSettings.sh -H $ip -u super -p pass -a reset                                   | tee -a ${LOGFILE}
+}               
+
+for tool in  FWupg.sh FwUpg.sh ; do
+
+
+    if [ $tool == "FwUpg.sh" ]; then
+
+
+        echo 'y' |./FwUpg.sh -H $ip -u super -p pass -D /cygdrive/$l -a upg -M all -f -T 16                | tee -a ${LOGFILE}
+
+
+    elif [ $tool == "FWupg.sh" ]; then
+
+        for i in BIOS BMC LMC FPGA MCPLD PCPLD ; do
+
+            echo $i
+
+            case $i in
+
+                BIOS)
+                    bios_fw=$(ls -1 $cygdr/BIOS |sed -n '1p')
+                    ./FWupg.sh -H $ip -u super -p pass  -a upg -b -r -d $cygdr/BIOS -F $bios_fw -E BIOS            | tee -a ${LOGFILE}
+                ;;
+
+                BMC)
+                    bmc_fw=$(ls $cygdr/EMM/|grep -i bmc)
+                    ./FWupg.sh -H $ip -u super -p pass -a upg -d $cygdr/EMM -F $bmc_fw -E MC                       | tee -a ${LOGFILE}
+                ;;
+
+                LMC)
+                    lmc_fw=$(ls $cygdr/EMM|grep -i lmc)
+                    ./FWupg.sh -H $ip -u super -p pass -a upg -d $cygdr/EMM -F $lmc_fw -E LMC -M 16                | tee -a ${LOGFILE}
+                ;;
+
+                FPGA)
+                    fpga_fw=$(ls $cygdr/FPGA/ | grep -i fpga_cpb)
+                    ./bsmFWupg.sh -H $ip -u super -p pass -a upg -d $cygdr/FPGA -F $fpga_fw -E MAIN_FPGA              | tee -a ${LOGFILE}
+                ;;
+
+                MCPLD)
+                    mcpld_fw=$(ls $cygdr/CPLD/ | grep -i cpld_io) 
+                    ./FWupg.sh -H $ip -u super -p pass -a upg -d $cygdr/CPLD -F $mcpld_fw -E MCPLD                | tee -a ${LOGFILE}
+                ;;
+
+                PCPLD)
+                    pcpld_fw=$(ls $cygdr/CPLD/ | grep -i cpld_p)
+                    ./FWupg.sh -H $ip -u super -p pass -a upg -d $cygdr/CPLD -F $pcpld_fw -E PCPLD                | tee -a ${LOGFILE}
+                ;;
+
+
+            esac
+        done
+
+    fi
+done
+
+bios_reset
+
 
