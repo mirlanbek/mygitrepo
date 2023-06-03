@@ -528,6 +528,34 @@ with open("log.log", "w") as log:
         log.write(str(line))
 
 
+--------------------------- xml example 2 -----------------------------------
+import xml.etree.ElementTree as ET
+
+tree = ET.parse('first.xml')
+for node in tree.iter():
+    if int(node.attrib.get('age', 0)) > 21:
+        node.attrib['alcohol'] = 'yes'
+root = tree.getroot()
+ET.register_namespace("", "XYZ")
+print(ET.tostring(root))
+
+-------
+vi first.xml <--' 
+
+<root xmlns="XYZ" usingPalette="">
+
+<grandParent hostName="XYZ">
+<parent>
+        <child name="JohnsDad">
+            <grandChildren name="John" sex="male" age="22" alcohol="no"/>
+        </child>
+        <child name="PaulasDad">
+            <grandChildren name="Paula" sex="female" age="15" alcoho="no"/>
+        </child>
+</parent>
+</grandParent>     
+</root> 
+----------------------------------------------------------------------------------
 
 
 
