@@ -171,5 +171,559 @@ INLINE tags:
 <a href="{{ url_for('home')}}">HOME</a>
 
 
-<p>========================================================================</p>
+
+
+
+==================================================================================     CSS  ================================================================
+
+
+
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.header{
+    width: 98.5%;
+    height: 70px;
+    margin: 0px auto;
+    margin-left: 10px;
+    position: fixed;
+    /* background:rgb(0,100,0); */
+    background:#282928;
+    z-index: 1;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    right: 12px;
+    border: 1px solid black;
+    border-bottom-width: 2px;
+    border-right-width: 2px;
+    border-radius: 7px;
+}
+
+.logo img{
+    margin-top: 8px;
+    width: 70px;
+    height: 60px;
+    padding: 5px;
+    flex: 1;
+    border-radius: 12px;
+}
+
+.text1{
+    color: blanchedalmond;
+    font-size: 28px;
+    font-weight: 600;
+    flex: 2;
+    border: 1px solid #363131;
+    border-radius: 12px;
+    text-align: center;
+    align-items: center;
+    margin-left: 20px;
+    border-bottom-width: thick;
+    border-right-width: thick;
+}
+
+.text1 a {
+    text-decoration: none;
+    color: #f0f17e;
+    font-family: sans-serif;
+}
+
+.text1 img{
+    width: 30px;
+    height: 30px;
+    margin-top: 7px;
+}
+
+.nav-bar{
+    flex: 12;
+}
+
+.main-ul {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+}
+
+.nav-bar ul a{
+    text-decoration: none;
+    font-weight: 500;
+    /* font-size: 18px; */
+    font-size: 12px;
+    color: #f8eeee;
+}
+
+.main-ul li {
+    padding-left: 15px;
+    padding-right: 15px;
+    border: 1px solid black;
+    border-radius: 7px;
+    border-bottom-width: 2px;
+    border-right-width: 2px;
+}
+ 
+
+.main-ul li:hover{
+    display: block;
+    /* background: #e73838; */
+    background: #2bab0d;
+    border-radius: 5px;
+}
+
+.nav-bar ul li a:hover{
+    color: #a0d1b5;
+    
+}
+
+
+.counter{
+    width: 130px;
+    height: 30px;
+    justify-items: center;
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.counter #miki {
+    font-size: 13px;
+    color: #f0f17e;
+    margin-left: -20px;
+}
+
+.counter img{
+    width: 20px;
+    height: 20px;
+    padding: 5px;
+    z-index: 1;
+    margin-left: -80px;
+}
+
+.search-box form{
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+}
+
+.search-box input[type = "text"] {
+    background: #e9ecf0;
+    width: 120px;
+    height: 13px;
+    /* border-radius: 13px; */
+    padding: 5px;
+    z-index: 1;
+    align-items: center;
+    user-select:none;
+}
+
+.search-box input[type = "submit"] {
+    flex: 1;
+    width: 30px;
+    border-radius: 13px;
+    background: #dde4ec;
+    cursor: pointer;
+    margin-left: 10px;
+
+}
+
+/* ---------------------- CONTENT ------------------ */
+
+.content{
+    position: absolute;
+    margin: 75px auto;
+    margin-left: 5px;
+    width: 98%;
+    min-height: 1820px;
+    background: #141212 !important;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+}
+
+.columns{
+    width: 280px;
+    height: 250px;
+    /* border: solid 1px #6e1111; */
+    border-radius: 4px;
+    flex: 1;
+    justify-content: space-around;
+}
+
+
+.gallery{
+    margin-top: 7px;
+    margin-left: 5px;
+}
+
+.video-info {
+    width: 150px;
+    height: 90px;
+    width: auto;
+    margin-left: 20px;
+    font-size: 12px;
+    color: blanchedalmond;
+    text-align: left;
+    border-bottom: 2px dotted gray;
+    
+}
+
+.author {
+    font-size: 10px;
+    color: #7c7a77;
+}
+
+.name-wrapper{
+    width: 260px;
+    height: 50px;
+    word-wrap: break-word;
+    position: relative;
+    display: flex;
+    margin-bottom: 5px;
+    overflow:hidden;
+    text-align: left;
+    /* border: solid 2px red; */
+    /* z-index: 1; */
+    
+}
+
+#name-tag{
+    font-weight: 600;
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+.video img:hover {
+    border-radius: 12px;
+    transform: scale(1.1);
+}
+
+.video img {
+    border-radius: 12px;
+    margin-left: 10px;
+    width: 270px;
+    height: 150px;
+    border: 2px solid #ddd4d4;
+    cursor: pointer;
+    position: relative;
+}
+
+
+
+/* =================================================================== */
+
+
+
+.content-section {
+    margin: 75px auto;
+    margin-left: 12px;
+    position: absolute;
+    width: 98%;
+    min-height: 650px;
+    background: #555554;
+    text-align: center;
+    display: block;
+
+  }
+
+  .content-section form {
+      margin-top: 200px;
+  }
+  
+  .mb-4{
+      border-radius: 16px;
+  }
+  
+
+.field-set{
+
+    width: 500px;
+    height: 150px;
+    margin-left: 300px;
+    text-align: center;
+    border: none;
+}
+
+
+  .form-group{
+      width: 300px;
+      margin-left: 300px;
+      padding: 10px;
+      display: flex;
+
+
+  }
+
+.form-control-label{
+    width:50px;
+    margin-right: 10px;
+
+}
+
+.form-control{
+    position: relative;
+    width: 200px;
+    height: 25px;
+    border-radius: 10px;
+    background:  gray;
+    margin-left: -100px;
+    padding-left: 7px;
+}
+.form-control:hover {
+    transform: scale(1.1);
+    background: #e0dbd2;
+    padding-left: 7px;
+}
+
+.form-control:focus {
+    transform: scale(1.1);
+    background: #e0dbd2;
+    padding-left: 7px;
+}
+
+.btn{
+
+    width: 100px;
+    height: 40px;
+    border-radius: 14px;
+    background: #7f8582;
+    margin-left: -130px;
+    margin-top: 100px;
+    font-size: 15px;
+    padding: 5px;
+    font-weight: 500;
+    position: fixed;
+    top: 40%;
+    left: 48%;
+}
+
+.btn:hover{
+    background: #e0dbd2;
+    transform: scale(1.1);
+}
+
+
+/* ===== admin =========================== */
+
+
+.spacer{
+    width: 98%;
+    background: none;
+}
+
+  .admin-content  form {
+    margin-top: 200px;
+  }  
+
+.admin-content {
+    margin: 0px auto;
+    margin-left: 12px;
+    width: 98%;
+    min-height: 850px;
+    background: #555554;
+    display: flex;
+
+  }
+
+.form-box {
+    margin: 100px auto;
+    margin-top: -100px;
+    text-align: center;
+
+}
+
+textarea{
+    padding: 10px;
+    width: 450px;
+    height: 300px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background: #cec8c8;
+    margin-top: 20px;
+
+}
+
+.form-box  input[type = "submit"]  {
+    width: 100px;
+    height: 40px;
+    border: 1px solid #302e2e;
+    border-radius: 7px;
+    background: #b9b4b4;
+    cursor: pointer;
+    margin-top: 30px;
+    text-align: center;
+    font-size: 15px;
+}
+.form-box input[type = "submit"]:hover {
+    background: gray;
+    transform: scale(1.1);
+
+}
+.form-box #labels {
+    color: #a0d1b5;
+    margin-bottom: 20px;
+}
+
+.box1 {
+    flex: 1;
+}
+
+.box2 {
+    flex: 1;
+}
+
+.box3 {
+    flex: 1;
+}
+
+.msg{
+    margin: 100px auto;
+    width: auto;
+    height: auto;
+    text-align: center;
+    color: white;
+}
+.msg p {
+    
+    color: white;
+    font-size: 16px
+    
+}
+
+/* ----------------  Contacts ------------------------ */
+
+.spacer{
+    width: 98%;
+    background: none;
+}
+
+.contact-content {
+    margin: 0px auto;
+    margin-left: 12px;
+    width: 98%;
+    min-height: 550px;
+    background: #555554;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+.text-box {
+    margin: 200px auto;
+    margin-top: -100px;
+    text-align: center;
+
+}
+
+.text-body{
+    padding: 10px;
+    width: 400px;
+    height: 300px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background: #cec8c8;
+    margin-top: 200px;
+
+}
+
+.text-body .message {
+    text-align: center;
+    font-size: 12px;
+}
+
+.footer{
+    margin: 0 auto;
+    padding: 10px;
+    width: 97%;
+    height: 100px;
+    border: 1px solid black;
+    border-radius: 7px;
+    background: #141313;
+    display: flex;
+    align-content: center;
+    align-items: center;
+
+    /* position: absolute;
+    left: 0.5%;
+    bottom: -179%; */
+    position: relative;
+}
+
+.copyright {
+    margin-left: 600px;
+    font-size: 12px;
+    color: white;
+}
+
+
+
+/* ========================== @media screen ======================================== */
+
+@media only screen and (max-width: 900px) {
+
+    /* .text1 a{
+        color: transparent;
+    } */
+    
+    .text1{
+        width: 120px;
+        font-size: 10px;
+        /* transform: scale(2); */
+
+    }
+    .search-box input[type = "text"] {
+        width: 30px;
+        height: 8px;
+        /* border-radius: 13px; */
+    }
+
+
+    .search-box input[type = "submit"] {
+        width: 10px;
+        border-radius: 5px;
+    
+    }
+    
+
+    .nav-bar ul a{
+        font-size: 10px;
+    }
+    
+    .main-ul li {
+        padding-left: 5px;
+        padding-right: 5px;
+        border-radius: 3px;
+        border-bottom-width: 2px;
+    }
+  
+    .counter{
+        width: 0px;
+        height: 0px;
+    }    
+    .counter #miki {
+        font-size: 0px;
+        color: transparent;
+    }
+    
+
+
+}
+
+ 
+
+  
+
+
+
+
+
+
+
+
+ 
 
