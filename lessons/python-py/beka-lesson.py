@@ -558,6 +558,37 @@ vi first.xml <--'
 ----------------------------------------------------------------------------------
 
 
+class School:
+    def __init__(self, year, st_count, GPA):
+        self.y=year
+        self.st=st_count
+        self.gpa=GPA
+
+
+    def basketball(self):
+        return "They make up " + str(50/self.st) + f"percent of our school in {self.y} and had a GPA of {self.gpa}"
+    
+    
+    def average(self):
+        return f"Average GPA is {self.gpa} out of {self.st} in the year {self.y}"
+
+    @staticmethod ---  works exactly like normal function instead of a method which can only use the class's attributes
+    def info(self):
+        return f"The school was made {self.y} , and has {self.st} students enrolled in it and the average GPA is {self.gpa}"
+
+    @classmethod --- You use the attributes of the class and replace one of the attributes with it. for example here we are trying to figure out a way to replace gpa using the rest of the attributes only and cls is to remind python that this is the final output and this would change all the other gpa's
+    def get_gpa(cls,year, st_count,  gpu_spelled):
+        d={"bir": 1, "eki": 2, "uch": 3, "tort":4}
+        return cls(year,st_count, d.get(gpu_spelled, 4.0))
+        
+
+p1=School.get_gpa(1995, 245, "tort")
+
+
+print(p1.info())
+
+p2=School.info(1995, 245, 3.5)
+print(p2)
 
 
 
