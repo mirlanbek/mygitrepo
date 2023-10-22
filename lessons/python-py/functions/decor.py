@@ -16,9 +16,35 @@ def test():
 # 1. Decorator degen - function syrtyndagyga  w\o ()  return  bolot 
 # M:   return use_later
 
+############## multiple decorators + with arg 'b'  #################################### 
+
+# decor 1
+def square(func):
+    def wrapper(b):
+        x = func(b)
+        y = x**2
+        return y
+    return wrapper
 
 
+# decor 2
+def doubler(func):
+    def wrapper(b):
+        s = func(b) * 2
+        return s
+    return wrapper
 
+# usage
+
+@square
+@doubler
+def test(n):
+    return n
+
+# call
+print(test(5))
+
+# 100 chygat
 
 ############################## New decor: pass args
 
