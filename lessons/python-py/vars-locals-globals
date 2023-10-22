@@ -17,9 +17,10 @@ class Student:
         self.City = city
 
 obj = Student()
-print('Dictionary output is:', vars(obj))
+print('Dictionary output is:', vars(obj))                    # look at here
 
 
+-------------------------------
 class Test:
 
         def __init__(self, name, age):
@@ -28,16 +29,53 @@ class Test:
                 self.email = name+age+"@gmail.com"
 
         def display(self):
-                return self.__dict__
+                return self.__dict__                             # look at here 
+    
+        def test(self):
+            for i,k in self.__dict__.items():                   # or here
+                print(f"keys: {i}")
 
 
 
 obj = Test("Miki", "42")
-
 print(obj.display())
+obj.test()
+--------------------   __add__()  -------------------------------
+
+class GFG: 
+
+	def __init__(self, val): 
+		self.val = val 
+		
+	def __add__(self, val2):          # When __add__, it is for instance add p1 + p2 after  you call the class
+		return GFG(self.val + "  " + val2.val)      # self.val -- first attribute val, val2 - 2nd attr val
+
+obj1 = GFG("Geeks") 
+obj2 = GFG("ForGeeks") 
+obj3 = obj1 + obj2                    # it should be "+" sign  to add
+print(obj3.val)
+
+--------------------------------  __eq__()  -------------------------
+class Student:
+    def __init__(self, name = 'Leo', age = 22, course = 'MBA', city = 'Mumbai'):
+        self.Name = name
+        self.age = age
+        self.Course = course
+        self.City = city
+
+def __eq__(self, other):
+        return self.age == other.age
 
 
+p1 = Student("Nuku", 43, "collage", "Portland")
+p2 = Student("Miki", 44, "collage", "Portland")
 
+print(p1 == p2)                                       # it should be "==" sign  to check if equal
+
+False  --- chygat,    compares   age=43  and age=44
+
+
+-------------------------------------------------------------------------------------
 
 
 
