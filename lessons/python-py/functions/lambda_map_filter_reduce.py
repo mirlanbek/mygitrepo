@@ -22,7 +22,10 @@ def a (x):
     return x**2
 
 w=map(a, lis)   # Note: a is func name, lis - list
-print(w)
+
+
+for i in list(w):         # IMP: ALWAYS convert  "w"   to list(w) and for loop  to print them all   
+    print(i)
 
 ----------- MAP is working on python 3+ ------
 
@@ -34,14 +37,19 @@ def test(s):
 for i in list(map(test, l)):   # convert to list, then for loop
     print(i)
 
-# *************************************************************************
-
-ef myfunc(a, b):
-  return a + b
-
-x = map(myfunc, ('apple', 'banana', 'cherry'), ('orange', 'lemon', 'pineapple'))
+# ******************  it also maps item pair, M: first name list with last name list *******************************************************
 
 
+f= ['Mirlan', 'Melis', 'Doku']
+l=['Alipsatarov', 'Kalyev', 'Bakirov', "Zakirova"]
+
+def myfunc(f, l):
+  return f + " " + l
+
+x = map(myfunc, f, l)
+
+for i in list(x):
+    print(i)
 
 
 # -------- reduce---------------------------------
