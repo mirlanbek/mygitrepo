@@ -75,7 +75,22 @@ print(p1 == p2)                                       # it should be "==" sign  
 False  --- chygat,    compares   age=43  and age=44
 
 
--------------------------------------------------------------------------------------
+----------------------------  __getitem__ ---------------------------------------------------------
 
+class Onp:
+    def __init__(self, name,age):
+        self.name = name
+        self.age = age
+        self.full = self.name + " Tokonbekov"
+
+    def __getitem__(self, index):
+        global lis
+        lis = ["Miki", "Nuku", "Nurik"]
+        return lis[index]
+
+
+p1 = Onp("Miki", "Tokon")
+
+print(p1[2])                           # ===> "Nurik" chygat. Note:   instance name behaves like listname
 
 
