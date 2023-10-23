@@ -141,6 +141,14 @@ print ("Is test_list integer? : " + str(isinstance(test_list, int)))
 print ("Is test_list list? : " + str(isinstance(test_list, list))
 
 
+# testing with isinstance
+
+isinstance(test_int, int)           # ------->  True
+isinstance(test_int, str)            # ------->  False
+isinstance(test_str, str)            # ------->  False
+isinstance(test_list, int)           # ------->  False
+isinstance(test_list, list)          # ------->  False
+
 ------------------------------------------------------
 import collections
 
