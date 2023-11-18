@@ -1,3 +1,16 @@
+------------------- install python3 env on Centos -------------------------------
+
+sudo yum install centos-release-scl
+sudo yum install rh-python38
+python --version
+scl enable rh-python38 bash
+pip install virtualenv
+ python -m virtualenv  ~/.venv
+. ~/.venv/bin/activate
+
+
+-----------------------------------------------------------------------
+
 import os
 import sys
 
