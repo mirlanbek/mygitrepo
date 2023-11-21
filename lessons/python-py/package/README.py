@@ -1,4 +1,31 @@
 # https://www.youtube.com/watch?v=UK97NoQK23k
+doc="""
+
+step1:
+create package
+mkdir package1
+
+touch package1/__init__.py, p1.py
+
+vi __init__.py:
+from .p1 import *
+from . sub1 import *                         # the space is very important to import sub1
+
+step2:
+create sub_package1
+cd package
+mkdir sub_package1
+cd sub_package1
+touch __init__.py,sub1.py
+
+vi __init__.py:
+from .sub1 import *
+
+
+"""
+
+
+
 
 doc1 = """
  
