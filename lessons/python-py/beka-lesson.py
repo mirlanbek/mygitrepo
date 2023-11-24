@@ -403,6 +403,42 @@ p1 = Family("miki", 42)
 
 print(p1.member())
 
+
+# **********   __eq__() *********************
+class Person:
+    def __init__(self, first_name, last_name, age):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.age = age
+
+    def __eq__(self, other):
+        return self.age == other.age
+    
+
+john = Person('John', 'Doe', 25)
+jane = Person('Jane', 'Doe', 25)
+
+print(john == jane)
+
+# **********   __add__() *********************
+
+class GFG: 
+
+	def __init__(self, val): 
+		self.val = val 
+		
+	def __add__(self, val2):          # When __add__, it is for instance add p1 + p2 after  you call the class
+		return GFG(self.val + "  " + val2.val)      # self.val -- first attribute val, val2 - 2nd attr val
+
+
+
+obj1 = GFG("Geeks") 
+obj2 = GFG("ForGeeks") 
+obj3 = obj1 + obj2                    # it should be "+" sign  to add
+print(obj3.val)
+
+----------------------
+
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #Setattr and getattr info
 
