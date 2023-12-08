@@ -639,6 +639,51 @@ print(p1.info())
 p2=School.info(1995, 245, 3.5)
 print(p2)
 
+######################################################################################
+
+# in this generator, there is an underscore in the for loop as a placeholder/filler. It is a way for Python to know to ignore the underscore and its just a way to avoid errors.
+# in this case, it is only printing the keys of this dictionary since i represents the keys and tge underscore is just a placeholder for nothing
+def beka(self):
+        for i,_ in enumerate([3,4,5,6,7,8,9]):
+            yield i
+
+
+################################################
+
+
+#### dunder str is for users
+def __str__(self) -> str:
+        return "This class str is about something !!!!"
+
+
+### dunder repr is for developers and it wont print anything in the repr dunder if dunder str already exists in class
+    def __repr__(self) -> str:
+        return "This class repr is about something !!!!"
+
+
+
+    def __getitem__(self, index):
+        global lis
+        lis = ["Miki", "Nuku", "Nurik"]
+        return lis[index]
+    
+### by default, this is supposed to not work because its not callable outside of class but it can be called inside of the class
+    def __test(self):
+        return "This is just a test"
+    
+    def test(self):
+        return self.__test()
+
+
+
+
+
+
+
+
+
+
+
 
 
 
