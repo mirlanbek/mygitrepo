@@ -12,25 +12,35 @@ class diktor(Exception):
 # except diktor as dr:
 #     dr.print_exept()
 
+------ example 2 ------------------------------------------------------------------------------
 
 try:
-    f = open("/home/tokonbekov/dir/learn/python-test/lessons/bkp_lesson/short.ini")
-    # if f.name == "start.pyc":
-    #     raise IOError
+    f = open("/home/tokonbekov/dir/learn/python-test/lessons/bkp_lesson/short.ini") 
+except Exception as o:
+    print(o)
 
+# option 1
+except Exception as msg:
+    print(msg)
+# or option 2
+except FileNotFoundError:
+    print("just Name Error")
+# or option 3
+except Exception:
+    print("HEY this is my message")
 
-except IOError:
-    
-    print ("File jok go!")
 
 else:
     print(f.read())
     f.close()
 
+
 finally:
-    diktor("fanlly buttu").print_exept()
-# except Exception:
-#     print("General Error")
+    print("end of try")
+
+print("continue rest of code ...")
+
+
 
 
 
