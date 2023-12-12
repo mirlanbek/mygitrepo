@@ -15,7 +15,7 @@
 
 dos = "aibek"
 
-class point(object):
+class Point(object):
 
     def __init__(self, at="Ainash", fio="Takanbekova"):
         self.at = at
@@ -24,15 +24,19 @@ class point(object):
     def func(self):
         return "Salam bul point class function"
 
-# p2 = point()
+# p2 = Point()
 # print (  p2.func())
 
-# class Onp(point):
+# class Onp(Point):
 #     def member(self):
 #         return "Menin atym %s familyam %s"%(self.at, self.fio)
 
 # p1 = Onp("Mirlan", "Tokonbekov")
 # print(p1.member())
+
+#  !!!! IMPORTANT
+from test import point
+p = Point("Beka", "Tokonbekov")     note: no point.point, it is used as if 'Point' in current file
 
 
 ################################################ use __str__ #################
