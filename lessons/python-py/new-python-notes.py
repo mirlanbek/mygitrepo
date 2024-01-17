@@ -1,4 +1,14 @@
 
+# ------------  str -> list -> str ------------------- imp
+
+>>> s="mirlan" 
+
+>>> list(s)  
+['m', 'i', 'r', 'l', 'a', 'n']
+
+>>> "_".join(list(s)) 
+'m_i_r_l_a_n'
+
 #------------- break bested loops with "return"------------------
 
 def break_all_loops():
