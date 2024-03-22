@@ -1,0 +1,118 @@
+
+### Enable IP and network
+
+ipmitool lan print 1                       BMC  print network 
+
+Setting LAN IP Address to 192.168.1.211
+   ipmitool lan set 1 ipsrc static
+   ipmitool lan set 1 ipaddr 192.168.1.211
+   ipmitool lan set 1 netmask 255.255.255.0
+
+ Setting LAN Default Gateway IP to 192.168.1.254
+ ipmitool lan set 1 defgw ipaddr 192.168.1.254
+
+ Setting LAN Default Gateway MAC to 00:0e:0c:aa:8e:13
+ ipmitool lan set 1 defgw macaddr 00:0e:0c:aa:8e:13
+
+------
+
+ #### User Configuration
+
+ A user will now be setup with admin rights.
+
+ ipmitool user set name 2 admin
+ ipmitool user set password 2
+ Password for user 2: 
+
+
+  ipmitool channel setaccess 1 2 link=on ipmi=on callin=on privilege=4
+  ipmitool user enable 2
+
+
+-- user:
+
+The server can now be controlled by this user as described in Using ipmitool for Remote Control of Servers.
+Users at the USER Privilege Level
+If a user should only be used for querying sensor data, a custom privilege level can be setup for that. This user then has no rights for activating or deactivating the server, for example. A user named monitor will be created for this in the following example:
+
+
+
+ ipmitool user set name 3 monitor
+ ipmitool user set password 3
+Password for user 3: 
+Password for user 3: 
+
+  ipmitool channel setaccess 1 3 link=on ipmi=on callin=on privilege=2
+  ipmitool user enable 3
+  ipmitool channel getaccess 1 3
+Maximum User IDs     : 15
+Enabled User IDs     : 2
+
+User ID              : 3
+User Name            : monitor
+Fixed Name           : No
+Access Available     : call-in / callback
+Link Authentication  : enabled
+IPMI Messaging       : enabled
+Privilege Level      : USER
+
+The importance of the various privilege numbers will be displayed when ipmitool channel is called without any additional parameters:
+
+ipmitool channel
+Channel Commands: authcap   <channel number> <max privilege>
+                  getaccess <channel number> [user id]
+                  setaccess <channel number> <user id> [callin=on|off] [ipmi=on|off] [link=on|off] [privilege=level]
+                  info      [channel number]
+                  getciphers <ipmi | sol> [channel]
+
+Possible privilege levels are:
+   1   Callback level
+   2   User level
+   3   Operator level
+   4   Administrator level
+   5   OEM Proprietary level
+  15   No access
+
+
+
+----- Doc2: ---------
+
+
+
+ 
+
+  IPMI setup
+On the target machine run below commands to setup access -
+
+ipmitool lan print 1
+ipmitool lan set 1 ipsrc dhcp
+ipmitool lan print 1
+Make a note of the IP address from the above output. This will be used to connect from your laptop
+
+user:
+
+ipmitool user list 1
+ipmitool user set name 3 rockstar
+ipmitool user set password 3
+You'll get a password prompt. Set the password. whatcouldgowrong in our example. Next -
+
+ipmitool channel setaccess 1 3 link=on ipmi=on callin=on privilege=4
+ipmitool user enable 3
+ipmitool user list 1
+Now from your laptop you can execute commands, like so
+
+ipmitool -I lanplus -U rockstar -P whatcouldgowrong -H <IP address> chassis power (on|off|status)
+
+
+SOL setup
+Enable SOL for root and above user. Enable SOL.
+
+ipmitool sol payload enable 1 2
+ipmitool sol payload enable 1 3
+ipmitool sol set enabled true 
+
+# try the below command even if this command fails.
+Check links 2 and 5 for BIOS and OS configurations necessary. In the BIOS, you can also set DHCP hostname for the BMC, frees you from tracking IP addresses. To access the SOL console, on your local machine use the activate option as shown. Check SOL session help by typing this ~?. To kill a hung SOL session use deactivate.
+
+ipmitool -I lanplus -U rockstar -P whatcouldgowrong -H <IP address> sol (activate|deactivate)
+
