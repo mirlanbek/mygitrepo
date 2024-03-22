@@ -1,0 +1,79 @@
+
+------------------------  CPU info ----------------------------
+
+
+    dmidecode -t processor | less
+        lscpu | less
+        cat /proc/cpuinfo | less
+        arch
+        uname --hardware-platform
+        uname --processor
+        lshw -C CPU
+        hwinfo --cpu
+    numactl --hardware
+
+-------------------------- Sensors -------------------------------
+
+ipmiutil sensor > sensors.txt
+
+apt install lm-sensors -y
+
+sensors-detect
+sensors
+
+
+
+^^^^^^^^^^^^^^  BMC info: ^^^^^^^^^^^^^^^^^^^^^^^^
+
+ipmiutil config list                      all BMC info
+
+ipmitool lan print 1                      ip addr
+
+     yum install freeipmi -y              to get bmc-info command
+     yum install ipmitool OpenIPMI -y
+
+     bmc-info                                see everything
+
+
+     ipmiutil health -f                          see all  FRUSDR BMC version
+
+
+     
+  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ SEL log ^^^^^^^^^^^^^^^^^^^^^^^
+     
+     ipmiutil sel                            sel log
+     
+     ipmitool sel -v elist
+
+     ipmitool sol activate -H rmm.jf.intel.com -U lab -I lanplus   ------ serial loggong
+
+     
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ BIOS ^^^^^^^^^^^^^^^^^^^^ :
+
+dmidecode -t bios
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Memory ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+lshw -json > o.txt
+dmidecode -t memory
+lsmem
+ipmctl show -sensor
+ipmctl show -topology
+ipmctl show -socket
+
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ DISK ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+lshw -c disk
+lsblk
+udevadm info -q all -n /dev/nvme0n1p1
+lsblk -s               list all HD info
+
+ls -l  /dev/disk/by-id/
+rsync -rlpzD source-1 dest
+lshw -c disk                                          # HD info
+udevadm info -q all -n /dev/sda | grep DEVPATH        # disk DEVPATH
+sudo ntpdate -s corp.intel.com                        # NTP sync
+
+
