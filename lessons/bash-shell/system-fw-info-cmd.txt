@@ -1,4 +1,44 @@
 
+HW commands:  yum/apt  install   lm-sensors sysfsutils freeipmi ipmiutil -y
+
+--- IRQ -------------------------------------------------------------
+
+irqbalance -d
+
+irqbalance-ui
+
+cat /proc/stat
+
+---------------------- sysfs ----------------------------------------------
+/sys/devices/virtual/dmi/id
+
+Usage: systool [<options> [device]]
+        -a                      Show attributes
+        -b <bus_name>           Show a specific bus
+        -c <class_name>         Show a specific class
+        -d                      Show only devices
+        -h                      Show usage
+        -m <module_name>        Show a specific module
+        -p                      Show path to device/driver
+        -v                      Show all attributes with values
+        -A <attribute_name>     Show attribute value
+        -D                      Show only drivers
+        -P                      Show device's parent
+
+
+
+
+systool by class: 
+   systool -c dmi -v
+   systool -c pci_bus -v
+
+systool by bus:
+systool -b i2c -vv
+
+
+
+
+
 ------------------------  CPU info ----------------------------
 
 
