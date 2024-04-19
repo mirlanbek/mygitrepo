@@ -18,15 +18,12 @@ Setting LAN IP Address to 192.168.1.211
 
  #### User Configuration
 
- A user will now be setup with admin rights.
-
+ ipmitool user list 1
  ipmitool user set name 2 admin
  ipmitool user set password 2
  Password for user 2: 
-
-
-  ipmitool channel setaccess 1 2 link=on ipmi=on callin=on privilege=4
-  ipmitool user enable 2
+ ipmitool channel setaccess 1 2 link=on ipmi=on callin=on privilege=4
+ ipmitool user enable 2
 
 
 -- user:
