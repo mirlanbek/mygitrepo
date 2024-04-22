@@ -71,13 +71,16 @@ ipmitool lan print 1                      ip addr
 
      yum install freeipmi -y              to get bmc-info command
      yum install ipmitool OpenIPMI -y
-
      bmc-info                                see everything
-
-
      ipmiutil health -f                          see all  FRUSDR BMC version
 
-
+-------
+ ipmitool user list 1
+ ipmitool user set name 2 admin
+ ipmitool user set password 2
+ Password for user 2: 
+ ipmitool channel setaccess 1 2 link=on ipmi=on callin=on privilege=4
+ ipmitool user enable 2
      
   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ SEL log ^^^^^^^^^^^^^^^^^^^^^^^
      
