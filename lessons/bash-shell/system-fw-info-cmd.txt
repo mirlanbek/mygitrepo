@@ -68,6 +68,7 @@ sensors
 ipmiutil config list                      all BMC info
 
 ipmitool lan print 1                      ip addr
+ipmitool lan set 1 ipsrc dhcp 
 
      yum install freeipmi -y              to get bmc-info command
      yum install ipmitool OpenIPMI -y
