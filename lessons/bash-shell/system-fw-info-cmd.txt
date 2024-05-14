@@ -37,8 +37,6 @@ systool -b i2c -vv
 
 
 
-
-
 ------------------------  CPU info ----------------------------
 
 
@@ -75,7 +73,11 @@ ipmitool lan set 1 ipsrc dhcp
      bmc-info                                see everything
      ipmiutil health -f                          see all  FRUSDR BMC version
 
--------
+
+------- FRU -----------
+ipmitool fru
+
+------- user -----------
  ipmitool user list 1
  ipmitool user set name 2 admin
  ipmitool user set password 2
@@ -120,4 +122,14 @@ lshw -c disk                                          # HD info
 udevadm info -q all -n /dev/sda | grep DEVPATH        # disk DEVPATH
 sudo ntpdate -s corp.intel.com                        # NTP sync
 
+------------------------- KVM --------------  
+
+apt install cpu-checker
+kvm-ok
+
+
+sudo modprobe msr
+rdmsr 0x3a
+
+output: Values 3 and 5 (100005) mean it's activated.
 
