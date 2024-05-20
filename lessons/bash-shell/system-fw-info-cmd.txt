@@ -1,5 +1,5 @@
 
-HW commands:  yum/apt  install   lm-sensors sysfsutils freeipmi ipmiutil -y
+HW commands:  yum / apt  install  ipmitool lm-sensors sysfsutils freeipmi ipmiutil -y
 
 --- IRQ -------------------------------------------------------------
 
