@@ -156,6 +156,8 @@ EOF
 ## *********************  upercase value of var ****************************** 
 cat /proc/cmdline
 var=${a^^} = = make value uppercase
+var=${a,,} = = make value lowercase
+
 
 ## ********************* SELECT **** like read input  ****************************** 
 
