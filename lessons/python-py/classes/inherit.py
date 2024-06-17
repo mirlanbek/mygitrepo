@@ -252,5 +252,27 @@ p1 = Combined()
 p1
 
 
+------------------ 
+
+from .. roof import *
+from .. wall import *
+
+
+class Base(Roof, Wall):
+
+    def do_base(self):
+        return ("I'm base builder")
+    
+
+    def combine(self):
+        return super(Base,self).do_roof() + super(Base,self).do_wall()       #  ---- imp NOTE: inherited (Roof, Wall) and to use methods from inherited classes use super()
+
+
+
+
+
+
+
+
 
 
