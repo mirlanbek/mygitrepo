@@ -67,6 +67,8 @@ class Family(object):
             return "Taga jurtum Josholuluk tookelerden"
         else:
             return "men {}dun neberesimin".format(l)
+        # this can be called directly w\o providing attribut vals:
+        #  p1 = Family.taga_jurt("Beka", "Tokonbek")
 
     @property                                                    #  < ----------------- bul methoddu chkyrganda  '()'y jok chakyrylat 
     def last_name(self):
