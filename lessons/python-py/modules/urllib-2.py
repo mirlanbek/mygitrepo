@@ -1,23 +1,10 @@
-import os
-import sys
-import urllib2
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
-# import build_support as bs
-import xml.etree.ElementTree as et
+from urllib.request import urlopen
+html = urlopen("http://www.google.com/").read()
+
+with open ("index.html", "w+") as w:
+    w.write(str(html.decode()))
 
 
-url = "http://otc-mesa-ci.jf.intel.com/computer/api/xml"
-print ("opening: " + url)
-f_xml=urllib2.urlopen(url)
-x = et.parse(f_xml)
+# Now on VSC  install Live Server, rghit click on index.html file, open with Live Server
 
-def is_excluded():
-    if ("builder" in hosts or hosts == "master"):
-        return True
 
-tests = x.findall("computer/displayName")        
-for host in tests:
-    hosts = host.text
-    if is_excluded():
-        continue
-    print(hosts)
