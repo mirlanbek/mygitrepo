@@ -1,3 +1,17 @@
+from flask import Flask, redirect, render_template, url_for, request, flash
+
+app=Flask(__name__)
+
+@app.route("/")
+@app.route("/home",methods=['POST', 'GET'])
+def home():
+    return render_template("index.html", title="Home is best")
+
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=4000, debug=True)
+
+
 -------------------- templates-------- Coorey 2---------------------------------
 
 mkdir templates
