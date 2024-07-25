@@ -1,6 +1,7 @@
 from flask import Flask, flash, redirect, url_for, render_template, request, session
 import time
 from os import environ, path
+from dotenv import load_dotenv
 user=False
 
 app = Flask(__name__)
@@ -8,8 +9,9 @@ app.config['SECRET_KEY'] = ' '
 
 
 basedir = path.abspath(path.dirname(__file__))
-# load_dotenv(path.join(basedir, 'env'))
-path.expanduser('/root/samba/green-site/env')
+load_dotenv(path.join(basedir, 'env'))
+
+
 
 
 @app.route("/home",methods=['POST', 'GET'])
@@ -85,18 +87,15 @@ def login():
         username = request.form['username']
         password = request.form['password']
         # Check if account exists using MySQL
-        account = {"id": "username", "username": "Miki", "password": "1"}
 
-
-        if username in account["username"] and password in account["password"]: 
+        if username in environ["LOGIN"] and password in environ["PASS"]: 
         # if account:cd
             # Create session data, we can access this data in other routes
             session['loggedin'] = True
-            session['id'] = account['id']
-            session['username'] = account['username']
+            session['username'] = environ["LOGIN"]
 
             global user
-            user = account['username']
+            user = environ["LOGIN"]
             # Redirect to home page
 
             flash('You have been logged in!', 'success')
