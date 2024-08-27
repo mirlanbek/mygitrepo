@@ -1,0 +1,548 @@
+   50  cat /etc/os-release 
+   51  uname -a
+   52  uname -r
+   53  hostname
+   54  ip a
+   55  ip address
+   56  ip addr
+   57  ip a
+   58  ip r
+   59  ip r -nn
+   60  ip route -nn
+   61  ip route -n
+   62  route -nn
+   63  ip a
+   64  route -nn
+   65  ping google.com
+   66  ifconfig
+   67  ip link set enp0s3 down
+   68  ifconfig
+   69  ping google.com
+   70  ip a
+   71  ethtool enp0s3
+   72  route -nn
+   73  ifconfig
+   74  ifup enp0s3
+   75  nmcli c s
+   76  nmcli c up enp0s3
+   77  ifconfig
+   78  ping google.com
+   79  ifconfig
+   80  ethtool enp0s3
+   81  ifconfig
+    ifconfig enp0s8
+   84  dmidecode -t
+   85  dmidecode -t bios
+   86  dmidecode -s
+   87  dmidecode -s bios-version
+   88  dmidecode -s system-manufacturer
+   89  dmidecode -s system-serial-number
+   90  dmidecode -s system-sku-number
+   91  dmidecode -s
+   92  dmidecode -s baseboard-manufacturer
+   93  dmidecode -t
+   94  dmidecode -t processor
+   95  dmidecode -t memory
+   96  dmidecode -t cache
+   97  free -h
+   98  lsmem
+   99  lscpu
+  100  lshw -c
+  101  lshw -c disk
+  102  lsblk
+  103  df -h
+  104  lspci
+  105  lspci -s 00:03.0
+  106  lspci -s 00:03.0 -vv
+  107  lsmod  | grep e1000
+  108  modinfo e1000
+modprobe e1000 
+modprobe -r e1000
+  109  cat /etc/os-release
+  110  history > history.txt
+    1  nmap 192.168.56.102
+    2  nmap localhost
+    3  systemctl start httpd
+    4   yum install httpd
+    5  systemctl start httpd
+    6  nmap localhost
+    7  systemctl stop httpd
+    8  nmap localhost
+    9  systemctl start httpd
+   10  netstat -anp | grep -i tcp
+   11  netstat -anp | grep -i listen
+   12  ss
+   13  ss tcp
+   14  ss -t tcp
+   15  ss -l
+   16  ss -t
+   17  ss -u
+   18  ss -tl
+   19  ss -s
+   20  ss -4
+   21  ss -6
+   22  ss -4
+   23  ss -t
+   24  ss -u
+   25  ss -l
+   26  ss -tl
+  /etc/sysctl
+   27 tcpdump -i enp0s8 
+   28 ipmitool lan print 1 checks 
+   29 
+
+=========================== samba =======
+
+327  yum install samba -y
+  328  vi /etc/samba/smb.conf
+[samba]
+        path = /samba
+        write list = root
+
+
+  329  smbpasswd -a root
+  330  pdbedit -L
+  331  pdbedit -r root
+  332  pdbedit -x root
+  333  pdbedit -L
+  334  smbpasswd -a root
+  335  pdbedit -L
+  336  systemctl status smb
+  337  systemctl status nmb
+  338  systemctl enable --now smb nmb
+  339  firewall-cmd --add-service=samba --permanent
+  340  firewall-cmd --reload
+  341  cd
+  342  ls
+  343  mkdir samba
+  344  vi /etc/samba/smb.conf
+  345  systemctl restart smb nmb
+  346  ip a
+  347  vi /etc/samba/smb.conf
+  348  systemctl status smb
+  349  systemctl status nmb
+  350  iptables -F
+  351  ls
+  352  ll
+  353  getenforce
+  354  ls -Z samba/
+  355  ls -Zd samba/
+  356  vi /etc/sysconfig/selinux
+  357  reboot
+  358  getenforce
+  359  cd samba/
+  360  ls
+  361  touch douletik-file
+  362  ls
+  363  yum install smbclient -y
+  364  yum provides smbclient
+  365  yum install samba-client -y
+  366  smbclient -L localhost
+  367  smbclient -L //localhost/linux
+  368  smbclient  //localhost/linux -U root
+  369  ls
+  370  cd
+  371  cd /opt/
+  372  smbclient  //localhost/linux -U root
+
+
+
+On Win:
+
+Right click ‘This PC’  —> map to network, \\192.168.56.100\linux
+Root:1
+
+
+=============
+
+
+
+
+
+
+Yum install nfs-utils rpcbind -y
+
+Vi /etc/exports
+
+/root/beka_nfs *(rw,sync,no_root_squash)
+
+Exportfs -r
+Exportfs
+
+Firewall-cmd –permanent –add-service=nfs
+Firewall-cmd –permanent –add-service={rpc-bind,mountd,nfs3}
+Firewall-cmd –reload
+
+
+Yum install nfs-utils -y
+Showmount -e master
+Mount master:/root/beka_nfs /opt
+
+Vi /etc/fstab
+
+master:/root/beka_nfs /opt nfs defaults 0 0
+
+
+Kernel installation
+rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+dnf install https://www.elrepo.org/elrepo-release-9.el9.elrepo.noarch.rpm
+dnf --disablerepo="*" --enablerepo="elrepo-kernel" list available
+dnf --enablerepo=elrepo-kernel install kernel-ml
+grubby --default-kernel
+grubby --info=ALL
+grubby --set-default /boot/vmlinuz-5.14.0-480.el9.x86_64
+How to reset root password
+1)	In bootup, whenever you are given option to continue with regular Kernel or rescue Kernel, scroll down with down arrow key and make sure it is on rescue kernel and press e
+2) go to line where it linux and go to the very end of the line with End button.
+3. Write “rw init=/bin/bash”
+4) Ctrl + x
+5) touch /.autorelabel
+6) passwd root and set the password you want for root
+7) exec /sbin/init
+
+
+
+Alr heres how u make ip address with nmcli : 
+
+Configure these 5 things:
+ipv4.method (static/manual or dhcp/auto)
+ipv4.adresses (ip address and subnet)
+type (ethernet)
+ifname (whatever you want)
+con-name (device name)
+
+Example :
+nmcli c add ipv4.method static ipv4.addresses 192.168.56.1/24 type ethernet ifname enp0s8 con-name enp0s8
+
+
+
+
+
+
+
+NFS
+#yum install epel-release -y
+#yum install nfs-utils -y
+#systemctl enable --now nfs-server
+#vi /etc/exports
+/nfsshare *(rw,sync)
+#domainname osh.kg
+#exportfs -r
+#exportfs
+#firewall-cmd --add-service=rpc-bind --add-service=mountd –add-service=nfs --permanent
+#firewall-cmd --reload
+#iptables -F
+
+Client 
+#domainname osh.kg
+#mount 192.168.56.1:/nfsshare /mnt
+
+NIS
+NIS - MASTER
+domainname osh.kg
+nisdomainname osh.kg
+apt install nis -y
+
+   45  vi /etc/default/nis 
+		NISSERVER=master
+
+   54  vi /etc/defaultdomain
+		osh.kg
+   55  systemctl enable –now ypserv
+   56  /usr/lib/yp/ypinit -m
+
+
+CLIENT:
+apt install nis -y
+    vi /etc/defaultdomain
+		osh.kg
+
+Vi /etc/nsswitch.conf:
+passwd:  nis      files systemd
+group:   nis       files systemd
+shadow:  nis       files
+
+vi /etc/yp.conf
+
+ypserver (nis master IP address)
+
+
+
+   systemctl enable --now ypbind
+    ypcat passwd                   —--------  check
+   
+AUTOFS (CLIENT ONLY)
+
+apt install autofs -y
+vi /etc/auto.master
+
+#/misc  /et	c/auto.misc
+/home /etc/auto.home
+  
+vi /etc/auto.home
+:r /etc/auto.misc
+* -rw (master IP address):/home/&
+
+Systemctl start autofs
+systemctl enable autofs
+
+su user1
+cd
+
+
+—----------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+How to change ip address ubuntu : 
+# vi /etc/netplan/00-installer-config.yaml
+
+network:
+  ethernets:
+    enp0s3:
+      dhcp4: true
+    enp0s8:
+      addresses:
+        - 192.168.56.107/24
+  version: 2
+
+# netplan apply
+
+
+
+
+
+
+
+<virtualhost *:80>
+servername www.youtube.com
+documentroot /var/www/youtube
+
+</virtualhost>
+
+
+KERNEL params
+
+
+  171  cat /etc/sysctl.conf
+  172  cat /proc/sys/net/ipv4/ip_forward
+  173  sysctl -a
+  174  sysctl -a | grep swapiness
+  175  sysctl -a | grep swapp
+  176  sysctl -w vm.swappiness=60
+  177  sysctl -a | grep swapp
+  178  reboot
+  179  sysctl -a | grep swapp
+  180  vi /etc/sysctl.conf
+  181  sysctl -p
+  182  sysctl -a | grep swapp
+  183  sysctl -a | grep ip_forward
+  184  vi /etc/sysctl.conf
+  185  sysctl -a | grep ip_forward
+  186  sysctl -p
+  187  sysctl -a | grep ip_forward
+  188  reboot
+  189  sysctl -a | grep ip_forward
+  190  sysctl -a | grep swapp
+  191  vi /etc/sysctl.conf
+  192  free -h
+  193  grubby -h
+  194  man grubby
+  195  ls -h
+  196  ls --help
+  197  man ls
+  198  vi /boot/grub2/grub.cfg
+  199  vi /etc/default/grub
+  200  sysctl -a | grep swapp
+  201  fg
+  202  vi /etc/default/grub
+  203  grub2-mkconfig -o /boot/grub2/grub.cfg
+  204  vi /boot/grub2/grub.cfg
+  205  reboot
+  206  sysctl -a | grep swapp
+  207  cat /proc/cmdline
+
+
+
+
+
+
+
+HTTP/WEB SERVER
+   
+ 7  yum install httpd -y
+        yum install epel-release -y
+        yum install elinks -y
+        systemctl enable --now httpd 
+    8  cd /opt/
+   11  mkdir port
+   13  cd port/
+   16  vi index.html
+—-----------------------------------------------------------------------------
+<html>								
+        <p> This is port </p>						
+									
+									
+</html>								
+—-----------------------------------------------------------------------------
+   17  vi /etc/httpd/conf.d/port.conf
+—-----------------------------------------------------------------------------
+Listen 8899								
+<virtualhost *:8899>							
+servername port.osh.kg						
+documentroot /opt/port						
+</virtualhost>							
+									
+<directory /opt/port>							
+require all granted							
+</directory>								
+—-----------------------------------------------------------------------------
+
+   18  systemctl restart httpd
+   19  vi /etc/hosts
+—------------------------------------------------------------------------------
+192.168.56.109 port.osh.kg					
+—------------------------------------------------------------------------------
+   23  semanage fcontext -a -t httpd_sys_content_t '/opt/port(/.*)?'
+   24  restorecon -Rv /opt/port/
+   25  semanage port -a -t http_port_t -p tcp 8899
+   26  firewall-cmd --add-service=http --permanent
+   28  firewall-cmd --add-port=8899/tcp --permanent
+   29  firewall-cmd --reload
+   33  systemctl restart httpd
+   34  elinks port.osh.kg:8899
+
+
+
+
+
+
+HOW TO DO TARGET/ISCSI
+
+MASTER:
+apt install tgt
+systemctl start tgt 
+vi /etc/tgt/conf.d/tgt.conf
+<target iqn.2024-04.tgt-master:lun01>
+    backing-store /dev/sdb
+        initiator-name iqn.2004-10.com.ubuntu:01:c6b852bc3730
+        initiator-address 192.168.56.108
+</target>
+
+
+systemctl restart tgt
+
+tgtadm --lld iscsi --op bind --mode target --tid 1 -I ALL
+iscsiadm -m discovery -t st --portal 192.168.56.108
+
+CLIENT:
+apt install tgt open-iscsi -y
+iscsiadm -m discovery -t st -p 192.168.56.108 
+systemctl start open-iscsi
+iscsiadm -m session -o show
+iscsiadm -m discovery -t st -p 192.168.56.108
+iscsiadm -m node -T iqn.2024-04.tgt-master:lun01 -p 192.168.56.108 -l
+lsblk
+iscsiadm -m node -T iqn.2024-04.tgt-master:lun01 -p 192.168.56.108 -u
+Llsblk
+
+
+
+HOW TO DO HTTPS SERVER ON UBUNTU 22.04
+
+
+NOTE: MAKE SURE TO USE SAME HOSTNAME AND DOMAINNAME THROUGHOUTTHRUOUT PROCESS
+
+    1  apt update
+    2  apt install apache2 -y
+    3  ufw allow "Apache Full"
+    4  a2enmod ssl
+    5  systemctl restart apache2
+    6  a2enmod ssl
+    7  openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/osh.kg.key -out /etc/ssl/certs/osh.kg.crt
+    
+   8  vi /etc/apache2/sites-available/ubuntu.osh.kg.conf:	
+<VirtualHost *:443>
+   ServerName ubuntu.osh.kg
+   DocumentRoot /var/www/ubuntu.osh.kg
+
+   SSLEngine on
+   SSLCertificateFile /etc/ssl/certs/osh.kg.crt
+   SSLCertificateKeyFile /etc/ssl/private/osh.kg.key
+</VirtualHost>
+
+9  vi /var/www/ubuntu.osh.kg/index.html:
+<html>								
+        <p> This is https</p>						
+</html>
+
+
+cd /etc/apache2/sites-available/
+ a2ensite ubuntu.osh.kg.conf
+   28  systemctl reload apache2
+   29  a2ensite ubuntu.osh.kg.conf
+   30  sudo apache2ctl configtest
+   31  systemctl reload apache2
+ 
+ON CHROME:
+https://192.168.56.115
+
+
+
+CENTOS
+yum install httpd -y
+cd /var/www/html/
+mkdir azat
+cd azat
+vi index.html
+—---------------------------------------------------------------------------------------------------
+<p> this is https website </p>
+—---------------------------------------------------------------------------------------------------
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/azat.key -out /etc/ssl/certs/azat.crt
+
+ln -s  /etc/pki/tls/private /etc/ssl/private
+
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/azat.key -out /etc/ssl/certs/azat.crt
+
+vi /etc/httpd/conf.d/ssl.conf
+—-----------------------------------------------------------------------------------------
+Listen 443 https
+SSLPassPhraseDialog exec:/usr/libexec/httpd-ssl-pass-dialog
+SSLSessionCache         shmcb:/run/httpd/sslcache(512000)
+SSLSessionCacheTimeout  300
+SSLCryptoDevice builtin
+<VirtualHost _default_:443>
+DocumentRoot "/var/www/html/azat"
+ServerName server1.osh.kg:443
+ErrorLog logs/ssl_error_log
+TransferLog logs/ssl_access_log
+LogLevel warn
+SSLEngine on
+SSLProtocol all -SSLv3
+SSLHonorCipherOrder on
+SSLCipherSuite PROFILE=SYSTEM
+SSLProxyCipherSuite PROFILE=SYSTEM
+SSLCertificateFile /etc/pki/tls/certs/azat.crt
+SSLCertificateKeyFile /etc/pki/tls/private/azat.key
+<FilesMatch "\.(cgi|shtml|phtml|php)$">
+    SSLOptions +StdEnvVars
+</FilesMatch>
+<Directory "/var/www/cgi-bin">
+    SSLOptions +StdEnvVars
+</Directory>
+BrowserMatch "MSIE [2-5]" \
+         nokeepalive ssl-unclean-shutdown \
+         downgrade-1.0 force-response-1.0
+CustomLog logs/ssl_request_log \
+          "%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \"%r\" %b"
+</VirtualHost>
+—--------------------------------------------------------------------------------
+
+systemctl restart httpd
+systemctl enable httpd
+firewall-cmd --add-port=443/tcp --permanent
+firewall-cmd --reload
