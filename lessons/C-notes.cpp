@@ -125,11 +125,21 @@ clog << "Error message : " << str << endl;
 
 
 // IF ELSE  + function returning the max between two numbers
- 
+
+// ver 1
+int time = 20;
+if (time < 18) {
+  cout << "Good day.";
+} else {
+  cout << "Good evening.";
+}
+
+
+
 int max(int num1, int num2) {
    // local variable declaration
    int result;
- 
+  // ver 2
    if (num1 > num2)
       result = num1;
    else
@@ -269,6 +279,30 @@ Pointers:   A pointer is a variable that holds the memory address of another var
 
 References: A reference variable is an alias, that is, another name for an already existing variable. A reference, like a pointer, is also implemented by storing the address of an object. 
             A reference can be thought of as a constant pointer (not to be confused with a pointer to a constant value!) with automatic indirection, i.e., the compiler will apply the * operator for you.
+
+Example:
+            main(){
+
+            string var = "Pizza";
+            string &link_var = var;     // created reference or link (alias) to var called  link_var
+
+
+            cout << link_var <<endl;   // Pizza  chygat
+
+            cout << &var <<endl;        // Memory addres chygat    
+            cout << &link_var <<endl;   // t.e.  & menen bashtalyp var kurulsa, reference.  & menen bashtalyp any var chakyrsan ==> mem address
+
+
+            string *ptr = &var;      //   vardyn mem adressin ptr ga barabarladyk. 
+
+            cout << ptr << "  ptr bul ozu ele called" <<endl;   // ptr bul ozu ele called"
+            cout << *ptr << "  *ptr is called, we call it de-refernce" <<endl; // ptr is called, we call it de-reference
+
+
+            return 0;
+
+
+more examples:
 
 int a = 10;
 int *p = &a;
@@ -1059,6 +1093,432 @@ cout << myString;
 cout << sqrt(64);
 cout << round(2.6);
 cout << log(2);
+
+++++++++++++  enum ============
+
+#include <iostream>
+using namespace std;
+ 
+enum Level {
+  LOW = 1,
+  MEDIUM,
+  HIGH
+};
+
+int main() {
+  enum Level myVar = MEDIUM;
+
+  switch (myVar) {
+    case 1:
+      printf("Low Level");
+      break;
+    case 2:
+      printf("Medium level");
+      break;
+    case 3:
+      printf("High level");
+      break;
+  }
+  return 0;
+}
+
+
+
+
+*/
+
+
+/*
+
+========================================= DATA Struture =========================================
+
+
+Vector  ---   same as array used to store multiple elements, of the same data type
+              The difference between an array and a vector, is that the size of an array cannot be modified (you cannot add or remove elements from an array). A vector however, can grow or shrink by itself.(list)
+#include <vector>
+vector<string> cars = {"Volvo", "BMW", "Ford", "Mazda"};
+
+// Get the first element
+cout << cars[0];  // Outputs Volvo
+
+// Get the second element
+cout << cars[1];  // Outputs BMW
+vector<string> cars = {"Volvo", "BMW", "Ford", "Mazda"};
+
+// Get the first element
+cout << cars.front();
+
+// Get the last element
+cout << cars.back();
+
+// Create a vector called cars that will store strings
+vector<string> cars = {"Volvo", "BMW", "Ford", "Mazda"};
+
+// Get the second element
+cout << cars.at(1);
+
+// Get the third element
+cout << cars.at(2);
+
+
+Change Vector:
+-------------
+
+
+vector<string> cars = {"Volvo", "BMW", "Ford", "Mazda"};
+
+// Change the value of the first element
+cars[0] = "Opel";
+
+cout << cars[0];  // Now outputs Opel instead of Volvo
+
+
+Add items into Vector:
+""""""""""""""""""""""
+
+vector<string> cars = {"Volvo", "BMW", "Ford", "Mazda"};
+cars.push_back("Tesla");
+
+Remove items from Vector:
+""""""""""""""""""""""""
+
+vector<string> cars = {"Volvo", "BMW", "Ford", "Mazda"};
+cars.pop_back();
+
+
+Check size (length)
+""""""""""""""""""
+vector<string> cars = {"Volvo", "BMW", "Ford", "Mazda"};
+cout << cars.size();  // Outputs 4
+
+
+Check if Vector is epmpty:
+""""""""""""""""""""""""""
+vector<string> cars;
+cout << cars.empty();  // Outputs 1 (The vector is empty)
+
+Loop:
+""""""
+
+vector<string> cars = {"Volvo", "BMW", "Ford", "Mazda"};
+
+for (string car : cars) {
+  cout << car << "\n";
+}
+
+
+
+-----------------------------------------
+
+#include <list>
+
+LIST - A list is similar to a vector in that it can store multiple elements of the same type and dynamically grow in size.
+
+      Two of the major differences between lists and vectors are:
+      You can easily add and remove elements from both the beginning and at the end of a list, while vectors are generally optimized for adding at the end.
+      Unlike vectors, a list does not support random access, meaning you cannot directly jump to a specific index, or access elements by index numbers
+
+
+
+You cannot access list elements by referring to index numbers, like with arrays and vectors
+However, you can access the first or the last element with the .front() and .back() functions, respectively:
+
+
+
+// Create a list called cars that will store strings
+list<string> cars = {"Volvo", "BMW", "Ford", "Mazda"};
+
+// Get the first element
+cout << cars.front();  // Outputs Volvo
+
+// Get the last element
+cout << cars.back();  // Outputs Mazda
+
+
+Change value on 1st and last item:
+""""""""""""""""""""""""""""""""
+list<string> cars = {"Volvo", "BMW", "Ford", "Mazda"};
+
+// Change the value of the first element
+cars.front() = "Opel";
+
+// Change the value of the last element
+cars.back() = "Toyota";
+
+cout << cars.front(); // Now outputs Opel instead of Volvo
+cout << cars.back();  // Now outputs Toyota instead of Mazda
+
+
+Add:
+""""
+list<string> cars = {"Volvo", "BMW", "Ford", "Mazda"};
+
+// Add an element at the beginning
+cars.push_front("Tesla");
+
+// Add an element at the end
+cars.push_back("VW");
+
+Remove:
+""""""""
+list<string> cars = {"Volvo", "BMW", "Ford", "Mazda"};
+
+// Remove the first element
+cars.pop_front();
+
+// Remove the last element
+cars.pop_back();
+
+
+----------------------------------------
+
+#include <deque>
+
+Deque   -   A deque (stands for double-ended queue) is like a combination of a vector and a list, as elements can be:
+            Added and removed from both ends fast, like a list.
+            Accessed by index numbers (supports random access), like vectors.
+
+// Create a deque called cars that will store strings
+deque<string> cars = {"Volvo", "BMW", "Ford", "Mazda"};
+
+// Get the first element
+cout << cars[0];  // Outputs Volvo
+
+// Get the second element
+cout << cars[1];  // Outputs BMW
+
+
+deque<string> cars = {"Volvo", "BMW", "Ford", "Mazda"};
+
+// Get the first element
+cout << cars.front();
+
+// Get the last element
+cout << cars.back();
+
+
+// Create a deque called cars that will store strings
+deque<string> cars = {"Volvo", "BMW", "Ford", "Mazda"};
+
+// Get the second element
+cout << cars.at(1);
+
+// Get the third element
+cout << cars.at(2);
+
+// Create a deque called cars that will store strings
+deque<string> cars = {"Volvo", "BMW", "Ford", "Mazda"};
+
+// Try to access an element that does not exist (will throw an exception)
+cout << cars.at(6);
+
+
+deque<string> cars = {"Volvo", "BMW", "Ford", "Mazda"};
+
+// Change the value of the first element
+cars.at(0) = "Opel";
+
+cout << cars.at(0);  // Now outputs Opel instead of Volvo
+
+
+cars.pop_back();
+cout << cars.size(); 
+cout << cars.empty();
+
+for (int i = 0; i < cars.size(); i++) {
+  cout << cars[i] << "\n";
+}
+
+
+-------------------
+#include <set>
+SET  - list but no duplicate:
+
+set<string> cars = {"Volvo", "BMW", "Ford", "BMW", "Mazda"};
+
+// Print set elements
+for (string car : cars) {
+  cout << car << "\n";
+}
+output:
+BMW              (only once)
+Ford
+Mazda
+Volvo
+
+
+
+// Sort elements in a set in descending order
+set<int, greater<int>> numbers = {1, 7, 3, 2, 5, 9};
+// Print the elements
+for (int num : numbers) {
+  cout << num << "\n";
+}
+
+add:
+""""
+
+set<string> cars = {"Volvo", "BMW", "Ford", "Mazda"};
+
+// Add new elements
+cars.insert("Tesla");
+cars.insert("VW");
+cars.insert("Toyota");
+cars.insert("Audi");
+
+remove:
+""""""
+set<string> cars = {"Volvo", "BMW", "Ford", "Mazda"};
+
+// Remove elements
+cars.erase("Volvo");
+cars.erase("Mazda");
+
+cout << cars.size(); 
+cout << cars.empty();
+
+set<string> cars = {"Volvo", "BMW", "Ford", "Mazda"};
+
+for (string car : cars) {
+  cout << car << "\n";
+}
+
+
+------------------  Maps ----------------------------------------------  
+
+#include <map>
+
+A map stores elements in "key/value" pairs.
+Elements in a map are:
+Accessible by keys (not index), and each key is unique.
+Automatically sorted in ascending order by their keys.
+
+
+Create:
+
+map<string, int> people
+or
+map<string, int> people = { {"John", 32}, {"Adele", 45}, {"Bo", 29} };
+
+
+// Create a map that will store the name and age of different people
+map<string, int> people = { {"John", 32}, {"Adele", 45}, {"Bo", 29} };
+
+// Get the value associated with the key "John"
+cout << "John is: " << people["John"] << "\n";
+
+// Get the value associated with the key "Adele"
+cout << "Adele is: " << people["Adele"] << "\n";
+
+
+// Create a map that will store the name and age of different people
+map<string, int> people = { {"John", 32}, {"Adele", 45}, {"Bo", 29} };
+
+ // Get the value associated with the key "Adele"
+cout << "Adele is: " << people.at("Adele") << "\n";
+
+// Get the value associated with the key "Bo"
+cout << "Bo is: " << people.at("Bo") << "\n";
+
+
+
+// Create a map that will store the name and age of different people
+map<string, int> people = { {"John", 32}, {"Adele", 45}, {"Bo", 29} };
+
+// Try to access an element that does not exist (will throw an exception)
+cout << people.at("Jenny");
+
+
+change:
+""""""
+map<string, int> people = { {"John", 32}, {"Adele", 45}, {"Bo", 29} };
+
+// Change John's value to 50 instead of 32
+people["John"] = 50;
+
+cout << "John is: " << people["John"];  // Now outputs John is: 50
+
+
+map<string, int> people = { {"John", 32}, {"Adele", 45}, {"Bo", 29} };
+
+// Change John's value to 50 instead of 32
+people.at("John") = 50;
+
+cout << "John is: " << people.at("John");  // Now outputs John is: 50
+
+
+
+Add:
+""""
+map<string, int> people = { {"John", 32}, {"Adele", 45}, {"Bo", 29} };
+
+// Add new elements
+people["Jenny"] = 22;
+people["Liam"] = 24;
+people["Kasper"] = 20;
+people["Anja"] = 30;
+
+
+map<string, int> people = { {"John", 32}, {"Adele", 45}, {"Bo", 29} };
+
+// Add new elements
+people.insert({"Jenny", 22});
+people.insert({"Liam", 24});
+people.insert({"Kasper", 20});
+people.insert({"Anja", 30});
+
+
+remove:
+""""""
+1.
+map<string, int> people = { {"John", 32}, {"Adele", 45}, {"Bo", 29} };
+
+// Remove an element by key
+people.erase("John");
+
+2.
+map<string, int> people = { {"John", 32}, {"Adele", 45}, {"Bo", 29} };
+
+// Remove all elements
+people.clear();
+
+
+
+cout << people.empty();
+// Outputs 1 (The map is empty)
+// Outputs 0 (not empty)
+
+
+
+Loop Through a Map:
+""""""""""""""""""
+        An easy way to loop through a map is with the for-each loop. However, there are a couple of things to be aware of:
+
+        You should use the auto keyword inside the for loop. This allows the compiler to automatically determine the correct data type for each key-value pair.
+        Since map elements consist of both keys and values, you have to include .first to access the keys, and .second to access values in the loop.
+
+map<string, int> people = { {"John", 32}, {"Adele", 45}, {"Bo", 29} };
+
+for (auto person : people) {
+  cout << person.first << " is: " << person.second << "\n";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
