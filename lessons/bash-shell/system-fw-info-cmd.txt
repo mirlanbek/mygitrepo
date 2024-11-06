@@ -1,3 +1,10 @@
+Windows system info commnds:
+win+r enter:
+   msinfo32
+   dxdiag
+
+-----------------------------------
+
 
 HW commands:  yum / apt  install  ipmitool lm-sensors sysfsutils freeipmi ipmiutil -y
 
