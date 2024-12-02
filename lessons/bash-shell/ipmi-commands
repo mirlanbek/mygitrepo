@@ -16,7 +16,7 @@ Setting LAN IP Address to 192.168.1.211
 
 ------
 
- #### User Configuration
+ #### Admin user Configuration
 
  ipmitool user list 1
  ipmitool user set name 2 admin
@@ -25,6 +25,13 @@ Setting LAN IP Address to 192.168.1.211
  ipmitool channel setaccess 1 2 link=on ipmi=on callin=on privilege=4
  ipmitool user enable 2
 
+Possible privilege levels are:
+   1   Callback level
+   2   User level
+   3   Operator level
+   4   Administrator level
+   5   OEM Proprietary level
+  15   No access
 
 -- user:
 
@@ -62,13 +69,7 @@ Channel Commands: authcap   <channel number> <max privilege>
                   info      [channel number]
                   getciphers <ipmi | sol> [channel]
 
-Possible privilege levels are:
-   1   Callback level
-   2   User level
-   3   Operator level
-   4   Administrator level
-   5   OEM Proprietary level
-  15   No access
+
 
 
 
