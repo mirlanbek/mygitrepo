@@ -170,7 +170,7 @@ echo $new_var
 
 ## ********************* ${var::-1}  ****************************** 
 var=mirlan5
-
+echo ${output: -9}  ----------- en akyrky 9 char print kylat
 echo ${var::-3} #  "mirl" chygat, t.e "::-3" b-so on jagynan 3 char jeit  "mirl" chygat.  
 echo ${var:3}    #  "lan5" chygat, t.e ":3" b-so sol jagynan 3 char jeit  "lan5" chygat.  
 echo ${var::3} # ---> birinchi 3 char chygat "mir" 
