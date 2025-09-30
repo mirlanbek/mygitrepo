@@ -1,5 +1,8 @@
 #!/bin/bash
 
+
+here=$(dirname $(realpath $0))
+
 shift 1  ---- start loop from index 1  not 0 (mostly used for args #$,  $0 $1 $2 etc,)
 
 unzip ~/Downloads/whatever.zip -d /tmp/whatever
