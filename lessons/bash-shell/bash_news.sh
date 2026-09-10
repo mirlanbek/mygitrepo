@@ -1,7 +1,17 @@
 #!/bin/bash
 
 
+numactl --hardware
+numactl --cpunodebind=0 --membind=0 <application>
+echo 0 > /sys/devices/system/cpu/cpu15/online          ;   echo 1 > /sys/devices/system/cpu/cpu15/online         take core off/on
 
+# Run a program on Cores 0, 2, and 3
+taskset -c 0,2,3 my_program
+
+mlc --bandwidth_matrix  and mlc --latency_matrix
+vi /var/log/mcelog
+
+--------------------
  a=$(printf "%s," $(cat ff))
  echo ${a::-1}
  
